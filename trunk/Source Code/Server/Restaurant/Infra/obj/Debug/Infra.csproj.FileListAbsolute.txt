@@ -1,0 +1,9 @@
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Infra.dll
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Infra.pdb
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Castle.Core.dll
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Castle.Windsor.dll
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Castle.Core.xml
+D:\PROJECT\AspMvcIdentity-master\Infra\bin\Debug\Castle.Windsor.xml
+D:\PROJECT\AspMvcIdentity-master\Infra\obj\Debug\Infra.csprojResolveAssemblyReference.cache
+D:\PROJECT\AspMvcIdentity-master\Infra\obj\Debug\Infra.dll
+D:\PROJECT\AspMvcIdentity-master\Infra\obj\Debug\Infra.pdb

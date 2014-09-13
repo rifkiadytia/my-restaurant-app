@@ -1,0 +1,92 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile Web App</title>
+<link href="../jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
+<link href="../jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="../jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="../jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+</head> 
+<body> 
+
+<div data-role="page" id="page">	
+<script>
+	$(document).ready(function(e) {
+        $("#loginForm").submit(function(){
+			var username = $("#username").val();
+			var password  =$("#password").val();
+			if(username=="" || password=="")
+			{
+				e.preventDefault();
+			}
+			var formData = $("#loginForm").serialize();
+  
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:43415/Account/ClientLogin",
+                    cache: false,
+                    data: formData,
+                    success: onSuccess,
+                    error: onError
+                });
+                return false;
+			
+		});
+		function onSuccess(data)
+		{
+			if(data.code=="00"){
+					$.each(data, function(i, item) {
+						if(data[i] =="ROLE_ADMIN")
+						{
+							$.mobile.changePage( "index.html", { transition: "slideup", changeHash: false });
+							$("#lblErr").css("display","none");
+							
+						}
+					});​
+			}
+			else{
+				$.mobile.changePage( "waiter.html", { transition: "slideup", changeHash: false });
+					$("#lblErr").css("display","none");
+			}
+
+		}
+		function onError()
+		{
+			
+			
+		}
+    });
+</script>
+
+
+	<div data-role="header">
+		<h1>Page One</h1>
+	</div>
+	<div data-role="content">	
+		<form id="loginForm">
+    <div data-role="fieldcontain" class="ui-hide-label">
+    	<span id="lblErr" style="color:#F00; display:none"></span>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" value="" placeholder="Username" />
+    </div>
+
+    <div data-role="fieldcontain" class="ui-hide-label">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" value="" placeholder="Password" />
+    </div>
+
+    <input type="submit" value="Login" id="submitButton">
+    </form>	
+	</div>
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div>
+</div>
+
+
+
+
+
+</body>
+</html>
