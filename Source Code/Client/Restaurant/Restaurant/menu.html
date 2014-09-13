@@ -1,0 +1,130 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery Mobile Web App</title>
+<link href="../jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
+<link href="../jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="../jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="../jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+</head> 
+<body> 
+
+<div data-role="page" id="page2" data-fullscreen="true" >
+	<script>
+    $(document).ready(function() 
+ 	{
+	 
+		$('ul[data-role="listview"] li').click(function(e) 
+		{ 
+			var bgcol = $(this).css('backgroundColor');
+			var hexColor = rgb2hex(bgcol);
+			if(hexColor!="#ff9900")
+			{
+				$(this).css({background: '#ff9900'}) ;
+			}
+			else{
+				$(this).css({background: '#dadada'}) ;
+			}
+		});
+	
+		$('#confirm_order').bind('click',function(e){
+			var allselect =[];
+			$('div[id="menu"] ul li').each(function(i)
+			{
+			   var bgcol = $(this).css('backgroundColor');
+			   var hexColor = rgb2hex(bgcol);
+				if(hexColor=="#ff9900")
+				{
+					var ItemOrder = {ItemName:$(this).text()};
+					allselect.push(ItemOrder);
+				}
+			});
+			
+			var orderSend =JSON.stringify(allselect);
+			$.ajax({
+			   type: 'POST',
+			   url: 'http://localhost:50967/Home/SendOrder',
+			   data: orderSend,
+			   contentType: 'application/json; charset=utf-8',
+			   dataType: 'json',
+			   success: function (msg) {
+				   $.mobile.changePage( "#orderDialog", { role: "dialog" } );
+				                  },
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert('Status error code : '+xhr.status);
+				
+			  },
+			   async: true,
+         	   processData: false
+			   });
+			 return false;
+			
+		});
+
+		function rgb2hex(rgb){
+		 rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		 return "#" +
+		  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+		  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+		  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
+		}
+ });
+ </script>
+	<div data-role="header" data-theme="b">
+            <h1>Thực đơn</h1>
+        </div>
+	<div data-role="content" id="menu">	
+		<div id="firstItem" data-role="collapsible" data-inset="true" >
+    		<h3>Món ăn</h3>
+            <ul data-role="listview">
+                <li><a >Cá chẽm chưng tương</a></li>
+                <li><a >Heo sữa quay</a></li>
+                <li><a >Gà ta nấu nấm</a></li>
+                <li><a href="#">Bồ cấu quay bơ</a></li>
+                <li><a href="#">Tốm sú nướng muối ớt</a></li>
+                <li><a href="#"><img src="pizza.jpg"/>pizza</a></li>
+            </ul>
+		</div><!-- /collapsible -->
+        <div data-role="collapsible" data-inset="false">
+            <h3>Nưóc uống</h3>
+            <ul data-role="listview">
+                <li><a href="#">Coca cola</a></li>
+                <li><a href="#">Pepsi</a></li>
+                <li><a href="#">7 Up</a></li>
+                <li><a href="#">Sting</a></li>
+                
+            </ul>
+        </div><!-- /collapsible -->
+        <div data-role="collapsible" data-inset="false">
+            <h3>Khác ...</h3>
+            <ul data-role="listview">
+                <li><a href="#">Khăn lạnh</a></li>
+                <li><a href="#">...</a></li>
+                
+            </ul>
+        </div>
+   </div>
+  <div data-role="footer" data-id="main" position="fixed">
+      <div data-role="navbar">
+       <ul>
+         <li id="confirm_order"><a data-icon="home" class="ui-btn-active ui-state-persist">Order</a></li>
+         <li><a href="list_order.html" >Quản lý order</a></li>
+       </ul>
+      </div>
+     </div>
+</div>
+<div data-role="dialog" id="orderDialog">
+  <div data-role="header">
+    <h1>Thông báo</h1>
+  </div>
+  <div data-role="content">
+    <p>Order của bạn đã được gửi đi !</p>
+  </div>
+  <div data-role="footer">
+    <h3>...</h3>
+  </div>
+</div>
+
+</body>
+</html>
