@@ -10,83 +10,92 @@
 </head> 
 <body> 
 
+
 <div data-role="page" id="page">	
 <script>
+	
 	$(document).ready(function(e) {
-        $("#loginForm").submit(function(){
-			var username = $("#username").val();
-			var password  =$("#password").val();
+		$("#loginForm").submit(function(){
+			var username=$("#username").val();
+			var password=$("#password").val();
 			if(username=="" || password=="")
 			{
-				e.preventDefault();
+				$("#lblErr").css("display","block");
+				$("#lblErr").text("Please fill username or password");
+				return false;
 			}
-			var formData = $("#loginForm").serialize();
-  
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:43415/Account/ClientLogin",
                     cache: false,
-                    data: formData,
-                    success: onSuccess,
-                    error: onError
-                });
-                return false;
-			
-		});
-		function onSuccess(data)
-		{
-			if(data.code=="00"){
-					$.each(data, function(i, item) {
-						if(data[i] =="ROLE_ADMIN")
-						{
-							$.mobile.changePage( "index.html", { transition: "slideup", changeHash: false });
-							$("#lblErr").css("display","none");
+                    data: {username:username,password:password,currentDateLogin:Math.random()},
+                    success: function (data){
+						
+						var hasAdminRole =false;
+						if(data.code=="00"){
+							$.each(data.role, function(i, item1) {
+								if(data.role[i] =="ADMIN")
+								{
+									hasAdminRole =true;
+								}
+							});
+						}
+						if(data.isFirstTime==true){
+							$.mobile.changePage("change_password.html",{data:{'userName':username,'hasAdminRole':hasAdminRole}});
+						}
+						else{
+							if(data.code=="00"){
+							$.each(data.role, function(i, item1) {
+								
+								if(data.role[i] =="ADMIN")
+								{
+									hasAdminRole =true;
+									$.mobile.changePage( "index.html", { transition: "slideup", changeHash: false });
+									$("#lblErr").css("display","none");
+								}
+							});
+							if(!hasAdminRole){
+								$.mobile.changePage( "waiter.html", { transition: "slideup", changeHash: false });
+								$("#lblErr").css("display","none");
+							}
+						}
+						else{
+							$("#lblErr").css("display","block");
+							$("#lblErr").text("Invalid username or password");
 							
 						}
-					});​
-			}
-			else{
-				$.mobile.changePage( "waiter.html", { transition: "slideup", changeHash: false });
-					$("#lblErr").css("display","none");
-			}
-
-		}
-		function onError()
-		{
-			
-			
-		}
+						}
+					},
+                    error: function(e){
+						alert('Error occur');
+					}
+                });
+                return false;
+		});
     });
 </script>
-
-
 	<div data-role="header">
-		<h1>Page One</h1>
+		<h1>Login</h1>
 	</div>
 	<div data-role="content">	
 		<form id="loginForm">
-    <div data-role="fieldcontain" class="ui-hide-label">
-    	<span id="lblErr" style="color:#F00; display:none"></span>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" value="" placeholder="Username" />
-    </div>
+        <div data-role="fieldcontain" class="ui-hide-label">
+            <span id="lblErr" style="color:#F00; display:none"></span>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="" placeholder="Username" />
+        </div>
 
-    <div data-role="fieldcontain" class="ui-hide-label">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" value="" placeholder="Password" />
-    </div>
-
-    <input type="submit" value="Login" id="submitButton">
+        <div data-role="fieldcontain" class="ui-hide-label">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" value="" placeholder="Password" />
+        </div>
+    	<input type="submit" value="Login" id="btnOk">
     </form>	
 	</div>
 	<div data-role="footer">
 		<h4>Page Footer</h4>
 	</div>
 </div>
-
-
-
-
 
 </body>
 </html>
