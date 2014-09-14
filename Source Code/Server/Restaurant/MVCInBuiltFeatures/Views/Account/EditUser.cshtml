@@ -6,7 +6,22 @@
 }
 
 <h2>EditUser</h2>
-
+<script>
+    $(document).ready(function () {
+        $("#DateOfBirth").datepicker
+            ({
+                dateFormat: "dd/mm/yy",
+                showStatus: true,
+                showWeeks: true,
+                highlightWeek: true,
+                numberOfMonths: 1,
+                showAnim: "scale",
+                showOptions: {
+                    origin: ["top", "left"]
+                }
+            });
+    });
+</script>
 @using (Html.BeginForm("EditUser", "Account",FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -57,3 +72,10 @@
 <div>
     @Html.ActionLink("Back to List", "GetAllUser")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery-ui")
+}
+

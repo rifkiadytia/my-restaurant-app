@@ -17,7 +17,7 @@ using MVCInBuiltFeatures.UIComponent;
 
 namespace MVCInBuiltFeatures.Controllers
 {
-    [Authorize]
+    
     public class AccountController : Controller
     {
         public AccountController()
@@ -96,21 +96,38 @@ namespace MVCInBuiltFeatures.Controllers
             return View(model);
         }
         [HttpPost]
-        public JsonResult ClientLogin(String username, String password)
+        public async Task<JsonResult> ClientLogin(String username, String password, string currentDateLogin)
         {
-            var users =  UserManager.FindAsync(username, password);
+            var users =  await UserManager.FindAsync(username, password);
+            bool isFirstTimeLogin = false;
             if (users != null)
             {
                 ApplicationUser user = new ApplicationDbContext().Users.Where(u => u.UserName.Equals(username, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                 var account = new AccountController();
-
                 IList<String> listUserRoles = account.UserManager.GetRoles(user.Id);
-
-                return Json(new { code = "00", role = listUserRoles });
-               
+                isFirstTimeLogin = user.IsFirstTime;
+                return Json(new { code = "00",isFirstTime=isFirstTimeLogin, role = listUserRoles });
             }
-            return Json(new { code = "01", role = string.Empty });
+            return Json(new { code = "01",isFirstTime=isFirstTimeLogin, role = string.Empty });
             
+        }
+        [HttpPost]
+        public async Task<JsonResult> ClientChangePassword(string usernameChange, string passwordChange, string currentDateChange)
+        {
+            try
+            {
+                ApplicationUser applicationUser = new ApplicationDbContext().Users.Where(u => u.UserName.Equals(usernameChange, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                var user = await UserManager.FindByIdAsync(applicationUser.Id);
+                String hashedNewPassword = UserManager.PasswordHasher.HashPassword(passwordChange);
+                user.PasswordHash = hashedNewPassword;
+                user.IsFirstTime = false;
+                await UserManager.UpdateAsync(user);
+                return Json(new {dateCode="1"});
+            }
+            catch
+            {
+                return Json(new { dateCode = "0" });
+            }
         }
         public async Task<ActionResult> ResetPassword(string id)
         {
