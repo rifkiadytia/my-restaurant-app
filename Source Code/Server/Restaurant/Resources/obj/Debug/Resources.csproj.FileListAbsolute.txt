@@ -4,3 +4,9 @@ D:\PROJECT\AspMvcIdentity-master\Resources\obj\Debug\Resources.csprojResolveAsse
 D:\PROJECT\AspMvcIdentity-master\Resources\obj\Debug\Resources.dll
 D:\PROJECT\AspMvcIdentity-master\Resources\obj\Debug\Resources.pdb
 D:\PROJECT\AspMvcIdentity-master\Resources\bin\Debug\MvcCheckBoxList.dll
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\bin\Debug\Resources.dll
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\bin\Debug\Resources.pdb
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\bin\Debug\MvcCheckBoxList.dll
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\obj\Debug\Resources.csprojResolveAssemblyReference.cache
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\obj\Debug\Resources.dll
+D:\Restaurant Insight Project\trunk\Source Code\Server\Restaurant\Resources\obj\Debug\Resources.pdb
