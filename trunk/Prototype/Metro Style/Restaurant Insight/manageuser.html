@@ -202,9 +202,7 @@
         </ul>
         
         <div class="pageheader">
-            <form action="results.html" method="post" class="searchbar">
-                <input type="text" name="keyword" placeholder="To search type and hit enter..." />
-            </form>
+            
             <div class="pageicon"><span class="iconfa-table"></span></div>
             <div class="pagetitle">
                 <h5>Security</h5>
@@ -214,15 +212,22 @@
         
         <div class="maincontent">
             <div class="maincontentinner">
-                 <div class="navbar-inner">
-				 <ul class="list-nostyle list-inline"> 
-				<label>Username:</label>  <input type="text" name="username" class="input-xlarge" />
-				<label>Position:</label>  <input type="text" name="username" class="input-xlarge" />	
-                 </ul>				
+                
+				<form class="stdform" action="forms.html" method="post">
+				<div> 
+				<ul class="mediamgr_menu" align = "left-side">			
+				<label>Username</label> <li><input type="text" name="username" class="input-xlarge" /></li> 
+				<label>Position</label> <li><input type="text" name="username" class="input-xlarge" align = "right"/></li>
+				</ul>
+				</div>	
+				<div align="right"> 
 				<ul class="list-nostyle list-inline">                                        	
                       <li><a href="" class="btn btn-info btn-rounded"><i class="iconfa-off"></i> Search</a></li>
                 </ul>
 				</div>
+				</form>
+				
+				
                 <div class="divider15"></div>        
                 <h4 class="widgettitle">Basic Styling</h4>
                 <table class="table responsive">
