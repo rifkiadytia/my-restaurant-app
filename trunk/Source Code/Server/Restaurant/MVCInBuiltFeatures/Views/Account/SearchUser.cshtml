@@ -2,78 +2,100 @@
 @using MVCInBuiltFeatures.UIComponent;
 @{
     ViewBag.Title = "SearchUser";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
- @using (Html.BeginForm("SearchUser", "Account", FormMethod.Post))
- {
+@using (Html.BeginForm("SearchUser", "Account", FormMethod.Post))
+{
     @Html.ValidationSummary(false)
-    <div style="border-bottom:1px solid #bbb"><h1>User search</h1></div> 
-    <table style="border:0px; width:500px;">
-        <tr>
-            <td>
-                <div class="editor-label">
-                    @Html.LabelFor(m => m.UserName )
-                </div>
-
-                <div class="editor-field">
-                    @Html.EditorFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
-                </div>                 
-            </td>
-            <td>                
-                <div class="editor-label">
-                    @Html.LabelFor(m => m.Position)
-                </div>
-
-                <div class="editor-field">
-                    @Html.EditorFor(m => m.Position)
-                    @Html.ValidationMessageFor(m => m.Position)
-                </div>
-            </td>
-            <td style="vertical-align:bottom;">                    
-                <input name="SearchButton" type="submit" value="Search" />
-            </td>
-        </tr>
-    </table>
-     <br />
-     if (Model.SearchResults != null && Model.SearchResults.Count() > 0)
-     {
-        <table class="table" style=" width:500px;">
-            <tr>
-                <th>UserID</th>
-                <th>Full Name</th>
-                <th>Image</th>
-                <th>Position</th>
-                <th>Birth date</th>
-                <th>Address</th>
-                <th></th>
-            </tr>
-         @foreach (var item in Model.SearchResults)
-         {
-             <tr>
-                <td>@Html.ActionLink(@item.UserName, "EditUser", new {  id=item.Id }) </td>
-                <td>@item.FullName</td>
-                 <td><img src="@Url.Content("~/Uploads/UserImage/"+@item.Image)" width="120" /></td>
-                <td>@item.Position</td>
-                <td>@item.DateOfBirth</td>
-                <td>@item.Address</td>
-                <th>
-                    @Html.HiddenFor(ss=>item.Id)
-                    <input type="button" value="Assign role" class="btnAssignRole btnStyleOne" />
-                    @*@Html.ActionLink("Assign Role","AssignRole",new{id=@item.Id}) |*@
-                @Html.ActionLink("Reset password","ResetPassword",new{id=@item.Id})
-                    
-                </th>
-            </tr>
-         }        
-        </table>
-     }
+    
+    <div class="navbar-inner">
+        <ul class="list-nostyle list-inline">
+            @Html.LabelFor(m => m.FullName) @Html.EditorFor(m => m.FullName, new { @class = "input-xlarge" })
+            @Html.LabelFor(m => m.Position)  @Html.EditorFor(m => m.Position, new { @class = "input-xlarge" })
+        </ul>
+        <ul class="list-nostyle list-inline">
+            <li>
+                <input name="SearchButton" type="submit" value="Search" class="btn btn-info btn-rounded" /></li>
+        </ul>
+    </div>
+    <div class="divider15"></div>
+    <h4 class="widgettitle">List of users</h4>
      
- }
-<div id="assignRoleForm"></div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery-assign-role")
+    if (Model.SearchResults != null && Model.SearchResults.Count() > 0)
+    {
+    <div id="dyntable_wrapper" class="dataTables_wrapper" role="grid">
+        <div id="dyntable_length" class="dataTables_length">
+            <label>
+                Show
+                <select size="1" name="dyntable_length" aria-controls="dyntable">
+                    <option value="10" selected="selected">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                entries</label>
+        </div>
+        <div class="dataTables_filter" id="dyntable_filter">
+            
+        </div>
+        <table id="dyntable" class="table table-bordered responsive dataTable" aria-describedby="dyntable_info">
+            <colgroup>
+                <col class="con0" style="align: center; width: 4%">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <thead>
+                <tr role="row">
+                    <th class="head0 nosort sorting_asc" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 24px;" aria-sort="ascending" aria-label=": activate to sort column ascending">
+                        <div class="checker" id="uniform-undefined">
+                            <span>
+                                <input type="checkbox" class="checkall" style="opacity: 0;"></span>
+                        </div>
+                    </th>
+                    <th class="head0 sorting" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 122px;" aria-label="Rendering engine: activate to sort column ascending">Full Name</th>
+                    <th class="head1 sorting" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 269px;" aria-label="Browser: activate to sort column ascending">Image</th>
+                    <th class="head0 sorting" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 249px;" aria-label="Platform(s): activate to sort column ascending">Position</th>
+                    <th class="head1 sorting_asc" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Engine version: activate to sort column ascending">Birthdate</th>
+                    <th class="head0 sorting" role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 134px;" aria-label="CSS grade: activate to sort column ascending">Address</th>
+                    <th  role="columnheader" tabindex="0" aria-controls="dyntable" rowspan="1" colspan="1" style="width: 134px;">Operation</th>
+                
+                </tr>
+            </thead>
 
+            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                @foreach (var item in Model.SearchResults)
+                {
+                    <tr class="gradeX odd">
+                        <td class="sorting_1"><span class="center">
+                            <div class="checker" id="uniform-undefined">
+                                <span>
+                                    <input type="checkbox" style="opacity: 0;"></span>
+                            </div>
+                        </span></td>
+                        <td class=" ">@item.FullName</td>
+                        <td class=" "><img src="@Url.Content("~/Uploads/UserImage/" + @item.Image)" width="70px" /></td>
+                        <td class="">@item.Position</td>
+                        <td class="center  sorting_2">@item.DateOfBirth</td>
+                        <td class="center">@item.Address</td>
+                        <td>
+                            @Html.HiddenFor(ss => item.Id)
+                        <input type="button" value="Assign role" class="btnAssignRole" />
+                        @Html.ActionLink("Reset password", "ResetPassword", new { id = @item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="dataTables_info" id="dyntable_info">Showing 1 to 10 of 51 entries</div>
+        <div class="dataTables_paginate paging_full_numbers" id="dyntable_paginate"><a tabindex="0" class="first paginate_button paginate_button_disabled" id="dyntable_first">First</a><a tabindex="0" class="previous paginate_button paginate_button_disabled" id="dyntable_previous">Previous</a><span><a tabindex="0" class="paginate_active">1</a><a tabindex="0" class="paginate_button">2</a><a tabindex="0" class="paginate_button">3</a><a tabindex="0" class="paginate_button">4</a><a tabindex="0" class="paginate_button">5</a></span><a tabindex="0" class="next paginate_button" id="dyntable_next">Next</a><a tabindex="0" class="last paginate_button" id="dyntable_last">Last</a></div>
+    </div>
+   
+    }
 }
+<div id="assignRoleForm"></div>
+@Scripts.Render("~/bundles/jquery-assign-role")
