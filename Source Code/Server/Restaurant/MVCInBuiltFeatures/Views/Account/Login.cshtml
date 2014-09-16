@@ -1,58 +1,42 @@
 ﻿@model MVCInBuiltFeatures.Models.LoginViewModel
-
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Sign in";
+    Layout = "~/Views/Shared/_AdminLoginPartial.cshtml";
 }
-
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true)
-                <div class="form-group">
-                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.UserName)
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password)
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register", "Register") if you don't have a local account.
-                </p>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('#loginForm').submit(function () {
+            var userName = jQuery('#UserName').val();
+            var password = jQuery('#Password').val();
+            if (userName == '' && password == '') {
+                jQuery('.login-alert').fadeIn();
+                return false;
             }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        });
+    });
+</script>
+<div class="loginpanelinner">
+    <div class="logo animate0 bounceIn"><img src="@Url.Content("~/Content/cpanel/images/logo.png")" alt="" /></div>
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "loginForm" ,role="form" }))
+    {
+        @Html.AntiForgeryToken()
+            <div class="inputwrapper login-alert">
+                <div class="alert alert-error">Invalid username or password</div>
+            </div>
+            <div class="inputwrapper animate1 bounceIn">
+                @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Enter any username" })
+            </div>
+            <div class="inputwrapper animate2 bounceIn">
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "Enter any password" })
+            </div>
+            <div class="inputwrapper animate3 bounceIn">
+                <button name="submit">Sign In</button>
+            </div>
+            <div class="inputwrapper animate4 bounceIn">
+             <label>
+                 @Html.CheckBoxFor(m => m.RememberMe, new { @class = "remember" }) 
+                 Keep me sign in
+             </label> 
+            </div>
+    }
+</div><!--loginpanelinner-->

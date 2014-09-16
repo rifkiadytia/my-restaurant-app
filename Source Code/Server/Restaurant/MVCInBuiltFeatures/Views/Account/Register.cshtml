@@ -1,12 +1,14 @@
 ﻿@model MVCInBuiltFeatures.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h2>@ViewBag.Title.</h2>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery-ui")
 <script>
     $(document).ready(function () {
-        $("#date_of_birth").datepicker
+        $("#DateOfBirth").datepicker
             ({
                 dateFormat: "dd/mm/yy",
                 showStatus: true,
@@ -20,69 +22,65 @@
             });
     });
 </script>
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data",@class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @class = "stdform stdform2", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DateOfBirth, new { @id="date_of_birth",@class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Image, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Image, new { @type = "file",@class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Position, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(m => m.Position, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+    <div class="widgetbox box-inverse">
+        <h4 class="widgettitle">Create User</h4>
+        <div class="widgetcontent nopadding">
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery-ui")
+            <p>
+
+                <label>User Name</label>
+                <span class="field">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "input-xxlarge" })
+                    @Html.ValidationMessageFor(m=>m.UserName)
+                </span>
+            </p>
+
+            <p>
+                @Html.LabelFor(m => m.FullName)
+                <span class="field">
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "input-xxlarge" })
+                </span>
+            </p>
+            <p>
+                @Html.LabelFor(m => m.DateOfBirth)
+                <span class="field">
+                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "input-large" })
+                </span>
+            </p>
+            <p>
+                @Html.LabelFor(m => m.Position)
+                <span class="field">
+                    @Html.TextBoxFor(m => m.Position, new { @class = "input-xxlarge" })
+                </span>
+            </p>
+
+            <p>
+                @Html.LabelFor(m => m.Address)
+                <span class="field">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "input-xxlarge", cols = "120", rows = "5" })
+                </span>
+            </p>
+            <p>
+                @Html.LabelFor(m => m.Image)
+
+                <span class="field">
+                    @Html.TextBoxFor(m => m.Image, new { @class = "fileupload-new", type = "file" })
+                </span>
+
+            </p>
+            <p class="stdformbutton">
+                <label></label>
+                 <span >
+                     <input type="submit" class="btn btn-primary" value="Create" />
+                     <input type="reset" class="btn"  value="Reset Button"/>
+                 </span>
+            </p>
+
+        </div>
+        <!--widgetcontent-->
+    </div>
+    
 }

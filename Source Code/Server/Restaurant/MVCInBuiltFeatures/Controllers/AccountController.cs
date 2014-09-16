@@ -35,13 +35,20 @@ namespace MVCInBuiltFeatures.Controllers
 
         public ActionResult AssignRole(string id)
         {
-            List<AssignRoleModel> roles = new ApplicationDbContext().Roles.Select(x => new AssignRoleModel
+            var account = new AccountController();
+
+
+            List<AssignRoleModel> allRoles = new ApplicationDbContext().Roles.Select(x => new AssignRoleModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 IdUsr = id
             }).ToList<AssignRoleModel>();
-            return PartialView("AssignRole", roles);
+            
+
+            var roleOfUser = account.UserManager .GetRoles(id);
+
+            return PartialView("AssignRole", allRoles);
         }
         [HttpPost]
         public JsonResult AssignRole(List<AssignRoleModel> model)
@@ -196,7 +203,8 @@ namespace MVCInBuiltFeatures.Controllers
                     new ImageUtil().CompressImageUpload(baseFile, strPath);
                 }
                 var user = new ApplicationUser() { UserName = model.UserName, Address = model.Address, DateOfBirth = model.DateOfBirth, FullName = model.FullName, Position = model.Position, Image = strName, IsFirstTime = true };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                string defaultPassword = "123456789";
+                var result = await UserManager.CreateAsync(user, defaultPassword);
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
@@ -232,11 +240,18 @@ namespace MVCInBuiltFeatures.Controllers
         public ActionResult SearchUser(UserFormView model)
         {
             ApplicationDbContext context = new ApplicationDbContext();
-           
-            IEnumerable<UserFormView> results =
-                
-                
-                new ApplicationDbContext().Users.Where(x=>(x.Position.Contains(model.Position) || x.UserName.Contains(model.UserName)) ).Select(x => new UserFormView
+
+            var query = from src in context.Users
+                        select src;
+            if (!string.IsNullOrEmpty(model.Position))
+            {
+                query = query.Where(src => src.Position.Contains(model.Position));
+            }
+            if (!string.IsNullOrEmpty(model.FullName))
+            {
+                query = query.Where(src => src.FullName.Contains(model.FullName));
+            }
+            IEnumerable<UserFormView> results = query.Select(x => new UserFormView
             {
                 Id = x.Id,
                 UserName = x.UserName,
@@ -246,9 +261,7 @@ namespace MVCInBuiltFeatures.Controllers
                 Position = x.Position,
                 Address = x.Address
             });
-
             model.SearchResults = results;
-
             return View(model);
 
         }
