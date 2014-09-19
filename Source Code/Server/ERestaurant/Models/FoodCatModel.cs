@@ -9,13 +9,13 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(RoleMetadata))]
-    public partial class Role
+    [MetadataType(typeof(FoodCatMetadata))]
+    public partial class FoodCat
     {
-        public class RoleMetadata
+        public class FoodCatMetadata
         {
             [Required]
-            public string RoleName { get; set; }
+            public string FoodCatName { get; set; }
         }
     }
 }
