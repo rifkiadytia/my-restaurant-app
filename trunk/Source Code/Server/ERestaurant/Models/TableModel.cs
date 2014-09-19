@@ -9,13 +9,16 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(RoleMetadata))]
-    public partial class Role
+    [MetadataType(typeof(TableMetadata))]
+    public partial class Table
     {
-        public class RoleMetadata
+        public class TableMetadata
         {
             [Required]
-            public string RoleName { get; set; }
+            public string tablename { get; set; }
+
+            [Required]
+            public int sessionID { get; set; }
         }
     }
 }
