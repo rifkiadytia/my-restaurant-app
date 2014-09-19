@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="89d7a49c0af44aa0a19e1857f7becd57" Name="Diagram1">
+        <EntityTypeShape EntityType="RestaurantInsightModel.FoodCategoryMaster" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.FoodMaster" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.OrderDetail" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.OrgChart" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.Permission" Width="1.5" PointX="1.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.PositionMaster" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.Role" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.SessionMaster" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.SessionStructure" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RestaurantInsightModel.UserInfo" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_OrderDetails_FoodCat" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_OrderDetails_Food" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_OrderDetails_Position" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_OrderDetails_Session" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_OrderDetails_User" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.FK_UserInfo_Position" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.PermissionRole" ManuallyRouted="false" />
+        <AssociationConnector Association="RestaurantInsightModel.UserRole" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,723 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RestaurantInsightModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="RestaurantInsightModelStoreContainer">
+          <EntitySet Name="FoodCategoryMaster" EntityType="RestaurantInsightModel.Store.FoodCategoryMaster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FoodMaster" EntityType="RestaurantInsightModel.Store.FoodMaster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderDetails" EntityType="RestaurantInsightModel.Store.OrderDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrgChart" EntityType="RestaurantInsightModel.Store.OrgChart" store:Type="Tables" store:Schema="dbo" store:Name="OrgChart">
+            <DefiningQuery>SELECT 
+      [OrgChart].[UserID] AS [UserID], 
+      [OrgChart].[ParentID] AS [ParentID], 
+      [OrgChart].[ReportingTo] AS [ReportingTo]
+      FROM [dbo].[OrgChart] AS [OrgChart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Permission" EntityType="RestaurantInsightModel.Store.Permission" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PermissionRole" EntityType="RestaurantInsightModel.Store.PermissionRole" store:Type="Tables" store:Schema="dbo" store:Name="PermissionRole">
+            <DefiningQuery>SELECT 
+      [PermissionRole].[PermissionID] AS [PermissionID], 
+      [PermissionRole].[RoleID] AS [RoleID]
+      FROM [dbo].[PermissionRole] AS [PermissionRole]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PositionMaster" EntityType="RestaurantInsightModel.Store.PositionMaster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role" EntityType="RestaurantInsightModel.Store.Role" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SessionMaster" EntityType="RestaurantInsightModel.Store.SessionMaster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SessionStructure" EntityType="RestaurantInsightModel.Store.SessionStructure" store:Type="Tables" store:Schema="dbo" store:Name="SessionStructure">
+            <DefiningQuery>SELECT 
+      [SessionStructure].[SessionID] AS [SessionID], 
+      [SessionStructure].[SessionParent] AS [SessionParent], 
+      [SessionStructure].[SessionBelongTo] AS [SessionBelongTo]
+      FROM [dbo].[SessionStructure] AS [SessionStructure]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UserInfo" EntityType="RestaurantInsightModel.Store.UserInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRole" EntityType="RestaurantInsightModel.Store.UserRole" store:Type="Tables" store:Schema="dbo" store:Name="UserRole">
+            <DefiningQuery>SELECT 
+      [UserRole].[UserID] AS [UserID], 
+      [UserRole].[RoleID] AS [RoleID]
+      FROM [dbo].[UserRole] AS [UserRole]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_OrderDetails_Food" Association="RestaurantInsightModel.Store.FK_OrderDetails_Food">
+            <End Role="FoodMaster" EntitySet="FoodMaster" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_FoodCat" Association="RestaurantInsightModel.Store.FK_OrderDetails_FoodCat">
+            <End Role="FoodCategoryMaster" EntitySet="FoodCategoryMaster" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Position" Association="RestaurantInsightModel.Store.FK_OrderDetails_Position">
+            <End Role="PositionMaster" EntitySet="PositionMaster" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Session" Association="RestaurantInsightModel.Store.FK_OrderDetails_Session">
+            <End Role="SessionMaster" EntitySet="SessionMaster" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_User" Association="RestaurantInsightModel.Store.FK_OrderDetails_User">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionRole_Permission" Association="RestaurantInsightModel.Store.FK_PermissionRole_Permission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="PermissionRole" EntitySet="PermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionRole_Role" Association="RestaurantInsightModel.Store.FK_PermissionRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="PermissionRole" EntitySet="PermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_Position" Association="RestaurantInsightModel.Store.FK_UserInfo_Position">
+            <End Role="PositionMaster" EntitySet="PositionMaster" />
+            <End Role="UserInfo" EntitySet="UserInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="RestaurantInsightModel.Store.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="RestaurantInsightModel.Store.FK_UserRole_User">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FoodCategoryMaster">
+          <Key>
+            <PropertyRef Name="FoodCatID" />
+          </Key>
+          <Property Name="FoodCatID" Type="bigint" Nullable="false" />
+          <Property Name="FoodCatName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FoodMaster">
+          <Key>
+            <PropertyRef Name="FoodID" />
+          </Key>
+          <Property Name="FoodID" Type="bigint" Nullable="false" />
+          <Property Name="FoodName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FoodDescription" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FoodCatID" Type="bigint" Nullable="false" />
+          <Property Name="FinishingTime" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FoodID" Type="bigint" Nullable="false" />
+          <Property Name="FoodCatID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="PositionID" Type="bigint" Nullable="false" />
+          <Property Name="SessionID" Type="bigint" Nullable="false" />
+          <Property Name="OrderTime" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'RestaurantInsight.dbo.OrgChart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="OrgChart">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ParentID" />
+          </Key>
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ParentID" Type="bigint" Nullable="false" />
+          <Property Name="ReportingTo" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="bigint" Nullable="false" />
+          <Property Name="PermissionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PermissionDescription" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'RestaurantInsight.dbo.PermissionRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="PermissionRole">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="PermissionID" Type="bigint" Nullable="false" />
+          <Property Name="RoleID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PositionMaster">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="bigint" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PositionLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="bigint" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="RoleDescription" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SessionMaster">
+          <Key>
+            <PropertyRef Name="SessionID" />
+          </Key>
+          <Property Name="SessionID" Type="bigint" Nullable="false" />
+          <Property Name="SessionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SessionLevel" Type="int" />
+          <Property Name="SessionBelongto" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'RestaurantInsight.dbo.SessionStructure' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="SessionStructure">
+          <Key>
+            <PropertyRef Name="SessionID" />
+            <PropertyRef Name="SessionParent" />
+          </Key>
+          <Property Name="SessionID" Type="bigint" Nullable="false" />
+          <Property Name="SessionParent" Type="bigint" Nullable="false" />
+          <Property Name="SessionBelongTo" Type="bigint" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Usercode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="Mobile" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="PositionID" Type="bigint" />
+          <Property Name="ReportingTo" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'RestaurantInsight.dbo.UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="RoleID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OrderDetails_Food">
+          <End Role="FoodMaster" Type="RestaurantInsightModel.Store.FoodMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodMaster">
+              <PropertyRef Name="FoodID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="FoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_FoodCat">
+          <End Role="FoodCategoryMaster" Type="RestaurantInsightModel.Store.FoodCategoryMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategoryMaster">
+              <PropertyRef Name="FoodCatID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="FoodCatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Position">
+          <End Role="PositionMaster" Type="RestaurantInsightModel.Store.PositionMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositionMaster">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Session">
+          <End Role="SessionMaster" Type="RestaurantInsightModel.Store.SessionMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SessionMaster">
+              <PropertyRef Name="SessionID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="SessionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_User">
+          <End Role="UserInfo" Type="RestaurantInsightModel.Store.UserInfo" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionRole_Permission">
+          <End Role="Permission" Type="RestaurantInsightModel.Store.Permission" Multiplicity="1" />
+          <End Role="PermissionRole" Type="RestaurantInsightModel.Store.PermissionRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="PermissionID" />
+            </Principal>
+            <Dependent Role="PermissionRole">
+              <PropertyRef Name="PermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionRole_Role">
+          <End Role="Role" Type="RestaurantInsightModel.Store.Role" Multiplicity="1" />
+          <End Role="PermissionRole" Type="RestaurantInsightModel.Store.PermissionRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="PermissionRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_Position">
+          <End Role="PositionMaster" Type="RestaurantInsightModel.Store.PositionMaster" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="RestaurantInsightModel.Store.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositionMaster">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Role="Role" Type="RestaurantInsightModel.Store.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="RestaurantInsightModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="UserInfo" Type="RestaurantInsightModel.Store.UserInfo" Multiplicity="1" />
+          <End Role="UserRole" Type="RestaurantInsightModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RestaurantInsightModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RestaurantInsightEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="FoodCategoryMasters" EntityType="RestaurantInsightModel.FoodCategoryMaster" />
+          <EntitySet Name="FoodMasters" EntityType="RestaurantInsightModel.FoodMaster" />
+          <EntitySet Name="OrderDetails" EntityType="RestaurantInsightModel.OrderDetail" />
+          <EntitySet Name="OrgCharts" EntityType="RestaurantInsightModel.OrgChart" />
+          <EntitySet Name="Permissions" EntityType="RestaurantInsightModel.Permission" />
+          <EntitySet Name="PositionMasters" EntityType="RestaurantInsightModel.PositionMaster" />
+          <EntitySet Name="Roles" EntityType="RestaurantInsightModel.Role" />
+          <EntitySet Name="SessionMasters" EntityType="RestaurantInsightModel.SessionMaster" />
+          <EntitySet Name="SessionStructures" EntityType="RestaurantInsightModel.SessionStructure" />
+          <EntitySet Name="UserInfoes" EntityType="RestaurantInsightModel.UserInfo" />
+          <AssociationSet Name="FK_OrderDetails_FoodCat" Association="RestaurantInsightModel.FK_OrderDetails_FoodCat">
+            <End Role="FoodCategoryMaster" EntitySet="FoodCategoryMasters" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Food" Association="RestaurantInsightModel.FK_OrderDetails_Food">
+            <End Role="FoodMaster" EntitySet="FoodMasters" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Position" Association="RestaurantInsightModel.FK_OrderDetails_Position">
+            <End Role="PositionMaster" EntitySet="PositionMasters" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Session" Association="RestaurantInsightModel.FK_OrderDetails_Session">
+            <End Role="SessionMaster" EntitySet="SessionMasters" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_User" Association="RestaurantInsightModel.FK_OrderDetails_User">
+            <End Role="UserInfo" EntitySet="UserInfoes" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_Position" Association="RestaurantInsightModel.FK_UserInfo_Position">
+            <End Role="PositionMaster" EntitySet="PositionMasters" />
+            <End Role="UserInfo" EntitySet="UserInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="PermissionRole" Association="RestaurantInsightModel.PermissionRole">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserRole" Association="RestaurantInsightModel.UserRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserInfo" EntitySet="UserInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FoodCategoryMaster">
+          <Key>
+            <PropertyRef Name="FoodCatID" />
+          </Key>
+          <Property Name="FoodCatID" Type="Int64" Nullable="false" />
+          <Property Name="FoodCatName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_FoodCat" FromRole="FoodCategoryMaster" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="FoodMaster">
+          <Key>
+            <PropertyRef Name="FoodID" />
+          </Key>
+          <Property Name="FoodID" Type="Int64" Nullable="false" />
+          <Property Name="FoodName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FoodDescription" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Image" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FoodCatID" Type="Int64" Nullable="false" />
+          <Property Name="FinishingTime" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_Food" FromRole="FoodMaster" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FoodID" Type="Int64" Nullable="false" />
+          <Property Name="FoodCatID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="PositionID" Type="Int64" Nullable="false" />
+          <Property Name="SessionID" Type="Int64" Nullable="false" />
+          <Property Name="OrderTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="2" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="FoodCategoryMaster" Relationship="RestaurantInsightModel.FK_OrderDetails_FoodCat" FromRole="OrderDetails" ToRole="FoodCategoryMaster" />
+          <NavigationProperty Name="FoodMaster" Relationship="RestaurantInsightModel.FK_OrderDetails_Food" FromRole="OrderDetails" ToRole="FoodMaster" />
+          <NavigationProperty Name="PositionMaster" Relationship="RestaurantInsightModel.FK_OrderDetails_Position" FromRole="OrderDetails" ToRole="PositionMaster" />
+          <NavigationProperty Name="SessionMaster" Relationship="RestaurantInsightModel.FK_OrderDetails_Session" FromRole="OrderDetails" ToRole="SessionMaster" />
+          <NavigationProperty Name="UserInfo" Relationship="RestaurantInsightModel.FK_OrderDetails_User" FromRole="OrderDetails" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="OrgChart">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="ParentID" />
+          </Key>
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="ReportingTo" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="Int64" Nullable="false" />
+          <Property Name="PermissionName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PermissionDescription" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Roles" Relationship="RestaurantInsightModel.PermissionRole" FromRole="Permission" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="PositionMaster">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int64" Nullable="false" />
+          <Property Name="PositionName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PositionLevel" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_Position" FromRole="PositionMaster" ToRole="OrderDetails" />
+          <NavigationProperty Name="UserInfoes" Relationship="RestaurantInsightModel.FK_UserInfo_Position" FromRole="PositionMaster" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int64" Nullable="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="RoleDescription" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Permissions" Relationship="RestaurantInsightModel.PermissionRole" FromRole="Role" ToRole="Permission" />
+          <NavigationProperty Name="UserInfoes" Relationship="RestaurantInsightModel.UserRole" FromRole="Role" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="SessionMaster">
+          <Key>
+            <PropertyRef Name="SessionID" />
+          </Key>
+          <Property Name="SessionID" Type="Int64" Nullable="false" />
+          <Property Name="SessionName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SessionLevel" Type="Int32" />
+          <Property Name="SessionBelongto" Type="Int64" />
+          <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_Session" FromRole="SessionMaster" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="SessionStructure">
+          <Key>
+            <PropertyRef Name="SessionID" />
+            <PropertyRef Name="SessionParent" />
+          </Key>
+          <Property Name="SessionID" Type="Int64" Nullable="false" />
+          <Property Name="SessionParent" Type="Int64" Nullable="false" />
+          <Property Name="SessionBelongTo" Type="Int64" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Usercode" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="Mobile" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="PositionID" Type="Int64" />
+          <Property Name="ReportingTo" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_User" FromRole="UserInfo" ToRole="OrderDetails" />
+          <NavigationProperty Name="PositionMaster" Relationship="RestaurantInsightModel.FK_UserInfo_Position" FromRole="UserInfo" ToRole="PositionMaster" />
+          <NavigationProperty Name="Roles" Relationship="RestaurantInsightModel.UserRole" FromRole="UserInfo" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_OrderDetails_FoodCat">
+          <End Role="FoodCategoryMaster" Type="RestaurantInsightModel.FoodCategoryMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodCategoryMaster">
+              <PropertyRef Name="FoodCatID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="FoodCatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Food">
+          <End Role="FoodMaster" Type="RestaurantInsightModel.FoodMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodMaster">
+              <PropertyRef Name="FoodID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="FoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Position">
+          <End Role="PositionMaster" Type="RestaurantInsightModel.PositionMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositionMaster">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Session">
+          <End Role="SessionMaster" Type="RestaurantInsightModel.SessionMaster" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SessionMaster">
+              <PropertyRef Name="SessionID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="SessionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_User">
+          <End Role="UserInfo" Type="RestaurantInsightModel.UserInfo" Multiplicity="1" />
+          <End Role="OrderDetails" Type="RestaurantInsightModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInfo_Position">
+          <End Role="PositionMaster" Type="RestaurantInsightModel.PositionMaster" Multiplicity="0..1" />
+          <End Role="UserInfo" Type="RestaurantInsightModel.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PositionMaster">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PermissionRole">
+          <End Role="Permission" Type="RestaurantInsightModel.Permission" Multiplicity="*" />
+          <End Role="Role" Type="RestaurantInsightModel.Role" Multiplicity="*" />
+        </Association>
+        <Association Name="UserRole">
+          <End Role="Role" Type="RestaurantInsightModel.Role" Multiplicity="*" />
+          <End Role="UserInfo" Type="RestaurantInsightModel.UserInfo" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RestaurantInsightModelStoreContainer" CdmEntityContainer="RestaurantInsightEntities">
+          <EntitySetMapping Name="FoodCategoryMasters">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.FoodCategoryMaster">
+              <MappingFragment StoreEntitySet="FoodCategoryMaster">
+                <ScalarProperty Name="FoodCatID" ColumnName="FoodCatID" />
+                <ScalarProperty Name="FoodCatName" ColumnName="FoodCatName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodMasters">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.FoodMaster">
+              <MappingFragment StoreEntitySet="FoodMaster">
+                <ScalarProperty Name="FoodID" ColumnName="FoodID" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="FoodDescription" ColumnName="FoodDescription" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="FoodCatID" ColumnName="FoodCatID" />
+                <ScalarProperty Name="FinishingTime" ColumnName="FinishingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="FoodID" ColumnName="FoodID" />
+                <ScalarProperty Name="FoodCatID" ColumnName="FoodCatID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgCharts">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.OrgChart">
+              <MappingFragment StoreEntitySet="OrgChart">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ReportingTo" ColumnName="ReportingTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="PermissionDescription" ColumnName="PermissionDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PositionMasters">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.PositionMaster">
+              <MappingFragment StoreEntitySet="PositionMaster">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="PositionLevel" ColumnName="PositionLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SessionMasters">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.SessionMaster">
+              <MappingFragment StoreEntitySet="SessionMaster">
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="SessionName" ColumnName="SessionName" />
+                <ScalarProperty Name="SessionLevel" ColumnName="SessionLevel" />
+                <ScalarProperty Name="SessionBelongto" ColumnName="SessionBelongto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SessionStructures">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.SessionStructure">
+              <MappingFragment StoreEntitySet="SessionStructure">
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="SessionParent" ColumnName="SessionParent" />
+                <ScalarProperty Name="SessionBelongTo" ColumnName="SessionBelongTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfoes">
+            <EntityTypeMapping TypeName="RestaurantInsightModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Usercode" ColumnName="Usercode" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="ReportingTo" ColumnName="ReportingTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PermissionRole" TypeName="RestaurantInsightModel.PermissionRole" StoreEntitySet="PermissionRole">
+            <EndProperty Name="Permission">
+              <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserRole" TypeName="RestaurantInsightModel.UserRole" StoreEntitySet="UserRole">
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="UserInfo">
+              <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
