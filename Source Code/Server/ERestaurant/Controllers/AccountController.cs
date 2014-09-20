@@ -55,6 +55,11 @@ namespace ERestaurant.Controllers {
         {
             return View();
         }
+
+        public ActionResult EditUser()
+        {
+            return View();
+        }
         //
         // GET: /Account/Register
 
