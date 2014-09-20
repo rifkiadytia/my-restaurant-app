@@ -27,12 +27,6 @@
         <MappingFragment StoreEntitySet="OrderDetails">
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
           <ScalarProperty Name="FoodID" ColumnName="FoodID" />
-          <ScalarProperty Name="FoodCatID" ColumnName="FoodCatID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="PositionID" ColumnName="PositionID" />
-          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-          <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -123,5 +117,25 @@
         <ScalarProperty Name="ID" ColumnName="UserID" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="OrderMasters">
+      <EntityTypeMapping TypeName="RestaurantInsightModel.OrderMaster">
+        <MappingFragment StoreEntitySet="OrderMaster">
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TableMasters">
+      <EntityTypeMapping TypeName="RestaurantInsightModel.TableMaster">
+        <MappingFragment StoreEntitySet="TableMaster">
+          <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

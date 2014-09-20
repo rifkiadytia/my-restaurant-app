@@ -64,6 +64,13 @@ namespace ERestaurant.Models {
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        public string FullName { get; set; }
+        public string Mobile { get; set; }
+        public string Image { get; set; }
+        public DateTime DOB { get; set; }
+        public int Position { get; set; }
+        public int ReportingTo { get; set; }
+        public bool Gender { get; set; }
         [Required]
         [RegularExpression("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", ErrorMessage = "Please enter a valid email address.")]
         [DataType(DataType.EmailAddress)]
@@ -81,4 +88,5 @@ namespace ERestaurant.Models {
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    
 }

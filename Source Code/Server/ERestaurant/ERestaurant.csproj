@@ -212,22 +212,10 @@
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\RestaurantInsight.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>RestaurantInsight.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\RestaurantInsight.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RestaurantInsight.edmx</DependentUpon>
-      <LastGenOutput>RestaurantInsight.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\RestaurantInsight.edmx.diagram">
-      <DependentUpon>RestaurantInsight.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\RestaurantInsight.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RestaurantInsight.edmx</DependentUpon>
-      <LastGenOutput>RestaurantInsight.cs</LastGenOutput>
+    <Content Include="Models\Restaurant.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Restaurant.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -278,63 +266,25 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DataRepositories\AccountRepositories.cs" />
     <Compile Include="Dataservice\DataConnection.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\FoodCategoryMaster.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FoodMaster.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Northwind.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Northwind.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\NorthwindDataProvider.cs" />
-    <Compile Include="Models\OrderDetail.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OrgChart.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Permission.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PositionMaster.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RestaurantInsight.Context.cs">
+    <Compile Include="Models\Restaurant.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RestaurantInsight.Context.tt</DependentUpon>
+      <DependentUpon>Restaurant.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\RestaurantInsight.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RestaurantInsight.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RestaurantInsight.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Role.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SessionMaster.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SessionStructure.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserInfo.cs">
-      <DependentUpon>RestaurantInsight.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -348,6 +298,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Application\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\Restaurant.dbml.layout">
+      <DependentUpon>Restaurant.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

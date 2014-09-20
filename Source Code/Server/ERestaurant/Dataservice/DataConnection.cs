@@ -8,12 +8,12 @@ namespace ERestaurant.Dataservice
 {
     public class DataConnection
     {
-        private static volatile RestaurantInsightEntities instance;
+        private static volatile RestaurantDataContext instance;
         private static object syncRoot = new Object();
 
         private DataConnection() { }
 
-        public static RestaurantInsightEntities Instance
+        public static RestaurantDataContext Instance
         {
             get
             {
@@ -22,7 +22,7 @@ namespace ERestaurant.Dataservice
                     lock (syncRoot)
                     {
                         if (instance == null)
-                            instance = new RestaurantInsightEntities();
+                            instance = new RestaurantDataContext();
                     }
                 }
                 return instance;

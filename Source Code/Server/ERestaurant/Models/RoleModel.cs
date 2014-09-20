@@ -18,4 +18,5 @@ namespace ERestaurant.Models
             public string RoleName { get; set; }
         }
     }
+
 }

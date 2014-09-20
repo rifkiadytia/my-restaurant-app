@@ -8,12 +8,15 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using ERestaurant.Filters;
 using ERestaurant.Models;
-
+using ERestaurant.DataRepositories;
 namespace ERestaurant.Controllers {
+
+    
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller {
 
+        public AccountRepositories account = new AccountRepositories();
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -29,7 +32,9 @@ namespace ERestaurant.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl) {
             if(ModelState.IsValid) {
-                if(WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe.Value)) {
+                if(account.IsValidUser(model.UserName, model.Password)) {
+                    var session = HttpContext.Session;
+                    session["UserName"] = model.UserName;
                     return Redirect(returnUrl ?? "/");
                 }
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -52,6 +57,7 @@ namespace ERestaurant.Controllers {
 
         [AllowAnonymous]
         public ActionResult CreateUser() {
+
             return View();
         }
 
