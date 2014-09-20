@@ -12,8 +12,7 @@ using ERestaurant.DataRepositories;
 namespace ERestaurant.Controllers {
 
     
-    [Authorize]
-    [InitializeSimpleMembership]
+  
     public class AccountController : Controller {
 
         public AccountRepositories account = new AccountRepositories();
@@ -52,6 +51,10 @@ namespace ERestaurant.Controllers {
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult CreateRole()
+        {
+            return View();
+        }
         //
         // GET: /Account/Register
 
