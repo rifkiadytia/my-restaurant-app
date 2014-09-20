@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RestaurantInsight" Class="RestaurantDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=PHAMTHAI-PC;Initial Catalog=RestaurantInsight;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RestaurantInsightConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.FoodCategoryMaster" Member="FoodCategoryMasters">
+    <Type Name="FoodCategoryMaster">
+      <Column Name="FoodCatID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FoodCatName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="FoodCategoryMaster_FoodMaster" Member="FoodMasters" ThisKey="FoodCatID" OtherKey="FoodCatID" Type="FoodMaster" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserRole" Member="UserRoles">
+    <Type Name="UserRole">
+      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="Role_UserRole" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+      <Association Name="UserInfo_UserRole" Member="UserInfo" ThisKey="UserID" OtherKey="ID" Type="UserInfo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FoodMaster" Member="FoodMasters">
+    <Type Name="FoodMaster">
+      <Column Name="FoodID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FoodName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FoodDescription" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FoodCatID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FinishingTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="FoodMaster_OrderDetail" Member="OrderDetails" ThisKey="FoodID" OtherKey="FoodID" Type="OrderDetail" />
+      <Association Name="FoodCategoryMaster_FoodMaster" Member="FoodCategoryMaster" ThisKey="FoodCatID" OtherKey="FoodCatID" Type="FoodCategoryMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderDetails" Member="OrderDetails">
+    <Type Name="OrderDetail">
+      <Column Name="OrderID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FoodID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="FoodMaster_OrderDetail" Member="FoodMaster" ThisKey="FoodID" OtherKey="FoodID" Type="FoodMaster" IsForeignKey="true" />
+      <Association Name="OrderMaster_OrderDetail" Member="OrderMaster" ThisKey="OrderID" OtherKey="OrderID" Type="OrderMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderMaster" Member="OrderMasters">
+    <Type Name="OrderMaster">
+      <Column Name="OrderID" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="OrderTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TableID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="OrderMaster_OrderDetail" Member="OrderDetails" ThisKey="OrderID" OtherKey="OrderID" Type="OrderDetail" />
+      <Association Name="TableMaster_OrderMaster" Member="TableMaster" ThisKey="TableID" OtherKey="TableID" Type="TableMaster" IsForeignKey="true" />
+      <Association Name="UserInfo_OrderMaster" Member="UserInfo" ThisKey="UserID" OtherKey="ID" Type="UserInfo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrgChart" Member="OrgCharts">
+    <Type Name="OrgChart">
+      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ParentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ReportingTo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permission" Member="Permissions">
+    <Type Name="Permission">
+      <Column Name="PermissionID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PermissionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PermissionDescription" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Permission_PermissionRole" Member="PermissionRoles" ThisKey="PermissionID" OtherKey="PermissionID" Type="PermissionRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PermissionRole" Member="PermissionRoles">
+    <Type Name="PermissionRole">
+      <Column Name="PermissionID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="Permission_PermissionRole" Member="Permission" ThisKey="PermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" />
+      <Association Name="Role_PermissionRole" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PositionMaster" Member="PositionMasters">
+    <Type Name="PositionMaster">
+      <Column Name="PositionID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PositionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PositionLevel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="PositionMaster_UserInfo" Member="UserInfos" ThisKey="PositionID" OtherKey="PositionID" Type="UserInfo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="RoleID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="RoleDescription" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Role_UserRole" Member="UserRoles" ThisKey="RoleID" OtherKey="RoleID" Type="UserRole" />
+      <Association Name="Role_PermissionRole" Member="PermissionRoles" ThisKey="RoleID" OtherKey="RoleID" Type="PermissionRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SessionMaster" Member="SessionMasters">
+    <Type Name="SessionMaster">
+      <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SessionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SessionLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SessionBelongto" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="SessionMaster_TableMaster" Member="TableMasters" ThisKey="SessionID" OtherKey="SessionID" Type="TableMaster" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SessionStructure" Member="SessionStructures">
+    <Type Name="SessionStructure">
+      <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="SessionParent" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="SessionBelongTo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TableMaster" Member="TableMasters">
+    <Type Name="TableMaster">
+      <Column Name="TableID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TableName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="TableMaster_OrderMaster" Member="OrderMasters" ThisKey="TableID" OtherKey="TableID" Type="OrderMaster" />
+      <Association Name="SessionMaster_TableMaster" Member="SessionMaster" ThisKey="SessionID" OtherKey="SessionID" Type="SessionMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserInfo" Member="UserInfos">
+    <Type Name="UserInfo">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Usercode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DOB" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PositionID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ReportingTo" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="UserInfo_UserRole" Member="UserRoles" ThisKey="ID" OtherKey="UserID" Type="UserRole" />
+      <Association Name="UserInfo_OrderMaster" Member="OrderMasters" ThisKey="ID" OtherKey="UserID" Type="OrderMaster" />
+      <Association Name="PositionMaster_UserInfo" Member="PositionMaster" ThisKey="PositionID" OtherKey="PositionID" Type="PositionMaster" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

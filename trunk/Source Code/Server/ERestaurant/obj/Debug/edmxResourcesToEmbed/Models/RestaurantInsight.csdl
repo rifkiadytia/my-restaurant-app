@@ -43,6 +43,24 @@
       <End Role="Role" EntitySet="Roles" />
       <End Role="UserInfo" EntitySet="UserInfoes" />
     </AssociationSet>
+    <EntitySet Name="OrderMasters" EntityType="RestaurantInsightModel.OrderMaster" />
+    <EntitySet Name="TableMasters" EntityType="RestaurantInsightModel.TableMaster" />
+    <AssociationSet Name="FK_FoodMaster_FoodCat" Association="RestaurantInsightModel.FK_FoodMaster_FoodCat">
+      <End Role="FoodCategoryMaster" EntitySet="FoodCategoryMasters" />
+      <End Role="FoodMaster" EntitySet="FoodMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderMaster_Table" Association="RestaurantInsightModel.FK_OrderMaster_Table">
+      <End Role="TableMaster" EntitySet="TableMasters" />
+      <End Role="OrderMaster" EntitySet="OrderMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderMaster_User" Association="RestaurantInsightModel.FK_OrderMaster_User">
+      <End Role="UserInfo" EntitySet="UserInfoes" />
+      <End Role="OrderMaster" EntitySet="OrderMasters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TableMaster_Session" Association="RestaurantInsightModel.FK_TableMaster_Session">
+      <End Role="SessionMaster" EntitySet="SessionMasters" />
+      <End Role="TableMaster" EntitySet="TableMasters" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="FoodCategoryMaster">
     <Key>
@@ -51,6 +69,7 @@
     <Property Name="FoodCatID" Type="Int64" Nullable="false" />
     <Property Name="FoodCatName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_FoodCat" FromRole="FoodCategoryMaster" ToRole="OrderDetails" />
+    <NavigationProperty Name="FoodMasters" Relationship="RestaurantInsightModel.FK_FoodMaster_FoodCat" FromRole="FoodCategoryMaster" ToRole="FoodMaster" />
   </EntityType>
   <EntityType Name="FoodMaster">
     <Key>
@@ -64,6 +83,7 @@
     <Property Name="FoodCatID" Type="Int64" Nullable="false" />
     <Property Name="FinishingTime" Type="Int32" Nullable="false" />
     <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_Food" FromRole="FoodMaster" ToRole="OrderDetails" />
+    <NavigationProperty Name="FoodCategoryMaster" Relationship="RestaurantInsightModel.FK_FoodMaster_FoodCat" FromRole="FoodMaster" ToRole="FoodCategoryMaster" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
@@ -130,6 +150,7 @@
     <Property Name="SessionLevel" Type="Int32" />
     <Property Name="SessionBelongto" Type="Int64" />
     <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_Session" FromRole="SessionMaster" ToRole="OrderDetails" />
+    <NavigationProperty Name="TableMasters" Relationship="RestaurantInsightModel.FK_TableMaster_Session" FromRole="SessionMaster" ToRole="TableMaster" />
   </EntityType>
   <EntityType Name="SessionStructure">
     <Key>
@@ -157,6 +178,7 @@
     <NavigationProperty Name="OrderDetails" Relationship="RestaurantInsightModel.FK_OrderDetails_User" FromRole="UserInfo" ToRole="OrderDetails" />
     <NavigationProperty Name="PositionMaster" Relationship="RestaurantInsightModel.FK_UserInfo_Position" FromRole="UserInfo" ToRole="PositionMaster" />
     <NavigationProperty Name="Roles" Relationship="RestaurantInsightModel.UserRole" FromRole="UserInfo" ToRole="Role" />
+    <NavigationProperty Name="OrderMasters" Relationship="RestaurantInsightModel.FK_OrderMaster_User" FromRole="UserInfo" ToRole="OrderMaster" />
   </EntityType>
   <Association Name="FK_OrderDetails_FoodCat">
     <End Role="FoodCategoryMaster" Type="RestaurantInsightModel.FoodCategoryMaster" Multiplicity="1" />
@@ -237,5 +259,75 @@
   <Association Name="UserRole">
     <End Role="Role" Type="RestaurantInsightModel.Role" Multiplicity="*" />
     <End Role="UserInfo" Type="RestaurantInsightModel.UserInfo" Multiplicity="*" />
+  </Association>
+  <EntityType Name="OrderMaster">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Type="String" Name="OrderID" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Type="Int64" Name="UserID" Nullable="false" />
+    <Property Type="DateTime" Name="OrderTime" Nullable="false" Precision="3" />
+    <Property Type="Int64" Name="TableID" Nullable="false" />
+    <NavigationProperty Name="TableMaster" Relationship="RestaurantInsightModel.FK_OrderMaster_Table" FromRole="OrderMaster" ToRole="TableMaster" />
+    <NavigationProperty Name="UserInfo" Relationship="RestaurantInsightModel.FK_OrderMaster_User" FromRole="OrderMaster" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="TableMaster">
+    <Key>
+      <PropertyRef Name="TableID" />
+    </Key>
+    <Property Type="Int64" Name="TableID" Nullable="false" />
+    <Property Type="String" Name="TableName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int64" Name="SessionID" Nullable="false" />
+    <NavigationProperty Name="OrderMasters" Relationship="RestaurantInsightModel.FK_OrderMaster_Table" FromRole="TableMaster" ToRole="OrderMaster" />
+    <NavigationProperty Name="SessionMaster" Relationship="RestaurantInsightModel.FK_TableMaster_Session" FromRole="TableMaster" ToRole="SessionMaster" />
+  </EntityType>
+  <Association Name="FK_FoodMaster_FoodCat">
+    <End Type="RestaurantInsightModel.FoodCategoryMaster" Role="FoodCategoryMaster" Multiplicity="1" />
+    <End Type="RestaurantInsightModel.FoodMaster" Role="FoodMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodCategoryMaster">
+        <PropertyRef Name="FoodCatID" />
+      </Principal>
+      <Dependent Role="FoodMaster">
+        <PropertyRef Name="FoodCatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderMaster_Table">
+    <End Type="RestaurantInsightModel.TableMaster" Role="TableMaster" Multiplicity="1" />
+    <End Type="RestaurantInsightModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableMaster">
+        <PropertyRef Name="TableID" />
+      </Principal>
+      <Dependent Role="OrderMaster">
+        <PropertyRef Name="TableID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderMaster_User">
+    <End Type="RestaurantInsightModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+    <End Type="RestaurantInsightModel.OrderMaster" Role="OrderMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderMaster">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TableMaster_Session">
+    <End Type="RestaurantInsightModel.SessionMaster" Role="SessionMaster" Multiplicity="1" />
+    <End Type="RestaurantInsightModel.TableMaster" Role="TableMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SessionMaster">
+        <PropertyRef Name="SessionID" />
+      </Principal>
+      <Dependent Role="TableMaster">
+        <PropertyRef Name="SessionID" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>
