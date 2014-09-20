@@ -1,0 +1,37 @@
+z@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }
+@model ERestaurant.Models.Role
+
+<div class="accountHeader">
+    <h2>
+        Create a New Role</h2>
+    <p>Use the form below to create a new Role.</p>
+    </div>
+
+@using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+     @Html.DevExpress().Label(settings => {
+        settings.Name = "RoleNameLabel";
+        settings.Text = "Role Name";
+        settings.AssociatedControlName = "RoleName";
+    }).GetHtml()
+    <div class="form-field">
+        @Html.EditorFor(m => m.RoleName)
+        @Html.ValidationMessageFor(m => m.RoleName)
+    </div>
+
+   @Html.DevExpress().Label(settings => {
+        settings.Name = "RoleDescriptionLabel";
+        settings.Text = "Role Description";
+        settings.AssociatedControlName = "RoleDescription";
+    }).GetHtml()
+    <div class="form-field">
+        @Html.TextAreaFor(m => m.RoleDescription)
+        @Html.ValidationMessageFor(m => m.RoleDescription)
+    </div>
+
+    @Html.DevExpress().Button(settings => {
+        settings.Name = "CreateRoleButton";
+        settings.Text = "CreateRole";
+        settings.UseSubmitBehavior = true;
+     }).GetHtml()
+}
