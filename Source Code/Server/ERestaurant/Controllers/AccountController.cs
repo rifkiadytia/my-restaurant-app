@@ -9,17 +9,23 @@ using WebMatrix.WebData;
 using ERestaurant.Filters;
 using ERestaurant.Models;
 using ERestaurant.DataRepositories;
-namespace ERestaurant.Controllers {
+using DevExpress.Web.ASPxUploadControl;
+using DevExpress.Web.Mvc;
+using ERestaurant.Util;
+namespace ERestaurant.Controllers
+{
 
-    
-  
-    public class AccountController : Controller {
+
+
+    public class AccountController : Controller
+    {
 
         public AccountRepositories account = new AccountRepositories();
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login() {
+        public ActionResult Login()
+        {
             return View();
         }
 
@@ -29,9 +35,12 @@ namespace ERestaurant.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl) {
-            if(ModelState.IsValid) {
-                if(account.IsValidUser(model.UserName, model.Password)) {
+        public ActionResult Login(LoginModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (account.IsValidUser(model.UserName, model.Password))
+                {
                     var session = HttpContext.Session;
                     session["UserName"] = model.UserName;
                     return Redirect(returnUrl ?? "/");
@@ -46,16 +55,62 @@ namespace ERestaurant.Controllers {
         //
         // GET: /Account/LogOff
 
-        public ActionResult LogOff() {
+        public ActionResult LogOff()
+        {
             WebSecurity.Logout();
             return RedirectToAction("Index", "Home");
         }
-
+        public ActionResult ManageRole()
+        {
+            IEnumerable<Role> role = account.GetAllRole();
+            return View(role);
+        }
         public ActionResult CreateRole()
         {
             return View();
         }
 
+        public ActionResult EditRole(int id)
+        {
+            Role role = account.GetRoleById(id);
+            return View(role);
+        }
+        [HttpPost]
+        public ActionResult EditRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isUpdateSc = account.UpdateRole(role);
+                if (isUpdateSc)
+                {
+                    ViewBag.Message = "Role update successfully";
+                    return View(role);
+                }
+                else
+                {
+                    ViewBag.Message = "Error while update role ";
+                }
+            }
+            return View(role);
+        }
+        [HttpPost]
+        public ActionResult CreateRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isCreateSc = account.CreateRole(role);
+                if (isCreateSc)
+                {
+                    ViewBag.Message = "Role create successfully ";
+                    return View(role);
+                }
+                else
+                {
+                    ViewBag.Message = "Error while create role ";
+                }
+            }
+            return View(role);
+        }
         public ActionResult EditUser()
         {
             return View();
@@ -64,39 +119,56 @@ namespace ERestaurant.Controllers {
         // GET: /Account/Register
 
         [AllowAnonymous]
-        public ActionResult CreateUser() {
-
+        public ActionResult Register()
+        {
+            RenderCombo();
             return View();
         }
-
+        private void RenderCombo()
+        {
+            ViewBag.AllPosition = account.GetAllPosition();
+            List<Gender> allGender = new List<Gender>();
+            Gender gender = new Gender();
+            gender.GenderValue = false;
+            gender.GenderName = "Male";
+            allGender.Add(gender);
+            gender = new Gender();
+            gender.GenderValue = false;
+            gender.GenderName = "Female";
+            allGender.Add(gender);
+            ViewBag.AllGender = allGender;
+        }
         //
         // POST: /Account/Register
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUser(RegisterModel model)
+        public ActionResult Register(RegisterModel model)
         {
-            if(ModelState.IsValid) {
+            RenderCombo();
+            if (ModelState.IsValid)
+            {
                 // Attempt to register the user
-                            try {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                bool isCreateSc = account.CreateUser(model);
+                if (isCreateSc)
+                {
+                    ViewBag.Message = "Create user successfully";
+                    return View(model);
                 }
-                catch(MembershipCreateUserException e) {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                else
+                {
+                    ViewBag.Message = "Error while create user";
                 }
-                        }
-
-            // If we got this far, something failed, redisplay form
+            }
             return View(model);
         }
-
+        
         //
         // GET: /Account/ChangePassword
 
-        public ActionResult ChangePassword() {
+        public ActionResult ChangePassword()
+        {
             return View();
         }
 
@@ -105,22 +177,28 @@ namespace ERestaurant.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(ChangePasswordModel model) {
-            if(ModelState.IsValid) {
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
                 bool changePasswordSucceeded;
-                try {
+                try
+                {
                     changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
                 }
-                catch(Exception) {
+                catch (Exception)
+                {
                     changePasswordSucceeded = false;
                 }
-                if(changePasswordSucceeded) {
+                if (changePasswordSucceeded)
+                {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
-                else {
+                else
+                {
                     ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
                 }
-                
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -130,15 +208,18 @@ namespace ERestaurant.Controllers {
         //
         // GET: /Account/ChangePasswordSuccess
 
-        public ActionResult ChangePasswordSuccess() {
+        public ActionResult ChangePasswordSuccess()
+        {
             return View();
         }
 
         #region Status Codes
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus) {
+        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
-            switch(createStatus) {
+            switch (createStatus)
+            {
                 case MembershipCreateStatus.DuplicateUserName:
                     return "User name already exists. Please enter a different user name.";
 

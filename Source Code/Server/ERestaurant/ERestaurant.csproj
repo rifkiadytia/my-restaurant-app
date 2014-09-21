@@ -199,6 +199,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\globalize.cultures.js" />
     <Content Include="Scripts\globalize.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
@@ -217,6 +218,7 @@
       <LastGenOutput>Restaurant.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
@@ -241,7 +243,7 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\CreateUser.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\ContentLeftPartialView.cshtml" />
     <Content Include="Views\Shared\FooterPartialView.cshtml" />
     <Content Include="Views\Shared\HeaderPartialView.cshtml" />
@@ -252,6 +254,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\GridViewPartialView.cshtml" />
+    <Content Include="Views\Account\CreateRole.cshtml" />
+    <Content Include="Views\Account\ManageRole.cshtml" />
+    <Content Include="Views\Account\EditRole.cshtml" />
+    <Content Include="Views\Account\SearchUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -273,19 +279,29 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\FoodCatModel.cs" />
+    <Compile Include="Models\FoodModel.cs" />
     <Compile Include="Models\Northwind.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Northwind.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\NorthwindDataProvider.cs" />
+    <Compile Include="Models\PositionModel.cs" />
     <Compile Include="Models\Restaurant.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Restaurant.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\SessionModel.cs" />
+    <Compile Include="Models\TableModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CommonDemoHelper .cs" />
+    <Compile Include="Util\GenerateCode.cs" />
+    <Compile Include="Util\PhotoUtils.cs" />
+    <Compile Include="Util\UploadControlHelper.cs" />
+    <Compile Include="Util\UploadingUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Northwind.dbml.layout">
@@ -297,6 +313,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Upload\images\" />
     <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>

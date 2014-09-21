@@ -1,4 +1,4 @@
-z@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }
+@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }
 @model ERestaurant.Models.Role
 
 <div class="accountHeader">
@@ -9,6 +9,8 @@ z@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }
 
 @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
+    <label>@ViewBag.Message</label>
+    
      @Html.DevExpress().Label(settings => {
         settings.Name = "RoleNameLabel";
         settings.Text = "Role Name";
