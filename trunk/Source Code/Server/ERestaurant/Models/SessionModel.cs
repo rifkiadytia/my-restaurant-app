@@ -10,7 +10,7 @@ using System.Web.Security;
 namespace ERestaurant.Models
 {
     [MetadataType(typeof(SessionMetadata))]
-    public partial class Role
+    public partial class Session
     {
         public class SessionMetadata
         {

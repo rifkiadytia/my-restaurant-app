@@ -16,6 +16,7 @@ namespace ERestaurant.Models
         {
             [Required]
             public string RoleName { get; set; }
+            public string RoleDescription { get; set; }
         }
     }
 

@@ -1,0 +1,61 @@
+@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }
+@model ERestaurant.Models.RegisterModel
+@using ERestaurant.Util;
+<div class="accountHeader">
+    <h2>Create a New Account</h2>
+    <p>Use the form below to create a new account.</p>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <label>@ViewBag.Message</label>
+    <div class="line">
+        @Html.DevExpress().LabelFor(model => model.UserName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.UserName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+    </div>
+    <div class="line">
+        @Html.DevExpress().LabelFor(model => model.DOB, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().DateEditFor(model => model.DOB, CommonDemoHelper.DateEditSettingsMethod).GetHtml()
+    </div>
+    <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Gender, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().RadioButtonListFor(
+        model => model.Gender,
+        settings =>
+        {
+            settings.Name = "radioButtonList1";
+            settings.Properties.ValueField = "GenderValue";
+            settings.Properties.TextField = "GenderName";
+        }).BindList(ViewBag.AllGender).GetHtml()
+    </div>
+    <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Position, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().ComboBoxFor(
+        model => model.Position,
+        settings =>
+        {
+            settings.Name = "Position";
+            settings.Width = Unit.Pixel(250);
+            settings.ShowModelErrors = true;
+            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settings.ControlStyle.CssClass = "editor";
+            settings.Properties.TextField = "PositionName";
+            settings.Properties.ValueField = "PositionID";
+            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+        }
+    ).BindList(ViewBag.AllPosition).GetHtml()
+    </div>
+   <div>
+        @Html.DevExpress().LabelFor(model => model.Image, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.TextBoxFor(model=>model.Image, new{@type="file"})
+    </div>
+   
+    @Html.DevExpress().Button(settings =>
+{
+    settings.Name = "Button";
+    settings.Text = "Register";
+    settings.UseSubmitBehavior = true;
+}).GetHtml()
+}

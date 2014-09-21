@@ -60,33 +60,28 @@ namespace ERestaurant.Models {
     }
 
     public class RegisterModel {
+        public int UserId { get; set; }
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
-
+        public string PositionName { get; set; }
         public string FullName { get; set; }
+        public string Address { get; set; }
         public string Mobile { get; set; }
         public string Image { get; set; }
-        public DateTime DOB { get; set; }
-        public int Position { get; set; }
+        public DateTime? DOB { get; set; }
+        [Required]
+        public long Position { get; set; }
         public int ReportingTo { get; set; }
+        [Required]
         public bool Gender { get; set; }
-        [Required]
-        [RegularExpression("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", ErrorMessage = "Please enter a valid email address.")]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email address")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+       
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+       
     }
-    
+    public class Gender
+    {
+        public bool GenderValue { get; set; }
+        public string GenderName { get; set; }
+    }
 }
