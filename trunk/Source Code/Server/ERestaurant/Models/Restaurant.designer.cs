@@ -1791,6 +1791,8 @@ namespace ERestaurant.Models
 		
 		private long _ReportingTo;
 		
+		private System.Nullable<bool> _IsFirstTime;
+		
 		private EntitySet<OrderMaster> _OrderMasters;
 		
 		private EntityRef<PositionMaster> _PositionMaster;
@@ -1821,6 +1823,8 @@ namespace ERestaurant.Models
     partial void OnPositionIDChanged();
     partial void OnReportingToChanging(long value);
     partial void OnReportingToChanged();
+    partial void OnIsFirstTimeChanging(System.Nullable<bool> value);
+    partial void OnIsFirstTimeChanged();
     #endregion
 		
 		public UserInfo()
@@ -2054,6 +2058,26 @@ namespace ERestaurant.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFirstTime", DbType="Bit")]
+		public System.Nullable<bool> IsFirstTime
+		{
+			get
+			{
+				return this._IsFirstTime;
+			}
+			set
+			{
+				if ((this._IsFirstTime != value))
+				{
+					this.OnIsFirstTimeChanging(value);
+					this.SendPropertyChanging();
+					this._IsFirstTime = value;
+					this.SendPropertyChanged("IsFirstTime");
+					this.OnIsFirstTimeChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserInfo_OrderMaster", Storage="_OrderMasters", ThisKey="ID", OtherKey="UserID")]
 		public EntitySet<OrderMaster> OrderMasters
 		{
@@ -2067,7 +2091,7 @@ namespace ERestaurant.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PositionMaster_UserInfo", Storage="_PositionMaster", ThisKey="PositionID", OtherKey="PositionID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PositionMaster_UserInfo", Storage="_PositionMaster", ThisKey="PositionID", OtherKey="PositionID", IsForeignKey=true, DeleteRule="CASCADE")]
 		public PositionMaster PositionMaster
 		{
 			get

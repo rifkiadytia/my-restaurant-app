@@ -1,9 +1,11 @@
+using ERestaurant.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -24,6 +26,10 @@ namespace ERestaurant.Models {
     
 
     public class ChangePasswordModel {
+        [Required]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -70,6 +76,9 @@ namespace ERestaurant.Models {
         public string Mobile { get; set; }
         public string Image { get; set; }
         public DateTime? DOB { get; set; }
+        [Display(Name = "Image Name")]
+        [ValidateFile(2, ErrorMessage = "Please select a {0} image smaller than {1}MB", Extensions = "jpg|png|gif|jpeg")]
+        public HttpPostedFileBase Avatar { get; set; }
         [Required]
         public long Position { get; set; }
         public int ReportingTo { get; set; }
