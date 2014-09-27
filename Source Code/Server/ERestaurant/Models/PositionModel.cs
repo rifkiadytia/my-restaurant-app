@@ -10,15 +10,13 @@ using System.Web.Security;
 namespace ERestaurant.Models
 {
     [MetadataType(typeof(PositionMetadata))]
-    public partial class Position
+    public partial class PositionMaster
     {
         public class PositionMetadata
         {
-            [Required]
-            public string positionname { get; set; }
-
-            [Required]
-            public int positionlevel { get; set; }
+            public long PositionID { get; set; }
+            public string PositionName { get; set; }
+            public int PositionLevel { get; set; }
         }
     }
 }

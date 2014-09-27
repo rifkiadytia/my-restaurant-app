@@ -12,6 +12,13 @@ using ERestaurant.DataRepositories;
 using DevExpress.Web.ASPxUploadControl;
 using DevExpress.Web.Mvc;
 using ERestaurant.Util;
+using System.IO;
+using ERestaurant.Customize;
+using DevExpress.Data;
+using DevExpress.Web.ASPxGridView;
+using System.Web.SessionState;
+using ERestaurant.Dataservice;
+
 namespace ERestaurant.Controllers
 {
 
@@ -149,7 +156,15 @@ namespace ERestaurant.Controllers
             RenderCombo();
             if (ModelState.IsValid)
             {
+
                 // Attempt to register the user
+                String strName = UploadFileUtil.CreateNewName(Path.GetExtension(model.Avatar.FileName));
+                String strPath = Path.Combine(Server.MapPath("/Upload/images"), strName);
+                String strPathThumb = Path.Combine(Server.MapPath("/Upload/images/thumb"), strName);
+                ImageUtil.GetInstance.CompressImageUpload(model.Avatar, strPath);
+                ////Create thumbnail
+                ImageUtil.GetInstance.CreateThumbnail(model.Avatar, strPathThumb, 150, 150);
+                model.Image = strName;
                 bool isCreateSc = account.CreateUser(model);
                 if (isCreateSc)
                 {
@@ -163,7 +178,43 @@ namespace ERestaurant.Controllers
             }
             return View(model);
         }
-        
+        public ActionResult EditUserInfo(long id)
+        {
+            RenderCombo();
+            RegisterModel model = account.GetUserById(id);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult EditUserInfo(RegisterModel model)
+        {
+            RenderCombo();
+            if (ModelState.IsValid)
+            {
+
+                // Attempt to register the user
+                if (model.Avatar != null)
+                {
+                    String strName = UploadFileUtil.CreateNewName(Path.GetExtension(model.Avatar.FileName));
+                    String strPath = Path.Combine(Server.MapPath("/Upload/images"), strName);
+                    String strPathThumb = Path.Combine(Server.MapPath("/Upload/images/thumb"), strName);
+                    ImageUtil.GetInstance.CompressImageUpload(model.Avatar, strPath);
+                    ////Create thumbnail
+                    ImageUtil.GetInstance.CreateThumbnail(model.Avatar, strPathThumb, 150, 150);
+                    model.Image = strName;
+                }
+                bool isCreateSc = account.UpdateUser(model);
+                if (isCreateSc)
+                {
+                    ViewBag.Message = "User info update successfully";
+                    return View(model);
+                }
+                else
+                {
+                    ViewBag.Message = "Error while update user info";
+                }
+            }
+            return View(model);
+        }
         //
         // GET: /Account/ChangePassword
 
@@ -181,28 +232,18 @@ namespace ERestaurant.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool changePasswordSucceeded;
-                try
+                bool isChangePwdSc = account.ChangePassword(model);
+                if (!isChangePwdSc)
                 {
-                    changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
-                if (changePasswordSucceeded)
-                {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    ModelState.AddModelError("", "Error occur in change password");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                    return RedirectToAction("ChangePasswordSuccess");
                 }
-
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
+            // If we got this far, something failed, redisplay form
         }
 
         //
@@ -256,9 +297,161 @@ namespace ERestaurant.Controllers
         //User manager
         public ActionResult SearchUser()
         {
-            return View();
+            return View("SearchUser");
+        }
+        public ActionResult SearchUserPartial()
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelWithSummary();
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        // Paging
+        public ActionResult AdvancedCustomBindingPagingAction(GridViewPagerState pager)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyPagingState(pager);
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        // Filtering
+        public ActionResult AdvancedCustomBindingFilteringAction(GridViewFilteringState filteringState)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyFilteringState(filteringState);
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        // Sorting
+        public ActionResult AdvancedCustomBindingSortingAction(GridViewColumnState column, bool reset)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplySortingState(column, reset);
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        // Grouping
+        public ActionResult AdvancedCustomBindingGroupingAction(GridViewColumnState column)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyGroupingState(column);
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        PartialViewResult AdvancedCustomBindingCore(GridViewModel viewModel)
+        {
+            viewModel.ProcessCustomBinding(
+                GridViewCustomBindingHandlers.GetDataRowCountAdvanced,
+                GridViewCustomBindingHandlers.GetDataAdvanced,
+                GridViewCustomBindingHandlers.GetSummaryValuesAdvanced,
+                GridViewCustomBindingHandlers.GetGroupingInfoAdvanced,
+                GridViewCustomBindingHandlers.GetUniqueHeaderFilterValuesAdvanced
+            );
+            return PartialView("SearchUserPartial", viewModel);
+        }
+        static GridViewModel CreateGridViewModelWithSummary()
+        {
+            var viewModel = new GridViewModel();
+            viewModel.KeyFieldName = "ID";
+            viewModel.Columns.Add("Username");
+            viewModel.Columns.Add("DOB");
+            viewModel.Columns.Add("Position");
+            viewModel.Columns.Add("Mobile");
+            viewModel.Columns.Add("Address");
+            viewModel.Columns.Add("Gender");
+            return viewModel;
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult UserDeletePartial(int ID)
+        {
+            if (ID >= 0)
+            {
+                bool isDeleteSc = account.DeleteUser(ID);
+                if (!isDeleteSc)
+                {
+                    ViewBag.ErrMessage = "Error while delete user !";
+                }
+            }
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelWithSummary();
+            return AdvancedCustomBindingCore(viewModel);
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult UserUpdatePartial(UserInfo user)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isUpdateSc = account.UpdateUserInGridModel(user);
+                if (!isUpdateSc)
+                {
+                    ViewBag.ErrMessage = "Error while update user !";
+                }
+            }
+            else
+                ViewBag.ErrMessage = "Please, correct all errors.";
+
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelWithSummary();
+            return AdvancedCustomBindingCore(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult PopupAssignRole(long? ID)
+        {
+            //List< Role > roles = account.GetAllRole();
+            return PartialView("AssignRolePartial");
+        }
+        [HttpPost]
+        public ActionResult PopupAssignRoleAction(List<Role> model)
+        {
+            List<Role> roles = account.GetAllRole();
+            return PartialView("AssignRolePartial", roles);
+        }
+        public  List<SelectListItem> GenerateRoleModel()
+        {
+            IEnumerable<Role> roles = account.GetAllRole();
+            List<SelectListItem> selectRoleItem = new List<SelectListItem>();
+            foreach (var item in roles)
+            {
+                var selectItem = new SelectListItem() { Value = item.RoleID.ToString(), Text = item.RoleName.ToString() };
+                selectRoleItem.Add(selectItem);
+            }
+            return selectRoleItem;
+        }
+    }
+    public class GridViewEditingDemosHelper
+    {
+        const string
+            EditingModeSessionKey = "AA054892-1B4C-4158-96F7-894E1545C05C";
 
+        public static GridViewEditingMode EditMode
+        {
+            get
+            {
+                if (Session[EditingModeSessionKey] == null)
+                    Session[EditingModeSessionKey] = GridViewEditingMode.EditFormAndDisplayRow;
+                return (GridViewEditingMode)Session[EditingModeSessionKey];
+            }
+            set { HttpContext.Current.Session[EditingModeSessionKey] = value; }
+        }
+        protected static HttpSessionState Session { get { return HttpContext.Current.Session; } }
+    }
+    public class GridViewSelectionDemoHelper
+    {
+        const string SelectAllModeSessionKey = "4C0A9E6A-5D76-48F9-9086-CD5E9D481928";
+
+        public static GridViewSelectAllCheckBoxMode SelectAllButtonMode
+        {
+            get
+            {
+                if (Session[SelectAllModeSessionKey] == null)
+                    Session[SelectAllModeSessionKey] = GridViewSelectAllCheckBoxMode.Page;
+                return (GridViewSelectAllCheckBoxMode)Session[SelectAllModeSessionKey];
+            }
+            set
+            {
+                Session[SelectAllModeSessionKey] = value;
+            }
+        }
+
+        static HttpSessionState Session { get { return HttpContext.Current.Session; } }
     }
 }

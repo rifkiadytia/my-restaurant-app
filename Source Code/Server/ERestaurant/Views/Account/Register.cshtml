@@ -6,7 +6,7 @@
     <p>Use the form below to create a new account.</p>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <label>@ViewBag.Message</label>
@@ -47,9 +47,10 @@
         }
     ).BindList(ViewBag.AllPosition).GetHtml()
     </div>
-   <div>
-        @Html.DevExpress().LabelFor(model => model.Image, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.TextBoxFor(model=>model.Image, new{@type="file"})
+  <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Avatar, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.TextBoxFor(model=>model.Avatar, new{@type="file"})
+        @Html.ValidationMessageFor(model=>model.Avatar)
     </div>
    
     @Html.DevExpress().Button(settings =>

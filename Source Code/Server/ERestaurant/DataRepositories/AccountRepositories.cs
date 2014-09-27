@@ -11,15 +11,16 @@ namespace ERestaurant.DataRepositories
     {
         private static RestaurantDataContext dataContext = Dataservice.DataConnection.Instance;
 
-        public IEnumerable<Role> GetAllRole()
+        public List<Role> GetAllRole()
         {
-            return dataContext.Roles.ToList();
+            return dataContext.Roles.ToList<Role>();
         }
         public Role GetRoleById(int id)
         {
             Role role = dataContext.Roles.Where(x => x.RoleID == id).FirstOrDefault();
             return role;
         }
+
         public bool CreateRole(Role role)
         {
             try
@@ -66,6 +67,7 @@ namespace ERestaurant.DataRepositories
                 userInfo.Usercode = GenerateCode.GenerateUserCode(model.Position);
                 userInfo.Username = model.UserName;
                 userInfo.Password = "123456789";
+                userInfo.IsFirstTime = true;
                 userInfo.DOB = model.DOB;
                 userInfo.Mobile = model.Mobile;
                 userInfo.PositionID = model.Position;
@@ -81,6 +83,7 @@ namespace ERestaurant.DataRepositories
                 return false;
             }
         }
+        
         public bool UpdateUser(RegisterModel model)
         {
             try
@@ -101,6 +104,55 @@ namespace ERestaurant.DataRepositories
                 return false;
             }
         }
+        public bool UpdateUserInGridModel(UserInfo model)
+        {
+            try
+            {
+                UserInfo userInfo = dataContext.UserInfos.Where(x => x.Username == model.Username).SingleOrDefault();
+                userInfo.DOB = model.DOB;
+                userInfo.Mobile = model.Mobile;
+                //harcode
+                userInfo.PositionID = model.PositionID.Value;
+                userInfo.Image = model.Image;
+                userInfo.Gender = model.Gender;
+                userInfo.Address = model.Address;
+                userInfo.ReportingTo = 0;
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+        public RegisterModel GetUserById(long id)
+        {
+            RegisterModel model = dataContext.UserInfos.Where(x =>x.ID == id).Select(x => new RegisterModel
+            {
+                DOB = x.DOB,
+                UserName  =x.Username,
+                Gender  =x.Gender,
+                Position = x.PositionID.Value,
+                Image =x.Image
+
+            }).FirstOrDefault();
+            return model;
+        }
+        public bool DeleteUser(long id)
+        {
+            try
+            {
+                UserInfo user = dataContext.UserInfos.Where(x => x.ID == id).SingleOrDefault();
+                dataContext.UserInfos.DeleteOnSubmit(user);
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public List<PositionMaster> GetAllPosition()
         {
             List<PositionMaster> allPosition = dataContext.PositionMasters.ToList<PositionMaster>();
@@ -161,5 +213,22 @@ namespace ERestaurant.DataRepositories
             }
             return null;
         }
+
+        public bool ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                UserInfo user = dataContext.UserInfos.Where(x => x.Username == model.UserName).SingleOrDefault();
+                user.Password = model.NewPassword;
+                user.IsFirstTime = false;
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }

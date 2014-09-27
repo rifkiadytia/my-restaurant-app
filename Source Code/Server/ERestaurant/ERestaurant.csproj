@@ -197,6 +197,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\JSCustom.js" />
     <Content Include="Scripts\globalize.cultures.js" />
     <Content Include="Scripts\globalize.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -231,10 +232,14 @@
     <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Models\Northwind.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Northwind.designer.cs</LastGenOutput>
@@ -258,6 +263,10 @@
     <Content Include="Views\Account\ManageRole.cshtml" />
     <Content Include="Views\Account\EditRole.cshtml" />
     <Content Include="Views\Account\SearchUser.cshtml" />
+    <Content Include="Views\Account\EditUserInfo.cshtml" />
+    <Content Include="Views\Account\SearchUserPartial.cshtml" />
+    <Content Include="Views\Account\AssignRolePartial.cshtml" />
+    <Content Include="Views\Shared\_popupLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -272,8 +281,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Customize\GridViewCustomBindingHandlers.cs" />
+    <Compile Include="Customize\LargeDatabaseDataProvider.cs" />
     <Compile Include="DataRepositories\AccountRepositories.cs" />
     <Compile Include="Dataservice\DataConnection.cs" />
+    <Compile Include="Dataservice\DataProvider.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -299,9 +311,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CommonDemoHelper .cs" />
     <Compile Include="Util\GenerateCode.cs" />
+    <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\PhotoUtils.cs" />
     <Compile Include="Util\UploadControlHelper.cs" />
+    <Compile Include="Util\UploadFileUtil.cs" />
     <Compile Include="Util\UploadingUtils.cs" />
+    <Compile Include="Util\ValidateFileAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Northwind.dbml.layout">
@@ -313,7 +328,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Upload\images\" />
+    <Folder Include="Scripts\custom\" />
+    <Folder Include="Upload\images\thumb\" />
     <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>

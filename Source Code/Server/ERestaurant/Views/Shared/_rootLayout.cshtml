@@ -4,7 +4,7 @@
 <head>
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-
+    <script src="@Url.Content("~/Scripts/JSCustom.js")" type="text/javascript"></script>
     
     @Html.DevExpress().GetStyleSheets( 
     new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
@@ -30,7 +30,7 @@
     new Script { ExtensionSuite = ExtensionSuite.TreeList },
     new Script { ExtensionSuite = ExtensionSuite.Spreadsheet }
 )
-</head>
+
 <body>
     @Html.DevExpress().Splitter(settings => {
         settings.Name = "MainSplitter";
