@@ -75,6 +75,9 @@
     <Reference Include="DevExpress.XtraReports.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v14.1.Web, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraScheduler.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevOne.Security.Cryptography.BCrypt">
+      <HintPath>..\packages\BCrypt.1.0.0.0\lib\DevOne.Security.Cryptography.BCrypt.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.AspNet">
       <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
@@ -267,6 +270,7 @@
     <Content Include="Views\Account\SearchUserPartial.cshtml" />
     <Content Include="Views\Account\AssignRolePartial.cshtml" />
     <Content Include="Views\Shared\_popupLayout.cshtml" />
+    <Content Include="Views\Account\AssignRole.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -309,6 +313,7 @@
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\AuthorizationUtil.cs" />
     <Compile Include="Util\CommonDemoHelper .cs" />
     <Compile Include="Util\GenerateCode.cs" />
     <Compile Include="Util\ImageUtil.cs" />

@@ -9,10 +9,10 @@
   </Table>
   <Table Name="dbo.UserRole" Member="UserRoles">
     <Type Name="UserRole">
-      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="RoleID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Role_UserRole" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
-      <Association Name="UserInfo_UserRole" Member="UserInfo" ThisKey="UserID" OtherKey="ID" Type="UserInfo" IsForeignKey="true" />
+      <Association Name="UserInfo_UserRole" Member="UserInfo" ThisKey="UserID" OtherKey="ID" Type="UserInfo" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.FoodMaster" Member="FoodMasters">
@@ -123,7 +123,7 @@
       <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="Image" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Mobile" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="PositionID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
       <Column Name="ReportingTo" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="IsFirstTime" Type="System.Boolean" DbType="Bit" CanBeNull="true" />

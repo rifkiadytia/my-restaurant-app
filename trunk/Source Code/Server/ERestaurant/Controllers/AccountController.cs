@@ -158,13 +158,6 @@ namespace ERestaurant.Controllers
             {
 
                 // Attempt to register the user
-                String strName = UploadFileUtil.CreateNewName(Path.GetExtension(model.Avatar.FileName));
-                String strPath = Path.Combine(Server.MapPath("/Upload/images"), strName);
-                String strPathThumb = Path.Combine(Server.MapPath("/Upload/images/thumb"), strName);
-                ImageUtil.GetInstance.CompressImageUpload(model.Avatar, strPath);
-                ////Create thumbnail
-                ImageUtil.GetInstance.CreateThumbnail(model.Avatar, strPathThumb, 150, 150);
-                model.Image = strName;
                 bool isCreateSc = account.CreateUser(model);
                 if (isCreateSc)
                 {
@@ -192,16 +185,7 @@ namespace ERestaurant.Controllers
             {
 
                 // Attempt to register the user
-                if (model.Avatar != null)
-                {
-                    String strName = UploadFileUtil.CreateNewName(Path.GetExtension(model.Avatar.FileName));
-                    String strPath = Path.Combine(Server.MapPath("/Upload/images"), strName);
-                    String strPathThumb = Path.Combine(Server.MapPath("/Upload/images/thumb"), strName);
-                    ImageUtil.GetInstance.CompressImageUpload(model.Avatar, strPath);
-                    ////Create thumbnail
-                    ImageUtil.GetInstance.CreateThumbnail(model.Avatar, strPathThumb, 150, 150);
-                    model.Image = strName;
-                }
+               
                 bool isCreateSc = account.UpdateUser(model);
                 if (isCreateSc)
                 {
@@ -357,7 +341,7 @@ namespace ERestaurant.Controllers
             viewModel.Columns.Add("Gender");
             return viewModel;
         }
-        [HttpPost, ValidateInput(false)]
+        [HttpPost]
         public ActionResult UserDeletePartial(int ID)
         {
             if (ID >= 0)
@@ -373,6 +357,22 @@ namespace ERestaurant.Controllers
                 viewModel = CreateGridViewModelWithSummary();
             return AdvancedCustomBindingCore(viewModel);
         }
+        //Reset user password to default
+        [HttpPost]
+        public JsonResult ResetPassword(long ID)
+        {
+            if (ID >= 0)
+            {
+                string newPass = "123456789";
+                bool resetPasswordSc = account.ResetUserPassword(ID, newPass);
+                if (resetPasswordSc)
+                {
+                    return Json(new { status = "SC.001" },JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { status = "ERR.001" },JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost, ValidateInput(false)]
         public ActionResult UserUpdatePartial(UserInfo user)
         {
@@ -393,29 +393,63 @@ namespace ERestaurant.Controllers
             return AdvancedCustomBindingCore(viewModel);
         }
 
-        [HttpPost]
-        public ActionResult PopupAssignRole(long? ID)
+        [HttpGet]
+        public ActionResult AssignRole(long ID)
         {
-            //List< Role > roles = account.GetAllRole();
-            return PartialView("AssignRolePartial");
+            List<Role> lstRole = account.GetRoleByUser(ID);
+            RegisterModel registerModel = account.GetUserById(ID);
+            RoleModel model = new RoleModel();
+            model.Roles = lstRole;
+            model.UserId = ID;
+            model.UserInfo = registerModel;
+            return View(model);
         }
         [HttpPost]
-        public ActionResult PopupAssignRoleAction(List<Role> model)
+        public ActionResult AssignRole(RoleModel model)
         {
-            List<Role> roles = account.GetAllRole();
-            return PartialView("AssignRolePartial", roles);
-        }
-        public  List<SelectListItem> GenerateRoleModel()
-        {
-            IEnumerable<Role> roles = account.GetAllRole();
-            List<SelectListItem> selectRoleItem = new List<SelectListItem>();
-            foreach (var item in roles)
+
+            //recent role upload
+            List<Role> upRoleAssign = model.Roles.Where(x => x.IsSelected == true).ToList();
+            //role already assign
+            List<Role> roleAssignUser = account.GetRoleAssignByUser(model.UserId);
+
+            if (roleAssignUser != null)
             {
-                var selectItem = new SelectListItem() { Value = item.RoleID.ToString(), Text = item.RoleName.ToString() };
-                selectRoleItem.Add(selectItem);
+                if (upRoleAssign.Count== 0)
+                {
+                    account.RemoveRoleFromUser(roleAssignUser, model.UserId);
+                }
+                else
+                {
+                    if (roleAssignUser.Count > upRoleAssign.Count)
+                    {
+                        List<Role> removeSection = new List<Role>();
+                        foreach (var item in roleAssignUser)
+                        {
+                            bool flg = false;
+                            foreach (var item1 in upRoleAssign)
+                            {
+                                if (item.RoleID == item1.RoleID) { flg = true; }
+                            }
+                            if (!flg)
+                            {
+                                removeSection.Add(item);
+                            }
+                        }
+                        account.RemoveRoleFromUser(removeSection, model.UserId);
+                    }
+                }
             }
-            return selectRoleItem;
+            else
+            {
+                if (upRoleAssign.Count!= 0)
+                {
+                    account.AssignRoleToUser(model.UserId, upRoleAssign);
+                }
+            }
+            return RedirectToAction("SearchUser","Account");
         }
+        
     }
     public class GridViewEditingDemosHelper
     {
@@ -434,24 +468,5 @@ namespace ERestaurant.Controllers
         }
         protected static HttpSessionState Session { get { return HttpContext.Current.Session; } }
     }
-    public class GridViewSelectionDemoHelper
-    {
-        const string SelectAllModeSessionKey = "4C0A9E6A-5D76-48F9-9086-CD5E9D481928";
-
-        public static GridViewSelectAllCheckBoxMode SelectAllButtonMode
-        {
-            get
-            {
-                if (Session[SelectAllModeSessionKey] == null)
-                    Session[SelectAllModeSessionKey] = GridViewSelectAllCheckBoxMode.Page;
-                return (GridViewSelectAllCheckBoxMode)Session[SelectAllModeSessionKey];
-            }
-            set
-            {
-                Session[SelectAllModeSessionKey] = value;
-            }
-        }
-
-        static HttpSessionState Session { get { return HttpContext.Current.Session; } }
-    }
+    
 }
