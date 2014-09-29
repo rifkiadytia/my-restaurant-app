@@ -50,52 +50,93 @@ namespace ERestaurant.DataRepositories
             }
         }
 
-        public bool IsValidUser(string userName, string password)
+        public bool RemoveRoleFromUser(IEnumerable<Role> role, long userID)
         {
-            var query = dataContext.UserInfos.Where(x => x.Username == userName && x.Password == password);
-            if (query.Count() == 0)
+            try
+            {
+                foreach (var item in role)
+                {
+                    UserRole userRole = dataContext.UserRoles.Where(x => x.UserID == userID && x.RoleID == item.RoleID).FirstOrDefault();
+                    dataContext.UserRoles.DeleteOnSubmit(userRole);
+                }
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
             {
                 return false;
             }
-            return true;
+        }
+        public bool IsValidUser(string userName, string password)
+        {
+            var query = dataContext.UserInfos.Where(x => x.Username == userName);
+            if (query.Count() != 0)
+            {
+                string hashPassword = query.FirstOrDefault().Password;
+                if (AuthorizationUtil.IsMatchPassword(password, hashPassword))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
         }
         public bool CreateUser(RegisterModel model)
         {
             try
             {
+                string password="123456789";
                 UserInfo userInfo = new UserInfo();
                 userInfo.Usercode = GenerateCode.GenerateUserCode(model.Position);
                 userInfo.Username = model.UserName;
-                userInfo.Password = "123456789";
+                userInfo.Password = AuthorizationUtil.Encrypt(password);
                 userInfo.IsFirstTime = true;
                 userInfo.DOB = model.DOB;
+                userInfo.Address = model.Address;
                 userInfo.Mobile = model.Mobile;
                 userInfo.PositionID = model.Position;
-                userInfo.Image = model.Image;
                 userInfo.Gender = model.Gender;
                 userInfo.ReportingTo = model.ReportingTo;
                 dataContext.UserInfos.InsertOnSubmit(userInfo);
                 dataContext.SubmitChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
         }
-        
+
         public bool UpdateUser(RegisterModel model)
         {
             try
             {
                 UserInfo userInfo = dataContext.UserInfos.Where(x => x.Username == model.UserName).FirstOrDefault();
-                userInfo.Password = model.Password;
+                userInfo.Password = AuthorizationUtil.Encrypt(model.Password);
                 userInfo.DOB = model.DOB;
                 userInfo.Mobile = model.Mobile;
                 userInfo.PositionID = model.Position;
-                userInfo.Image = model.Image;
                 userInfo.Gender = model.Gender;
+                userInfo.Address = model.Address;
                 userInfo.ReportingTo = model.ReportingTo;
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool ResetUserPassword(long userId, string password)
+        {
+            try
+            {
+                UserInfo userInfo = dataContext.UserInfos.Where(x => x.ID == userId).FirstOrDefault();
+                userInfo.Password = password;
+                userInfo.IsFirstTime = true;
                 dataContext.SubmitChanges();
                 return true;
             }
@@ -120,24 +161,25 @@ namespace ERestaurant.DataRepositories
                 dataContext.SubmitChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
         }
         public RegisterModel GetUserById(long id)
         {
-            RegisterModel model = dataContext.UserInfos.Where(x =>x.ID == id).Select(x => new RegisterModel
+            RegisterModel model = dataContext.UserInfos.Where(x => x.ID == id).Select(x => new RegisterModel
             {
                 DOB = x.DOB,
-                UserName  =x.Username,
-                Gender  =x.Gender,
+                UserName = x.Username,
+                Gender = x.Gender,
                 Position = x.PositionID.Value,
-                Image =x.Image
+                Image = x.Image
 
             }).FirstOrDefault();
             return model;
         }
+       
         public bool DeleteUser(long id)
         {
             try
@@ -147,7 +189,7 @@ namespace ERestaurant.DataRepositories
                 dataContext.SubmitChanges();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
@@ -181,7 +223,7 @@ namespace ERestaurant.DataRepositories
             }
             return query.ToList<RegisterModel>();
         }
-        public bool AssignRoleToUser(int userId, List<Role> roles)
+        public bool AssignRoleToUser(long userId, IEnumerable<Role> roles)
         {
             try
             {
@@ -195,23 +237,54 @@ namespace ERestaurant.DataRepositories
                 dataContext.SubmitChanges();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
         }
-        public List<Role> GetRoleByUser(int userId)
+        public List<Role> GetRoleAssignByUser(long userId)
         {
             var query = from role in dataContext.Roles
                         join userRole in dataContext.UserRoles on role.RoleID equals userRole.RoleID
                         join user in dataContext.UserInfos on userRole.UserID equals user.ID
                         where user.ID == userId
                         select role;
-            if (query.Count() != 0)
+
+            if (query != null && query.Count() != 0)
             {
-                return query.ToList<Role>();
+                return query.ToList();
             }
             return null;
+        }
+        public List<Role> GetRoleByUser(long userId)
+        {
+            var query = from role in dataContext.Roles
+                        join userRole in dataContext.UserRoles on role.RoleID equals userRole.RoleID
+                        join user in dataContext.UserInfos on userRole.UserID equals user.ID
+                        where user.ID == userId
+                        select role;
+            List<Role> allRole = dataContext.Roles.ToList<Role>();
+
+            if (query != null && query.Count() != 0)
+            {
+                List<Role> userRole = query.ToList<Role>();
+                for(int i=0; i < allRole.Count; i++)
+                {
+                    for(int j=0 ;j <userRole.Count; j++)
+                    {
+                        if(allRole[i].RoleID == userRole[j].RoleID)
+                        {
+                            allRole[i].IsSelected  =true;
+                            break;
+                        }
+                    }
+                }
+            }
+           for (int i = 0; i < allRole.Count; i++)
+            {
+                allRole[i].UserId = userId;
+            }
+           return allRole;
         }
 
         public bool ChangePassword(ChangePasswordModel model)

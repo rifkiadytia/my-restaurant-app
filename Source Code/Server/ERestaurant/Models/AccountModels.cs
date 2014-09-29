@@ -76,9 +76,7 @@ namespace ERestaurant.Models {
         public string Mobile { get; set; }
         public string Image { get; set; }
         public DateTime? DOB { get; set; }
-        [Display(Name = "Image Name")]
-        [ValidateFile(2, ErrorMessage = "Please select a {0} image smaller than {1}MB", Extensions = "jpg|png|gif|jpeg")]
-        public HttpPostedFileBase Avatar { get; set; }
+       
         [Required]
         public long Position { get; set; }
         public int ReportingTo { get; set; }

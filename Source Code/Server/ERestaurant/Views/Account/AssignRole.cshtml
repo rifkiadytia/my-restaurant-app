@@ -1,0 +1,40 @@
+﻿@model ERestaurant.Models.RoleModel
+
+@{
+    ViewBag.Title = "AssignRole";
+}
+
+
+@using (Html.BeginForm("AssignRole", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(model=>model.UserId)
+    <div>
+        <img src='@Url.Content("~/Upload/images/" + Model.UserInfo.Image)' />
+        @Html.LabelFor(model => model.UserInfo.UserName)
+        @Html.TextBoxFor(model=>model.UserInfo.UserName)
+        @Html.LabelFor(model => model.UserInfo.DOB)
+        @Html.TextBoxFor(model=>model.UserInfo.DOB)
+        @Html.LabelFor(model => model.UserInfo.Gender)
+        @{
+            String gender = Model.UserInfo.Gender==true ?"Male": "Famale";
+        }
+        : @gender
+    </div>
+    for (int i = 0; i < Model.Roles.Count; i++)
+    {
+         <div class="form-horizontal">
+        @Html.CheckBoxFor(m => m.Roles[i].IsSelected)
+        @Html.Label(Model.Roles[i].RoleName)
+                                           
+        @Html.HiddenFor(m => m.Roles[i].RoleName)
+        @Html.HiddenFor(m => m.Roles[i].RoleID)
+        <br />
+             </div>
+    }
+    <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Assign" class="btn btn-default" />
+            </div>
+        </div>
+}
+

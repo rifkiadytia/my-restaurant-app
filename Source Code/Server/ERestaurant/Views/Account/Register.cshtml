@@ -30,6 +30,10 @@
         }).BindList(ViewBag.AllGender).GetHtml()
     </div>
     <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Mobile, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.Mobile, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+    </div>
+    <div class="line">
         @Html.DevExpress().LabelFor(model => model.Position, CommonDemoHelper.LabelSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.Position,
@@ -47,16 +51,15 @@
         }
     ).BindList(ViewBag.AllPosition).GetHtml()
     </div>
-  <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Avatar, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.TextBoxFor(model=>model.Avatar, new{@type="file"})
-        @Html.ValidationMessageFor(model=>model.Avatar)
+     <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Address, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.Address, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
     </div>
-   
+  
     @Html.DevExpress().Button(settings =>
 {
     settings.Name = "Button";
-    settings.Text = "Register";
+    settings.Text = "Create";
     settings.UseSubmitBehavior = true;
 }).GetHtml()
 }
