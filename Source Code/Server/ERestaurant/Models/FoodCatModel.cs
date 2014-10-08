@@ -9,11 +9,12 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(FoodCatMetadata))]
-    public partial class FoodCat
+    [MetadataType(typeof(FoodCategoryMasterMetadata))]
+    public partial class FoodCategoryMaster
     {
-        public class FoodCatMetadata
+        public class FoodCategoryMasterMetadata
         {
+            public long FoodCatID { get; set; }
             [Required]
             public string FoodCatName { get; set; }
         }

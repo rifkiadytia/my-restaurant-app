@@ -9,25 +9,27 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(FoodMetadata))]
-    public partial class Food
+    [MetadataType(typeof(FoodMasterMetadata))]
+    public partial class FoodMaster
     {
-        public class FoodMetadata
+        public class FoodMasterMetadata
         {
-            [Required]
-            public string foodname { get; set; }
-
-            public string fooddes { get; set; }
+            public long FoodID { get; set; }
 
             [Required]
-            public int price { get; set; }
+            public string FoodName { get; set; }
 
-            public string image { get; set; }
+            public string FoodDescription { get; set; }
 
             [Required]
-            public int foodcatId { get; set; }
+            public float Price { get; set; }
 
-            public int finishingtime { get; set; }
+            public string Image { get; set; }
+           
+            [Required]
+            public int FoodCatID { get; set; }
+
+            public int FinishingTime { get; set; }
         }
     }
 }
