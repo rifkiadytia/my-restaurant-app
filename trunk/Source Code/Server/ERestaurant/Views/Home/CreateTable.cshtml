@@ -1,0 +1,70 @@
+﻿@model ERestaurant.Models.TableMaster
+@using ERestaurant.Util;
+@{
+    ViewBag.Title = "CreateTable";
+}
+
+<h2>CreateTable</h2>
+
+@using (Html.BeginForm("CreateTable","Home",FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true)
+
+        <div class="line">
+        @Html.DevExpress().LabelFor(model => model.TableName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.TableName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+    </div>
+
+        <div class="line">
+        @Html.DevExpress().LabelFor(model => model.SessionID, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().ComboBoxFor(
+        model => model.SessionID,
+        settings =>
+        {
+            settings.Name = "SessionID";
+            settings.Width = Unit.Pixel(250);
+            settings.ShowModelErrors = true;
+            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settings.ControlStyle.CssClass = "editor";
+            settings.Properties.TextField = "SessionName";
+            settings.Properties.ValueField = "SessionID";
+            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+        }
+    ).BindList(ViewBag.Session).GetHtml()
+    </div>
+
+       <div class="line">
+        @Html.DevExpress().LabelFor(model => model.Type, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().ComboBoxFor(
+        model => model.Type,
+        settings =>
+        {
+            settings.Name = "Type";
+            settings.Width = Unit.Pixel(250);
+            settings.ShowModelErrors = true;
+            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settings.ControlStyle.CssClass = "editor";
+            settings.Properties.TextField = "TableDisplay";
+            settings.Properties.ValueField = "TableValue";
+            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+        }
+    ).BindList(ViewBag.Type).GetHtml()
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Table")
+</div>

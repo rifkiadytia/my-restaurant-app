@@ -271,6 +271,18 @@
     <Content Include="Views\Account\AssignRolePartial.cshtml" />
     <Content Include="Views\Shared\_popupLayout.cshtml" />
     <Content Include="Views\Account\AssignRole.cshtml" />
+    <Content Include="Views\Home\FoodCategory.cshtml" />
+    <Content Include="Views\Home\CreateFoodCategory.cshtml" />
+    <Content Include="Views\Home\EditFoodCategory.cshtml" />
+    <Content Include="Views\Home\Food.cshtml" />
+    <Content Include="Views\Home\CreateFood.cshtml" />
+    <Content Include="Views\Home\EditFood.cshtml" />
+    <Content Include="Views\Home\CreateSession.cshtml" />
+    <Content Include="Views\Home\Session.cshtml" />
+    <Content Include="Views\Home\EditSession.cshtml" />
+    <Content Include="Views\Home\CreateTable.cshtml" />
+    <Content Include="Views\Home\Table.cshtml" />
+    <Content Include="Views\Home\EditTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -288,6 +300,7 @@
     <Compile Include="Customize\GridViewCustomBindingHandlers.cs" />
     <Compile Include="Customize\LargeDatabaseDataProvider.cs" />
     <Compile Include="DataRepositories\AccountRepositories.cs" />
+    <Compile Include="DataRepositories\HomeRepositories.cs" />
     <Compile Include="Dataservice\DataConnection.cs" />
     <Compile Include="Dataservice\DataProvider.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -311,6 +324,7 @@
     </Compile>
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
+    <Compile Include="Models\SessionStructureModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\AuthorizationUtil.cs" />

@@ -9,18 +9,18 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(SessionMetadata))]
-    public partial class Session
+    [MetadataType(typeof(SessionMasterMetadata))]
+    public partial class SessionMaster
     {
-        public class SessionMetadata
+        public class SessionMasterMetadata
         {
+            public long SessionID { get; set; }
             [Required]
-            public string sessionname { get; set; }
+            public string SessionName { get; set; }
 
-            [Required]
-            public int sessionlevel { get; set; }
+            public int SessionLevel { get; set; }
 
-            public string sessionbelongto { get; set; }
+            public long SessionBelongto { get; set; }
         }
     }
 }

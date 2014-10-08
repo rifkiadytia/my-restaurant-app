@@ -2,165 +2,165 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.375, 17.625" name="Restaurant">
   <DataContextMoniker Name="/RestaurantDataContext" />
   <nestedChildShapes>
-    <classShape Id="e2e2d904-088f-40bf-ae56-ce9ca893e475" absoluteBounds="3.5, 10.75, 2, 1.1939925130208344">
+    <classShape Id="7776e21b-02f3-465b-9bf0-2347bfcbee63" absoluteBounds="3.5, 10.75, 2, 1.1939925130208344">
       <DataClassMoniker Name="/RestaurantDataContext/FoodCategoryMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="b1331757-1070-4102-9255-937981f1f142" absoluteBounds="3.515, 11.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ef17e56d-d99d-4fdd-a415-373b011fe030" absoluteBounds="3.515, 11.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="dc76121c-fdff-402e-9230-c92e88130c86" absoluteBounds="6.25, 4, 2, 1.1939925130208335">
+    <classShape Id="fa823bd8-debb-4b94-a01f-13ff75a846a7" absoluteBounds="6.25, 4, 2, 1.1939925130208335">
       <DataClassMoniker Name="/RestaurantDataContext/UserRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="b385362d-ed13-4504-b752-386abc94db31" absoluteBounds="6.265, 4.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5f21abd5-fc40-4c24-b603-507329e04c76" absoluteBounds="6.265, 4.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="65dc3354-2f7f-4df7-8c8d-d87debe69f29" absoluteBounds="6.25, 10.25, 2, 2.1554996744791666">
+    <classShape Id="3bc2d293-ee47-469d-a41d-7397e6f9c1fa" absoluteBounds="6.25, 10.25, 2, 2.1554996744791666">
       <DataClassMoniker Name="/RestaurantDataContext/FoodMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="7cd38020-1655-4953-b531-ca6ff3a08be2" absoluteBounds="6.265, 10.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1d190c6c-d848-477f-a483-3df9fd9308aa" absoluteBounds="6.265, 10.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9ca8c4e5-8487-46c4-ae74-9f23c2d21309" absoluteBounds="9, 1, 2, 1.1939925130208338">
+    <classShape Id="7fb135d2-96c4-4dba-86d4-345e6311e0be" absoluteBounds="9, 1, 2, 1.1939925130208338">
       <DataClassMoniker Name="/RestaurantDataContext/OrderDetail" />
       <nestedChildShapes>
-        <elementListCompartment Id="f1c94d19-4aa0-492f-a4e6-0d4a93bfbb43" absoluteBounds="9.015, 1.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e6057a4b-3213-4a5f-848e-babf6c635bd5" absoluteBounds="9.015, 1.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c9f90622-35ba-41bb-b688-2693015b79d1" absoluteBounds="6.25, 0.75, 2, 1.7708968098958331">
+    <classShape Id="fd0ca023-e393-45d3-8323-ecb5de669dab" absoluteBounds="6.25, 0.75, 2, 1.7708968098958331">
       <DataClassMoniker Name="/RestaurantDataContext/OrderMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="74016a0d-2b87-4d92-92e2-af4dcd08da29" absoluteBounds="6.265, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="568e79c0-91a9-4b5e-a742-d845823cc32d" absoluteBounds="6.265, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3d715665-8e75-4a21-8041-f29f2723648b" absoluteBounds="6.75, 6.5, 2, 1.3862939453125005">
+    <classShape Id="b6486334-27e4-4679-9930-6e09aab1967a" absoluteBounds="6.75, 6.5, 2, 1.3862939453125005">
       <DataClassMoniker Name="/RestaurantDataContext/OrgChart" />
       <nestedChildShapes>
-        <elementListCompartment Id="a1f878e8-a9cd-4672-a596-68346cd3a2e5" absoluteBounds="6.765, 6.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="047b983a-549d-4d02-8ed3-4c6d34038053" absoluteBounds="6.765, 6.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="5e3e6f80-c80e-4bbe-825f-3a3966cb1bf2" absoluteBounds="3.5, 16, 2, 1.3862939453124987">
+    <classShape Id="505fe668-7ee8-4736-a51d-12a0ebe2ff1c" absoluteBounds="3.5, 16, 2, 1.3862939453124987">
       <DataClassMoniker Name="/RestaurantDataContext/Permission" />
       <nestedChildShapes>
-        <elementListCompartment Id="6881aee8-a993-409b-8e3f-473c6ebb79c2" absoluteBounds="3.515, 16.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f92e2b54-49eb-48c9-87c2-054552deaf30" absoluteBounds="3.515, 16.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="fde437eb-c1dc-4e71-9ab4-dd622ab68fc9" absoluteBounds="6.25, 14, 2, 1.1939925130208344">
+    <classShape Id="ae336e70-52b7-49ea-9ffb-0e7eaf72039b" absoluteBounds="6.25, 14, 2, 1.1939925130208344">
       <DataClassMoniker Name="/RestaurantDataContext/PermissionRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="821c7c30-7f4a-4402-8a2f-b68abf4fa387" absoluteBounds="6.265, 14.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4f846884-0d0d-49a1-a66b-cb595c11d6ea" absoluteBounds="6.265, 14.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="596ed070-d93e-4181-b2b2-c3c0bb1faafe" absoluteBounds="0.75, 4, 2, 1.3862939453125005">
+    <classShape Id="6e80b191-6b67-44c8-8692-84905fb9772c" absoluteBounds="0.75, 4, 2, 1.3862939453125005">
       <DataClassMoniker Name="/RestaurantDataContext/PositionMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="11507ec4-212f-4493-a0fd-36b64c293b81" absoluteBounds="0.765, 4.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="93b049ce-8173-4004-836f-b6cecd6f55a1" absoluteBounds="0.765, 4.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="16c64e1c-08f0-4661-94c6-64ddf7aa106c" absoluteBounds="3.5, 13, 2, 1.3862939453124987">
+    <classShape Id="c0d2dcdf-2607-4485-87c6-d85ea5522462" absoluteBounds="3.5, 13, 2, 1.3862939453124987">
       <DataClassMoniker Name="/RestaurantDataContext/Role" />
       <nestedChildShapes>
-        <elementListCompartment Id="e23c9dde-b109-4518-a1c7-636bf5fbcf4c" absoluteBounds="3.515, 13.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3afefaeb-daa5-40f8-a3ed-090ed7e36de1" absoluteBounds="3.515, 13.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b895763c-4daa-4d4e-ad1e-c24b81a94f7c" absoluteBounds="0.75, 7, 2, 1.5785953776041675">
+    <classShape Id="e2f10966-28c9-4983-bb4e-b4856e940cdd" absoluteBounds="0.75, 7.5, 2, 1.5785953776041675">
       <DataClassMoniker Name="/RestaurantDataContext/SessionMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="0259dc6d-3e33-48e2-8d6e-3a3e1995e6b3" absoluteBounds="0.765, 7.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bc2c1252-398d-47f4-b69d-492cd495101a" absoluteBounds="0.765, 7.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="965ffd85-68e4-42de-8c7a-937209896c50" absoluteBounds="8.75, 3.5, 2, 1.3862939453125">
+    <classShape Id="dcddc8d8-11b8-4dc5-8fdd-04759d1f65b0" absoluteBounds="8.75, 3.5, 2, 1.1939925130208335">
       <DataClassMoniker Name="/RestaurantDataContext/SessionStructure" />
       <nestedChildShapes>
-        <elementListCompartment Id="ad497811-9475-4c72-be67-6bea8de8e512" absoluteBounds="8.765, 3.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f43ccea4-778e-4e47-989d-64aa7f5ee9a8" absoluteBounds="8.765, 3.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8688d91a-1e71-4644-9629-0e6071008eea" absoluteBounds="3.5, 7.125, 2, 1.3862939453125005">
+    <classShape Id="56042125-8b25-481d-a90a-a2e60d818c40" absoluteBounds="3.5, 7.375, 2, 1.7708968098958327">
       <DataClassMoniker Name="/RestaurantDataContext/TableMaster" />
       <nestedChildShapes>
-        <elementListCompartment Id="cf92caa4-368f-439e-b786-14286a3eeaee" absoluteBounds="3.515, 7.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1d21fcfc-8c94-4f85-9dbf-85a8048b0971" absoluteBounds="3.515, 7.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9802aedd-223f-4789-96d5-f6fa06446ff4" absoluteBounds="3.5, 3.125, 2, 3.1170068359375005">
+    <classShape Id="00663caf-68ba-4802-a0b4-84bb6b025a08" absoluteBounds="3.5, 3.125, 2, 3.1170068359375005">
       <DataClassMoniker Name="/RestaurantDataContext/UserInfo" />
       <nestedChildShapes>
-        <elementListCompartment Id="85f2c7c6-1c4b-4d54-a518-db7f463193a5" absoluteBounds="3.515, 3.585, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="27405671-3e6b-47ac-8fd8-ac9dfdd027ad" absoluteBounds="3.515, 3.585, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(5.5 : 11.3469962565104); (5.79166666666667 : 11.3469962565104 : JumpStart); (5.95833333333333 : 11.3469962565104 : JumpEnd); (6.25 : 11.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/FoodCategoryMaster/FoodCategoryMaster_FoodMaster" />
       <nodes>
-        <classShapeMoniker Id="e2e2d904-088f-40bf-ae56-ce9ca893e475" />
-        <classShapeMoniker Id="65dc3354-2f7f-4df7-8c8d-d87debe69f29" />
+        <classShapeMoniker Id="7776e21b-02f3-465b-9bf0-2347bfcbee63" />
+        <classShapeMoniker Id="3bc2d293-ee47-469d-a41d-7397e6f9c1fa" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 11.3277498372396); (10.90625 : 11.3277498372396); (10.90625 : 2.19399251302083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/FoodMaster/FoodMaster_OrderDetail" />
       <nodes>
-        <classShapeMoniker Id="65dc3354-2f7f-4df7-8c8d-d87debe69f29" />
-        <classShapeMoniker Id="9ca8c4e5-8487-46c4-ae74-9f23c2d21309" />
+        <classShapeMoniker Id="3bc2d293-ee47-469d-a41d-7397e6f9c1fa" />
+        <classShapeMoniker Id="7fb135d2-96c4-4dba-86d4-345e6311e0be" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.25 : 1.59699625651042); (9 : 1.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/OrderMaster/OrderMaster_OrderDetail" />
       <nodes>
-        <classShapeMoniker Id="c9f90622-35ba-41bb-b688-2693015b79d1" />
-        <classShapeMoniker Id="9ca8c4e5-8487-46c4-ae74-9f23c2d21309" />
+        <classShapeMoniker Id="fd0ca023-e393-45d3-8323-ecb5de669dab" />
+        <classShapeMoniker Id="7fb135d2-96c4-4dba-86d4-345e6311e0be" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 16.6931469726563); (7.25 : 16.6931469726563); (7.25 : 15.1939925130208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/Permission/Permission_PermissionRole" />
       <nodes>
-        <classShapeMoniker Id="5e3e6f80-c80e-4bbe-825f-3a3966cb1bf2" />
-        <classShapeMoniker Id="fde437eb-c1dc-4e71-9ab4-dd622ab68fc9" />
+        <classShapeMoniker Id="505fe668-7ee8-4736-a51d-12a0ebe2ff1c" />
+        <classShapeMoniker Id="ae336e70-52b7-49ea-9ffb-0e7eaf72039b" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 13); (5.875 : 12.625); (5.875 : 4.59699625651042); (5.97916666666667 : 4.59699625651042 : JumpStart); (6.14583333333333 : 4.59699625651042 : JumpEnd); (6.25 : 4.59699625651042)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/Role/Role_UserRole" />
       <nodes>
-        <classShapeMoniker Id="16c64e1c-08f0-4661-94c6-64ddf7aa106c" />
-        <classShapeMoniker Id="dc76121c-fdff-402e-9230-c92e88130c86" />
+        <classShapeMoniker Id="c0d2dcdf-2607-4485-87c6-d85ea5522462" />
+        <classShapeMoniker Id="fa823bd8-debb-4b94-a01f-13ff75a846a7" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 14.1931469726562); (6.25 : 14.1931469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/Role/Role_PermissionRole" />
       <nodes>
-        <classShapeMoniker Id="16c64e1c-08f0-4661-94c6-64ddf7aa106c" />
-        <classShapeMoniker Id="fde437eb-c1dc-4e71-9ab4-dd622ab68fc9" />
+        <classShapeMoniker Id="c0d2dcdf-2607-4485-87c6-d85ea5522462" />
+        <classShapeMoniker Id="ae336e70-52b7-49ea-9ffb-0e7eaf72039b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 7.1868490375601); (5.81607443490112 : 6.87077460265897 : JumpStart); (5.93392556509888 : 6.75292347246122 : JumpEnd); (6.0625 : 6.6243490375601); (6.0625 : 1.63544840494792); (6.25 : 1.63544840494792)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 7.4362992741887); (5.81607443490112 : 7.12022483928758 : JumpStart); (5.93392556509888 : 7.00237370908982 : JumpEnd); (6.0625 : 6.8737992741887); (6.0625 : 1.63544840494792); (6.25 : 1.63544840494792)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/TableMaster/TableMaster_OrderMaster" />
       <nodes>
-        <classShapeMoniker Id="8688d91a-1e71-4644-9629-0e6071008eea" />
-        <classShapeMoniker Id="c9f90622-35ba-41bb-b688-2693015b79d1" />
+        <classShapeMoniker Id="56042125-8b25-481d-a90a-a2e60d818c40" />
+        <classShapeMoniker Id="fd0ca023-e393-45d3-8323-ecb5de669dab" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 7.81814697265625); (3.5 : 7.81814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 8.28929768880208); (3.5 : 8.28929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/SessionMaster/SessionMaster_TableMaster" />
       <nodes>
-        <classShapeMoniker Id="b895763c-4daa-4d4e-ad1e-c24b81a94f7c" />
-        <classShapeMoniker Id="8688d91a-1e71-4644-9629-0e6071008eea" />
+        <classShapeMoniker Id="e2f10966-28c9-4983-bb4e-b4856e940cdd" />
+        <classShapeMoniker Id="56042125-8b25-481d-a90a-a2e60d818c40" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 4.23599812825521); (5.97916666666667 : 4.23599812825521 : JumpStart); (6.14583333333333 : 4.23599812825521 : JumpEnd); (6.25 : 4.23599812825521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/UserInfo/UserInfo_UserRole" />
       <nodes>
-        <classShapeMoniker Id="9802aedd-223f-4789-96d5-f6fa06446ff4" />
-        <classShapeMoniker Id="dc76121c-fdff-402e-9230-c92e88130c86" />
+        <classShapeMoniker Id="00663caf-68ba-4802-a0b4-84bb6b025a08" />
+        <classShapeMoniker Id="fa823bd8-debb-4b94-a01f-13ff75a846a7" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(4.5 : 3.125); (4.5 : 2.10942510742187); (5.97916666666667 : 2.10942510742187 : JumpStart); (6.14583333333333 : 2.10942510742187 : JumpEnd); (6.25 : 2.10942510742187)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/UserInfo/UserInfo_OrderMaster" />
       <nodes>
-        <classShapeMoniker Id="9802aedd-223f-4789-96d5-f6fa06446ff4" />
-        <classShapeMoniker Id="c9f90622-35ba-41bb-b688-2693015b79d1" />
+        <classShapeMoniker Id="00663caf-68ba-4802-a0b4-84bb6b025a08" />
+        <classShapeMoniker Id="fd0ca023-e393-45d3-8323-ecb5de669dab" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 4.69314697265625); (3.5 : 4.69314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/RestaurantDataContext/PositionMaster/PositionMaster_UserInfo" />
       <nodes>
-        <classShapeMoniker Id="596ed070-d93e-4181-b2b2-c3c0bb1faafe" />
-        <classShapeMoniker Id="9802aedd-223f-4789-96d5-f6fa06446ff4" />
+        <classShapeMoniker Id="6e80b191-6b67-44c8-8692-84905fb9772c" />
+        <classShapeMoniker Id="00663caf-68ba-4802-a0b4-84bb6b025a08" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

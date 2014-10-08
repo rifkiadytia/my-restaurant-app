@@ -54,6 +54,9 @@ namespace ERestaurant.Models
     partial void InsertSessionMaster(SessionMaster instance);
     partial void UpdateSessionMaster(SessionMaster instance);
     partial void DeleteSessionMaster(SessionMaster instance);
+    partial void InsertSessionStructure(SessionStructure instance);
+    partial void UpdateSessionStructure(SessionStructure instance);
+    partial void DeleteSessionStructure(SessionStructure instance);
     partial void InsertTableMaster(TableMaster instance);
     partial void UpdateTableMaster(TableMaster instance);
     partial void DeleteTableMaster(TableMaster instance);
@@ -615,7 +618,7 @@ namespace ERestaurant.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
 		public string Image
 		{
 			get
@@ -1676,20 +1679,31 @@ namespace ERestaurant.Models
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SessionStructure")]
-	public partial class SessionStructure
+	public partial class SessionStructure : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private long _SessionID;
 		
-		private long _SessionParent;
+		private long _SessionBelongTo;
 		
-		private System.Nullable<long> _SessionBelongTo;
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSessionIDChanging(long value);
+    partial void OnSessionIDChanged();
+    partial void OnSessionBelongToChanging(long value);
+    partial void OnSessionBelongToChanged();
+    #endregion
 		
 		public SessionStructure()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionID", DbType="BigInt NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionID", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
 		public long SessionID
 		{
 			get
@@ -1700,29 +1714,17 @@ namespace ERestaurant.Models
 			{
 				if ((this._SessionID != value))
 				{
+					this.OnSessionIDChanging(value);
+					this.SendPropertyChanging();
 					this._SessionID = value;
+					this.SendPropertyChanged("SessionID");
+					this.OnSessionIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionParent", DbType="BigInt NOT NULL")]
-		public long SessionParent
-		{
-			get
-			{
-				return this._SessionParent;
-			}
-			set
-			{
-				if ((this._SessionParent != value))
-				{
-					this._SessionParent = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionBelongTo", DbType="BigInt")]
-		public System.Nullable<long> SessionBelongTo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionBelongTo", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
+		public long SessionBelongTo
 		{
 			get
 			{
@@ -1732,8 +1734,32 @@ namespace ERestaurant.Models
 			{
 				if ((this._SessionBelongTo != value))
 				{
+					this.OnSessionBelongToChanging(value);
+					this.SendPropertyChanging();
 					this._SessionBelongTo = value;
+					this.SendPropertyChanged("SessionBelongTo");
+					this.OnSessionBelongToChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -1750,6 +1776,10 @@ namespace ERestaurant.Models
 		
 		private long _SessionID;
 		
+		private bool _IsReserve;
+		
+		private string _Type;
+		
 		private EntitySet<OrderMaster> _OrderMasters;
 		
 		private EntityRef<SessionMaster> _SessionMaster;
@@ -1764,6 +1794,10 @@ namespace ERestaurant.Models
     partial void OnTableNameChanged();
     partial void OnSessionIDChanging(long value);
     partial void OnSessionIDChanged();
+    partial void OnIsReserveChanging(bool value);
+    partial void OnIsReserveChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
     #endregion
 		
 		public TableMaster()
@@ -1833,6 +1867,46 @@ namespace ERestaurant.Models
 					this._SessionID = value;
 					this.SendPropertyChanged("SessionID");
 					this.OnSessionIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReserve", DbType="Bit NOT NULL")]
+		public bool IsReserve
+		{
+			get
+			{
+				return this._IsReserve;
+			}
+			set
+			{
+				if ((this._IsReserve != value))
+				{
+					this.OnIsReserveChanging(value);
+					this.SendPropertyChanging();
+					this._IsReserve = value;
+					this.SendPropertyChanged("IsReserve");
+					this.OnIsReserveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
 				}
 			}
 		}

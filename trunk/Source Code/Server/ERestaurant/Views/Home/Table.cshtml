@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ERestaurant.Models.TableMaster>
+
+@{
+    ViewBag.Title = "Table";
+}
+
+<h2>Table</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateTable")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TableName)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TableName)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditTable", new { id=item.TableID }) |
+            @Html.ActionLink("Delete", "DeleteTable", new { id=item.TableID })
+        </td>
+    </tr>
+}
+
+</table>

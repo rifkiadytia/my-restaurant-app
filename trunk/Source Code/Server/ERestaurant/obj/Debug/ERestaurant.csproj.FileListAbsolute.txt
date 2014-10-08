@@ -140,3 +140,4 @@ D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\WebMatrix.WebData.x
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\DXWebApplication2.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\DXWebApplication2.pdb
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DevOne.Security.Cryptography.BCrypt.dll
+D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\ERestaurant.csprojResolveAssemblyReference.cache

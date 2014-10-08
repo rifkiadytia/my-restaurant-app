@@ -9,16 +9,28 @@ using System.Web.Security;
 
 namespace ERestaurant.Models
 {
-    [MetadataType(typeof(TableMetadata))]
-    public partial class Table
+    [MetadataType(typeof(TableMasterMetadata))]
+    public partial class TableMaster
     {
-        public class TableMetadata
+        public class TableMasterMetadata
         {
+            public long TableID { get; set; }
             [Required]
-            public string tablename { get; set; }
+            public string TableName { get; set; }
 
             [Required]
-            public int sessionID { get; set; }
+            public int SessionID { get; set; }
+
+            public bool IsReserve { get; set; }
+
+            public string Type { get; set; }
+
         }
+        
+    }
+    public class TableLevel
+    {
+        public string TableValue { get; set; }
+        public string TableDisplay { get; set; }
     }
 }

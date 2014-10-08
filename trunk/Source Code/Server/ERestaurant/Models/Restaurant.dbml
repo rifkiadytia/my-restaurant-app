@@ -21,7 +21,7 @@
       <Column Name="FoodName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="FoodDescription" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Image" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="FoodCatID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="FinishingTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="FoodMaster_OrderDetail" Member="OrderDetails" ThisKey="FoodID" OtherKey="FoodID" Type="OrderDetail" />
@@ -99,9 +99,8 @@
   </Table>
   <Table Name="dbo.SessionStructure" Member="SessionStructures">
     <Type Name="SessionStructure">
-      <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="SessionParent" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="SessionBelongTo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SessionBelongTo" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.TableMaster" Member="TableMasters">
@@ -109,6 +108,8 @@
       <Column Name="TableID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TableName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="SessionID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsReserve" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="TableMaster_OrderMaster" Member="OrderMasters" ThisKey="TableID" OtherKey="TableID" Type="OrderMaster" />
       <Association Name="SessionMaster_TableMaster" Member="SessionMaster" ThisKey="SessionID" OtherKey="SessionID" Type="SessionMaster" IsForeignKey="true" />
     </Type>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ERestaurant.Models.FoodMaster>
+
+@{
+    ViewBag.Title = "Food";
+}
+
+<h2>Food</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateFood","Home")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.FoodCatID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinishingTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodCatID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishingTime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditFood", new { id=item.FoodID }) |
+           @* @Html.ActionLink("Details", "Details", new { id=item.FoodID }) |*@
+            @Html.ActionLink("Delete", "DeleteFood", new { id=item.FoodID },new
+                                                        {
+                                                            onclick = "return confirm('Are you want delete this food ?')"
+                                                        })
+        </td>
+    </tr>
+}
+
+</table>
