@@ -296,5 +296,9 @@ namespace ERestaurant.Controllers
             }
             return RedirectToAction("Table");
         }
+        public ActionResult TestPage()
+        {
+            return View();
+        }
     }
 }

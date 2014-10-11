@@ -8,13 +8,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using ERestaurant.Dataservice;
 
 namespace ERestaurant.Customize
 {
     public static class GridViewCustomBindingHandlers
     {
-        static IQueryable Model { get { return LargeDatabaseDataProvider.RegisterUser; } }
-
+        static IQueryable Model { get { return m_Datasource; } }
+        public static IQueryable m_Datasource; 
+        public static void SetModel(string dataSource)
+        {
+            if(dataSource.Equals("SearchUser")){
+                m_Datasource = DataProvider.GetInstance.UserInfo;
+            }
+            else if (dataSource.Equals("Role"))
+            {
+                m_Datasource = DataProvider.GetInstance.Roles;
+            }
+        }
+       
         public static void GetDataRowCountSimple(GridViewCustomBindingGetDataRowCountArgs e)
         {
             e.DataRowCount = Model.Count();

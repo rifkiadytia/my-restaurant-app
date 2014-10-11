@@ -36,5 +36,7 @@ namespace ERestaurant.Dataservice
         {
             return context.PositionMasters; 
         }
+        public  IQueryable<Role> Roles { get { return context.Roles; } }
+        public IQueryable<UserInfo> UserInfo { get { return context.UserInfos; } }
     }
 }

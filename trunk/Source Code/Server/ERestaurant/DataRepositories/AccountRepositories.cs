@@ -194,6 +194,20 @@ namespace ERestaurant.DataRepositories
                 return false;
             }
         }
+        public bool DeleteRole(long id)
+        {
+            try
+            {
+                Role role = dataContext.Roles.Where(x => x.RoleID == id).SingleOrDefault();
+                dataContext.Roles.DeleteOnSubmit(role);
+                dataContext.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         public List<PositionMaster> GetAllPosition()
         {
