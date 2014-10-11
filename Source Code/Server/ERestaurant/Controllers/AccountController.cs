@@ -67,11 +67,7 @@ namespace ERestaurant.Controllers
             WebSecurity.Logout();
             return RedirectToAction("Index", "Home");
         }
-        public ActionResult ManageRole()
-        {
-            IEnumerable<Role> role = account.GetAllRole();
-            return View(role);
-        }
+        
         public ActionResult CreateRole()
         {
             return View();
@@ -290,6 +286,17 @@ namespace ERestaurant.Controllers
                 viewModel = CreateGridViewModelWithSummary();
             return AdvancedCustomBindingCore(viewModel);
         }
+        public ActionResult ManageRole()
+        {
+             return View("ManageRole");
+        }
+        public ActionResult ManageRolePartial()
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelRoleWithSummary();
+            return AdvancedCustomBindingRole(viewModel);
+        }
         // Paging
         public ActionResult AdvancedCustomBindingPagingAction(GridViewPagerState pager)
         {
@@ -318,8 +325,10 @@ namespace ERestaurant.Controllers
             viewModel.ApplyGroupingState(column);
             return AdvancedCustomBindingCore(viewModel);
         }
+        //Binding search user
         PartialViewResult AdvancedCustomBindingCore(GridViewModel viewModel)
         {
+            GridViewCustomBindingHandlers.SetModel("SearchUser");
             viewModel.ProcessCustomBinding(
                 GridViewCustomBindingHandlers.GetDataRowCountAdvanced,
                 GridViewCustomBindingHandlers.GetDataAdvanced,
@@ -329,6 +338,48 @@ namespace ERestaurant.Controllers
             );
             return PartialView("SearchUserPartial", viewModel);
         }
+        //custom binding role
+        PartialViewResult AdvancedCustomBindingRole(GridViewModel viewModel)
+        {
+            GridViewCustomBindingHandlers.SetModel("Role");
+            viewModel.ProcessCustomBinding(
+                GridViewCustomBindingHandlers.GetDataRowCountAdvanced,
+                GridViewCustomBindingHandlers.GetDataAdvanced,
+                GridViewCustomBindingHandlers.GetSummaryValuesAdvanced,
+                GridViewCustomBindingHandlers.GetGroupingInfoAdvanced,
+                GridViewCustomBindingHandlers.GetUniqueHeaderFilterValuesAdvanced
+            );
+            return PartialView("ManageRolePartial", viewModel);
+        }
+        // Paging
+        public ActionResult AdvancedCustomBindingPagingRoleAction(GridViewPagerState pager)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyPagingState(pager);
+            return AdvancedCustomBindingRole(viewModel);
+        }
+        // Filtering
+        public ActionResult AdvancedCustomBindingFilteringRoleAction(GridViewFilteringState filteringState)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyFilteringState(filteringState);
+            return AdvancedCustomBindingRole(viewModel);
+        }
+        // Sorting
+        public ActionResult AdvancedCustomBindingSortingRoleAction(GridViewColumnState column, bool reset)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplySortingState(column, reset);
+            return AdvancedCustomBindingRole(viewModel);
+        }
+        // Grouping
+        public ActionResult AdvancedCustomBindingGroupingRoleAction(GridViewColumnState column)
+        {
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            viewModel.ApplyGroupingState(column);
+            return AdvancedCustomBindingRole(viewModel);
+        }
+        //grid view search user model
         static GridViewModel CreateGridViewModelWithSummary()
         {
             var viewModel = new GridViewModel();
@@ -339,6 +390,15 @@ namespace ERestaurant.Controllers
             viewModel.Columns.Add("Mobile");
             viewModel.Columns.Add("Address");
             viewModel.Columns.Add("Gender");
+            return viewModel;
+        }
+        //grid view role model
+        static GridViewModel CreateGridViewModelRoleWithSummary()
+        {
+            var viewModel = new GridViewModel();
+            viewModel.KeyFieldName = "RoleID";
+            viewModel.Columns.Add("RoleName");
+            viewModel.Columns.Add("RoleDescription");
             return viewModel;
         }
         [HttpPost]
@@ -392,7 +452,41 @@ namespace ERestaurant.Controllers
                 viewModel = CreateGridViewModelWithSummary();
             return AdvancedCustomBindingCore(viewModel);
         }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult RoleUpdatePartial(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isUpdateSc = account.UpdateRole(role);
+                if (!isUpdateSc)
+                {
+                    ViewBag.ErrMessage = "Error while update role !";
+                }
+            }
+            else
+                ViewBag.ErrMessage = "Please, correct all errors.";
 
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelRoleWithSummary();
+            return AdvancedCustomBindingRole(viewModel);
+        }
+        [HttpPost]
+        public ActionResult RoleDeletePartial(long RoleID)
+        {
+            if (RoleID >= 0)
+            {
+                bool isDeleteSc = account.DeleteRole(RoleID);
+                if (!isDeleteSc)
+                {
+                    ViewBag.ErrMessage = "Error while delete role !";
+                }
+            }
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelRoleWithSummary();
+            return AdvancedCustomBindingRole(viewModel);
+        }
         [HttpGet]
         public ActionResult AssignRole(long ID)
         {
