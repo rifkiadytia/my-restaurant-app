@@ -1,0 +1,159 @@
+﻿@using ERestaurant.Dataservice;
+
+
+@{
+    
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    var customAssignButton = new GridViewCommandColumnCustomButton()
+    {
+        ID = "btnAssignRole",
+        Text = "Assign role"
+        
+    };
+    var customDeleteButton = new GridViewCommandColumnCustomButton()
+    {
+        ID = "btnDelete",
+        Text ="Delete"
+    };
+    var customResetPasswordButton = new GridViewCommandColumnCustomButton()
+    {
+        ID = "btnResetPassword",
+        Text = "Reset password"
+    };
+    //var customEditUserButton = new GridViewCommandColumnCustomButton()
+    //{
+    //    ID = "btnEditUser",
+    //    Text = "Edit"
+    //};
+    var grid = Html.DevExpress().GridView(
+        grSettings =>
+        {
+            grSettings.Name = "gridView";
+            grSettings.SettingsPager.Position = PagerPosition.TopAndBottom;
+            grSettings.SettingsPager.FirstPageButton.Visible = true;
+            grSettings.SettingsPager.LastPageButton.Visible = true;
+            grSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+            grSettings.CallbackRouteValues = new { Controller = "Account", Action = "SearchUserPartial" };
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Paging,
+                new { Controller = "Account", Action = "AdvancedCustomBindingPagingAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Filtering,
+                new { Controller = "Account", Action = "AdvancedCustomBindingFilteringAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Sorting,
+                new { Controller = "Account", Action = "AdvancedCustomBindingSortingAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Grouping,
+                new { Controller = "Account", Action = "AdvancedCustomBindingGroupingAction" }
+            );
+
+            grSettings.KeyFieldName = "ID";
+            grSettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Account", Action = "UserDeletePartial" };
+            grSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "UserUpdatePartial" };
+            grSettings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            grSettings.SettingsBehavior.ConfirmDelete = true;
+            grSettings.CommandColumn.Visible = true;
+            grSettings.CommandColumn.Width = Unit.Percentage(10);
+            grSettings.CommandColumn.ShowDeleteButton = true;
+            grSettings.CommandColumn.ShowEditButton = true;
+            grSettings.Settings.ShowFilterRow = true;
+            grSettings.Settings.ShowGroupPanel = true;
+            grSettings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            grSettings.Settings.ShowFooter = true;
+            grSettings.SettingsBehavior.AllowFocusedRow = true;
+            grSettings.Width = Unit.Percentage(100);
+            grSettings.Columns.Add("Username").Width = Unit.Percentage(15);
+            grSettings.Columns.Add(column =>
+            {
+                column.FieldName = "DOB";
+                column.ColumnType = MVCxGridViewColumnType.DateEdit;
+                column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+                column.Width = Unit.Percentage(15);
+            });
+            grSettings.Columns.Add(column =>
+            {
+                column.FieldName = "PositionID";
+                column.Caption = "Position";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = DataProvider.GetInstance.GetPostion();
+                comboBoxProperties.TextField = "PositionName";
+                comboBoxProperties.ValueField = "PositionID";
+                comboBoxProperties.ValueType = typeof(int);
+                comboBoxProperties.Width = Unit.Percentage(100);
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            });
+            grSettings.CommandColumn.CustomButtons.Add(customAssignButton);
+            grSettings.CommandColumn.CustomButtons.Add(customResetPasswordButton);
+            //grSettings.CommandColumn.CustomButtons.Add(customEditUserButton);
+            grSettings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ CustomButtonClick(s, e); }}");
+
+            //grSettings.Columns.Add(column =>
+            //{
+            //    column.Caption = "#";
+            //    column.SetDataItemTemplateContent(c =>
+            //    {
+            //        ViewContext.Writer.Write(
+            //            Html.ActionLink("Assign role", "AssignRole", new { ID = DataBinder.Eval(c.DataItem, "ID") })
+            //        );
+            //    });
+            //    column.grSettings.AllowDragDrop = DefaultBoolean.False;
+            //    column.grSettings.AllowSort = DefaultBoolean.False;
+            //    column.Width = 50;
+            //});
+            grSettings.Columns.Add("Mobile").Width = Unit.Percentage(15);
+            grSettings.Columns.Add("Address").Width = Unit.Percentage(20);
+            grSettings.Columns.Add("Gender", "Female?", MVCxGridViewColumnType.CheckBox).Width = Unit.Percentage(10);
+            
+        });
+    if (ViewBag.ErrMessage != null)
+    {
+        grid.SetEditErrorText((string)ViewBag.ErrMessage);
+    }
+   
+}
+@grid.BindToCustomData(Model).GetHtml()
+
+<script type="text/javascript">
+    
+    function CustomButtonClick(s, e) {
+        var key = s.GetRowKey(e.visibleIndex);
+        //if (e.buttonID === "btnEditUser") {
+        //    var destUrl = "/Account/EditUserInfo/" + key;
+        //    window.location.href = destUrl;
+
+        //}
+        if (e.buttonID === "btnAssignRole") {
+            var destUrl = "/Account/AssignRole/" + key;
+            window.location.href = destUrl;
+            
+        } else if (e.buttonID === "btnResetPassword") {
+            if (confirm('Are you want to reset password ?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ResetPassword","Account")',
+                    data: JSON.stringify({ ID: key }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (msg) {
+                        if (msg.status == "SC.001")
+                            alert('Password reset successfully !');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Status error code : ' + xhr.status);
+
+                    },
+                    async: true,
+                    processData: false
+                });
+            }
+        }
+    }
+    
+</script>
