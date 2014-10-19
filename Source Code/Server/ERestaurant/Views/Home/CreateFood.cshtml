@@ -15,13 +15,13 @@
         @Html.ValidationSummary(true)
 
          <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.FoodName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.FoodName, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.FoodName, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
 
        <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodDescription, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.FoodDescription, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.FoodDescription, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.FoodDescription, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
 
         <div class="form-group">
@@ -40,20 +40,20 @@
             </div>
         </div>
          <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodCatID, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.FoodCatID, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.FoodCatID,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "FoodCatID";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "FoodCatName";
-            settings.Properties.ValueField = "FoodCatID";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "FoodCatID";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "FoodCatName";
+            grSettings.Properties.ValueField = "FoodCatID";
+            grSettings.Properties.ValidationgrSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.FoodCategory).GetHtml()
     </div>

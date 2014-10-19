@@ -417,6 +417,27 @@ namespace ERestaurant.Controllers
                 viewModel = CreateGridViewModelWithSummary();
             return AdvancedCustomBindingCore(viewModel);
         }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult RoleAddNewPartial(Role model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    account.CreateRole(model);
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = e.Message;
+                }
+            }
+            else
+                ViewData["EditError"] = "Please, correct all errors.";
+            var viewModel = GridViewExtension.GetViewModel("gridView");
+            if (viewModel == null)
+                viewModel = CreateGridViewModelRoleWithSummary();
+            return AdvancedCustomBindingRole(viewModel);
+        }
         //Reset user password to default
         [HttpPost]
         public JsonResult ResetPassword(long ID)
@@ -499,52 +520,81 @@ namespace ERestaurant.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult AssignRole(RoleModel model)
+        public JsonResult AssignRole(List<Role> model, long UserId ,string token)
         {
-
-            //recent role upload
-            List<Role> upRoleAssign = model.Roles.Where(x => x.IsSelected == true).ToList();
-            //role already assign
-            List<Role> roleAssignUser = account.GetRoleAssignByUser(model.UserId);
-
-            if (roleAssignUser != null)
+            try
             {
-                if (upRoleAssign.Count== 0)
+                //recent role upload
+                List<Role> upRoleAssign = model;
+                //role already assign
+                List<Role> roleAssignUser = account.GetRoleAssignByUser(UserId);
+
+                if (roleAssignUser != null)
                 {
-                    account.RemoveRoleFromUser(roleAssignUser, model.UserId);
+                    if (upRoleAssign.Count == 0)
+                    {
+                        account.RemoveRoleFromUser(roleAssignUser, UserId);
+                    }
+                    else
+                    {
+                        if (roleAssignUser.Count > upRoleAssign.Count)
+                        {
+                            List<Role> removeSection = new List<Role>();
+                            foreach (var item in roleAssignUser)
+                            {
+                                bool flg = false;
+                                foreach (var item1 in upRoleAssign)
+                                {
+                                    if (item.RoleID == item1.RoleID) { flg = true; }
+                                }
+                                if (!flg)
+                                {
+                                    removeSection.Add(item);
+                                }
+                            }
+                            account.RemoveRoleFromUser(removeSection, UserId);
+                        }
+                        else
+                        {
+                            List<Role> newAssignRole = new List<Role>();
+                            foreach (var item in upRoleAssign)
+                            {
+                                bool found = false;
+                                foreach (var item1 in roleAssignUser)
+                                {
+                                    if (item.RoleID == item1.RoleID)
+                                    {
+                                        found = true;
+                                    }
+                                }
+                                if (!found)
+                                {
+                                    Role role = new Role();
+                                    role.RoleID = item.RoleID;
+                                    newAssignRole.Add(role);
+                                }
+                            }
+                            account.AssignRoleToUser(UserId, newAssignRole);
+                        }
+                    }
                 }
                 else
                 {
-                    if (roleAssignUser.Count > upRoleAssign.Count)
+                    if (upRoleAssign.Count != 0)
                     {
-                        List<Role> removeSection = new List<Role>();
-                        foreach (var item in roleAssignUser)
-                        {
-                            bool flg = false;
-                            foreach (var item1 in upRoleAssign)
-                            {
-                                if (item.RoleID == item1.RoleID) { flg = true; }
-                            }
-                            if (!flg)
-                            {
-                                removeSection.Add(item);
-                            }
-                        }
-                        account.RemoveRoleFromUser(removeSection, model.UserId);
+                        account.AssignRoleToUser(UserId, upRoleAssign);
                     }
                 }
+                return Json(new { StatusCode = "SC.001" }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch
             {
-                if (upRoleAssign.Count!= 0)
-                {
-                    account.AssignRoleToUser(model.UserId, upRoleAssign);
-                }
+                return Json(new { StatusCode = "Err.001" }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("SearchUser","Account");
         }
-        
+       
     }
+    
     public class GridViewEditingDemosHelper
     {
         const string

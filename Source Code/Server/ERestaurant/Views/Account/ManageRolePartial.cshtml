@@ -6,48 +6,50 @@
     Html.EnableUnobtrusiveJavaScript();
     
     var grid = Html.DevExpress().GridView(
-        settings =>
+        grSettings =>
         {
-            settings.Name = "gridView";
-            settings.SettingsPager.Position = PagerPosition.TopAndBottom;
-            settings.SettingsPager.FirstPageButton.Visible = true;
-            settings.SettingsPager.LastPageButton.Visible = true;
-            settings.SettingsPager.PageSizeItemSettings.Visible = true;
-            settings.CallbackRouteValues = new { Controller = "Account", Action = "ManageRolePartial" };
-            settings.CustomBindingRouteValuesCollection.Add(
+            grSettings.Name = "gridView";
+            grSettings.grSettingsPager.Position = PagerPosition.TopAndBottom;
+            grSettings.grSettingsPager.FirstPageButton.Visible = true;
+            grSettings.grSettingsPager.LastPageButton.Visible = true;
+            grSettings.grSettingsPager.PageSizeItemgrSettings.Visible = true;
+            grSettings.CallbackRouteValues = new { Controller = "Account", Action = "ManageRolePartial" };
+            grSettings.CustomBindingRouteValuesCollection.Add(
                 GridViewOperationType.Paging,
                 new { Controller = "Account", Action = "AdvancedCustomBindingPagingRoleAction" }
             );
-            settings.CustomBindingRouteValuesCollection.Add(
+            grSettings.CustomBindingRouteValuesCollection.Add(
                 GridViewOperationType.Filtering,
                 new { Controller = "Account", Action = "AdvancedCustomBindingFilteringRoleAction" }
             );
-            settings.CustomBindingRouteValuesCollection.Add(
+            grSettings.CustomBindingRouteValuesCollection.Add(
                 GridViewOperationType.Sorting,
                 new { Controller = "Account", Action = "AdvancedCustomBindingSortingRoleAction" }
             );
-            settings.CustomBindingRouteValuesCollection.Add(
+            grSettings.CustomBindingRouteValuesCollection.Add(
                 GridViewOperationType.Grouping,
                 new { Controller = "Account", Action = "AdvancedCustomBindingGroupingRoleAction" }
             );
 
-            settings.KeyFieldName = "RoleID";
-            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Account", Action = "RoleDeletePartial" };
-            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "RoleUpdatePartial" };
-            settings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
-            settings.SettingsBehavior.ConfirmDelete = true;
-            settings.CommandColumn.Visible = true;
-            settings.CommandColumn.Width = Unit.Percentage(10);
-            settings.CommandColumn.ShowDeleteButton = true;
-            settings.CommandColumn.ShowEditButton = true;
-            settings.Settings.ShowFilterRow = true;
-            settings.Settings.ShowGroupPanel = true;
-            settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
-            settings.Settings.ShowFooter = true;
-            settings.SettingsBehavior.AllowFocusedRow = true;
-            settings.Width = Unit.Percentage(60);
-            settings.Columns.Add("RoleName").Width = Unit.Percentage(40);
-            settings.Columns.Add("RoleDescription").Width = Unit.Percentage(60);
+            grSettings.KeyFieldName = "RoleID";
+            grSettings.grSettingsEditing.AddNewRowRouteValues = new { Controller = "Account", Action = "RoleAddNewPartial" };
+            grSettings.grSettingsEditing.DeleteRowRouteValues = new { Controller = "Account", Action = "RoleDeletePartial" };
+            grSettings.grSettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "RoleUpdatePartial" };
+            grSettings.grSettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            grSettings.grSettingsBehavior.ConfirmDelete = true;
+            grSettings.CommandColumn.Visible = true;
+            grSettings.CommandColumn.Width = Unit.Percentage(10);
+            grSettings.CommandColumn.ShowNewButtonInHeader = true;
+            grSettings.CommandColumn.ShowDeleteButton = true;
+            grSettings.CommandColumn.ShowEditButton = true;
+            grSettings.grSettings.ShowFilterRow = true;
+            grSettings.grSettings.ShowGroupPanel = true;
+            grSettings.grSettings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            grSettings.grSettings.ShowFooter = true;
+            grSettings.grSettingsBehavior.AllowFocusedRow = true;
+            grSettings.Width = Unit.Percentage(100);
+            grSettings.Columns.Add("RoleName").Width = Unit.Percentage(40);
+            grSettings.Columns.Add("RoleDescription").Width = Unit.Percentage(60);
             
         });
     if (ViewBag.ErrMessage != null)

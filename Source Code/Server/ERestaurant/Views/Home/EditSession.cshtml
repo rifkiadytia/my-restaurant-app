@@ -23,20 +23,20 @@
             </div>
         </div>
         <div class="line">
-        @Html.DevExpress().LabelFor(model => model.SessionBelongto, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.SessionBelongto, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.SessionBelongto,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "SessionBelongto";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "SessionName";
-            settings.Properties.ValueField = "SessionID";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "SessionBelongto";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "SessionName";
+            grSettings.Properties.ValueField = "SessionID";
+            grSettings.Properties.ValidationgrSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.Session).GetHtml()
     </div>

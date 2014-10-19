@@ -1,0 +1,74 @@
+﻿@using ERestaurant.Dataservice;
+@{
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gridView";
+            settings.SettingsPager.Position = PagerPosition.TopAndBottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.CallbackRouteValues = new { Controller = "Home", Action = "SessionPartial" };
+            settings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Paging,
+                new { Controller = "Home", Action = "AdvancedCustomBindingPagingSessionAction" }
+            );
+            settings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Filtering,
+                new { Controller = "Home", Action = "AdvancedCustomBindingFilteringSessionAction" }
+            );
+            settings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Sorting,
+                new { Controller = "Home", Action = "AdvancedCustomBindingSortingSessionAction" }
+            );
+            settings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Grouping,
+                new { Controller = "Home", Action = "AdvancedCustomBindingGroupingSessionAction" }
+            );
+
+            settings.KeyFieldName = "SessionID";
+            settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "SessionAddNewPartial" };
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "SessionDeletePartial" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "SessionUpdatePartial" };
+            settings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.Width = Unit.Percentage(10);
+            settings.CommandColumn.ShowNewButtonInHeader = true;
+            settings.CommandColumn.ShowDeleteButton = true;
+            settings.CommandColumn.ShowEditButton = true;
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowGroupPanel = true;
+            settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            settings.Settings.ShowFooter = true;
+            settings.SettingsBehavior.AllowFocusedRow = true;
+            settings.Width = Unit.Percentage(100);
+            settings.Columns.Add("SessionName").Width = Unit.Percentage(50);
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "SessionBelongto";
+                column.Caption = "Session Belong To";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                column.Width = Unit.Percentage(50);
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = DataProvider.GetInstance.GetAllSession();
+                comboBoxProperties.TextField = "SessionName";
+                comboBoxProperties.ValueField = "SessionID";
+                comboBoxProperties.ValueType = typeof(int);
+                comboBoxProperties.Width = Unit.Percentage(100);
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDownList;
+            });
+        });
+    if (ViewBag.ErrMessage != null)
+    {
+        grid.SetEditErrorText((string)ViewBag.ErrMessage);
+    }
+   
+}
+@grid.BindToCustomData(Model).GetHtml()
+
+

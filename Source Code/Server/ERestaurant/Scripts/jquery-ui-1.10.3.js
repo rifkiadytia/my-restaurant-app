@@ -6553,7 +6553,7 @@ $.widget( "ui.accordion", {
 		if ( typeof options === "string" ) {
 			easing = options;
 		}
-		// fall back from options to animation in case of partial down settings
+		// fall back from options to animation in case of partial down grSettings
 		easing = easing || options.easing || animate.easing;
 		duration = duration || options.duration || animate.duration;
 
@@ -7620,8 +7620,8 @@ var PROP_NAME = "datepicker",
 
 /* Date picker manager.
    Use the singleton instance of this class, $.datepicker, to interact with the date picker.
-   Settings for (groups of) date pickers are maintained in an instance object,
-   allowing multiple different settings on the same page. */
+   grSettings for (groups of) date pickers are maintained in an instance object,
+   allowing multiple different grSettings on the same page. */
 
 function Datepicker() {
 	this._curInst = null; // The current instance in use
@@ -7638,8 +7638,8 @@ function Datepicker() {
 	this._unselectableClass = "ui-datepicker-unselectable"; // The name of the unselectable cell marker class
 	this._currentClass = "ui-datepicker-current-day"; // The name of the current day marker class
 	this._dayOverClass = "ui-datepicker-days-cell-over"; // The name of the day hover marker class
-	this.regional = []; // Available regional settings, indexed by language code
-	this.regional[""] = { // Default regional settings
+	this.regional = []; // Available regional grSettings, indexed by language code
+	this.regional[""] = { // Default regional grSettings
 		closeText: "Done", // Display text for close link
 		prevText: "Prev", // Display text for previous month link
 		nextText: "Next", // Display text for next month link
@@ -7692,7 +7692,7 @@ function Datepicker() {
 			// [0] = true if selectable, false if not, [1] = custom CSS class name(s) or "",
 			// [2] = cell title (optional), e.g. $.datepicker.noWeekends
 		beforeShow: null, // Function that takes an input field and
-			// returns a set of custom settings for the date picker
+			// returns a set of custom grSettings for the date picker
 		onSelect: null, // Define a callback function when a date is selected
 		onChangeMonthYear: null, // Define a callback function when the month or year is changed
 		onClose: null, // Define a callback function when the datepicker is closed
@@ -7723,20 +7723,20 @@ $.extend(Datepicker.prototype, {
 		return this.dpDiv;
 	},
 
-	/* Override the default settings for all instances of the date picker.
-	 * @param  settings  object - the new settings to use as defaults (anonymous object)
+	/* Override the default grSettings for all instances of the date picker.
+	 * @param  grSettings  object - the new grSettings to use as defaults (anonymous object)
 	 * @return the manager object
 	 */
-	setDefaults: function(settings) {
-		extendRemove(this._defaults, settings || {});
+	setDefaults: function(grSettings) {
+		extendRemove(this._defaults, grSettings || {});
 		return this;
 	},
 
 	/* Attach the date picker to a jQuery selection.
 	 * @param  target	element - the target input field or division or span
-	 * @param  settings  object - the new settings to use for this date picker instance (anonymous)
+	 * @param  grSettings  object - the new grSettings to use for this date picker instance (anonymous)
 	 */
-	_attachDatepicker: function(target, settings) {
+	_attachDatepicker: function(target, grSettings) {
 		var nodeName, inline, inst;
 		nodeName = target.nodeName.toLowerCase();
 		inline = (nodeName === "div" || nodeName === "span");
@@ -7745,7 +7745,7 @@ $.extend(Datepicker.prototype, {
 			target.id = "dp" + this.uuid;
 		}
 		inst = this._newInst($(target), inline);
-		inst.settings = $.extend({}, settings || {});
+		inst.grSettings = $.extend({}, grSettings || {});
 		if (nodeName === "input") {
 			this._connectDatepicker(target, inst);
 		} else if (inline) {
@@ -7778,12 +7778,12 @@ $.extend(Datepicker.prototype, {
 		this._autoSize(inst);
 		$.data(target, PROP_NAME, inst);
 		//If disabled option is true, disable the datepicker once it has been attached to the input (see ticket #5665)
-		if( inst.settings.disabled ) {
+		if( inst.grSettings.disabled ) {
 			this._disableDatepicker( target );
 		}
 	},
 
-	/* Make attachments based on settings. */
+	/* Make attachments based on grSettings. */
 	_attachments: function(input, inst) {
 		var showOn, buttonText, buttonImage,
 			appendText = this._get(inst, "appendText"),
@@ -7871,7 +7871,7 @@ $.extend(Datepicker.prototype, {
 		this._updateDatepicker(inst);
 		this._updateAlternate(inst);
 		//If disabled option is true, disable the datepicker before showing it (see ticket #5665)
-		if( inst.settings.disabled ) {
+		if( inst.grSettings.disabled ) {
 			this._disableDatepicker( target );
 		}
 		// Set display:block in place of inst.dpDiv.show() which won't work on disconnected elements
@@ -7883,13 +7883,13 @@ $.extend(Datepicker.prototype, {
 	 * @param  input element - ignored
 	 * @param  date	string or Date - the initial date to display
 	 * @param  onSelect  function - the function to call when a date is selected
-	 * @param  settings  object - update the dialog date picker instance's settings (anonymous object)
+	 * @param  grSettings  object - update the dialog date picker instance's grSettings (anonymous object)
 	 * @param  pos int[2] - coordinates for the dialog's position within the screen or
 	 *					event - with x/y coordinates or
 	 *					leave empty for default (screen centre)
 	 * @return the manager object
 	 */
-	_dialogDatepicker: function(input, date, onSelect, settings, pos) {
+	_dialogDatepicker: function(input, date, onSelect, grSettings, pos) {
 		var id, browserWidth, browserHeight, scrollX, scrollY,
 			inst = this._dialogInst; // internal instance
 
@@ -7901,10 +7901,10 @@ $.extend(Datepicker.prototype, {
 			this._dialogInput.keydown(this._doKeyDown);
 			$("body").append(this._dialogInput);
 			inst = this._dialogInst = this._newInst(this._dialogInput, false);
-			inst.settings = {};
+			inst.grSettings = {};
 			$.data(this._dialogInput[0], PROP_NAME, inst);
 		}
-		extendRemove(inst.settings, settings || {});
+		extendRemove(inst.grSettings, grSettings || {});
 		date = (date && date.constructor === Date ? this._formatDate(inst, date) : date);
 		this._dialogInput.val(date);
 
@@ -7920,7 +7920,7 @@ $.extend(Datepicker.prototype, {
 
 		// move input on screen for focus, but hidden behind dialog
 		this._dialogInput.css("left", (this._pos[0] + 20) + "px").css("top", this._pos[1] + "px");
-		inst.settings.onSelect = onSelect;
+		inst.grSettings.onSelect = onSelect;
 		this._inDialog = true;
 		this.dpDiv.addClass(this._dialogClass);
 		this._showDatepicker(this._dialogInput[0]);
@@ -8045,29 +8045,29 @@ $.extend(Datepicker.prototype, {
 		}
 	},
 
-	/* Update or retrieve the settings for a date picker attached to an input field or division.
+	/* Update or retrieve the grSettings for a date picker attached to an input field or division.
 	 * @param  target  element - the target input field or division or span
-	 * @param  name	object - the new settings to update or
+	 * @param  name	object - the new grSettings to update or
 	 *				string - the name of the setting to change or retrieve,
-	 *				when retrieving also "all" for all instance settings or
+	 *				when retrieving also "all" for all instance grSettings or
 	 *				"defaults" for all global defaults
 	 * @param  value   any - the new value for the setting
 	 *				(omit if above is an object or to retrieve a value)
 	 */
 	_optionDatepicker: function(target, name, value) {
-		var settings, date, minDate, maxDate,
+		var grSettings, date, minDate, maxDate,
 			inst = this._getInst(target);
 
 		if (arguments.length === 2 && typeof name === "string") {
 			return (name === "defaults" ? $.extend({}, $.datepicker._defaults) :
-				(inst ? (name === "all" ? $.extend({}, inst.settings) :
+				(inst ? (name === "all" ? $.extend({}, inst.grSettings) :
 				this._get(inst, name)) : null));
 		}
 
-		settings = name || {};
+		grSettings = name || {};
 		if (typeof name === "string") {
-			settings = {};
-			settings[name] = value;
+			grSettings = {};
+			grSettings[name] = value;
 		}
 
 		if (inst) {
@@ -8078,16 +8078,16 @@ $.extend(Datepicker.prototype, {
 			date = this._getDateDatepicker(target, true);
 			minDate = this._getMinMaxDate(inst, "min");
 			maxDate = this._getMinMaxDate(inst, "max");
-			extendRemove(inst.settings, settings);
+			extendRemove(inst.grSettings, grSettings);
 			// reformat the old minDate/maxDate values if dateFormat changes and a new minDate/maxDate isn't provided
-			if (minDate !== null && settings.dateFormat !== undefined && settings.minDate === undefined) {
-				inst.settings.minDate = this._formatDate(inst, minDate);
+			if (minDate !== null && grSettings.dateFormat !== undefined && grSettings.minDate === undefined) {
+				inst.grSettings.minDate = this._formatDate(inst, minDate);
 			}
-			if (maxDate !== null && settings.dateFormat !== undefined && settings.maxDate === undefined) {
-				inst.settings.maxDate = this._formatDate(inst, maxDate);
+			if (maxDate !== null && grSettings.dateFormat !== undefined && grSettings.maxDate === undefined) {
+				inst.grSettings.maxDate = this._formatDate(inst, maxDate);
 			}
-			if ( "disabled" in settings ) {
-				if ( settings.disabled ) {
+			if ( "disabled" in grSettings ) {
+				if ( grSettings.disabled ) {
 					this._disableDatepicker(target);
 				} else {
 					this._enableDatepicker(target);
@@ -8290,7 +8290,7 @@ $.extend(Datepicker.prototype, {
 			return;
 		}
 
-		var inst, beforeShow, beforeShowSettings, isFixed,
+		var inst, beforeShow, beforeShowgrSettings, isFixed,
 			offset, showAnim, duration;
 
 		inst = $.datepicker._getInst(input);
@@ -8302,11 +8302,11 @@ $.extend(Datepicker.prototype, {
 		}
 
 		beforeShow = $.datepicker._get(inst, "beforeShow");
-		beforeShowSettings = beforeShow ? beforeShow.apply(input, [input, inst]) : {};
-		if(beforeShowSettings === false){
+		beforeShowgrSettings = beforeShow ? beforeShow.apply(input, [input, inst]) : {};
+		if(beforeShowgrSettings === false){
 			return;
 		}
-		extendRemove(inst.settings, beforeShowSettings);
+		extendRemove(inst.grSettings, beforeShowgrSettings);
 
 		inst.lastVal = null;
 		$.datepicker._lastInput = input;
@@ -8659,7 +8659,7 @@ $.extend(Datepicker.prototype, {
 	 *
 	 * @param  format string - the expected format of the date
 	 * @param  value string - the date in the above format
-	 * @param  settings Object - attributes include:
+	 * @param  grSettings Object - attributes include:
 	 *					shortYearCutoff  number - the cutoff year for determining the century (optional)
 	 *					dayNamesShort	string[7] - abbreviated names of the days from Sunday (optional)
 	 *					dayNames		string[7] - names of the days from Sunday (optional)
@@ -8667,7 +8667,7 @@ $.extend(Datepicker.prototype, {
 	 *					monthNames		string[12] - names of the months (optional)
 	 * @return  Date - the extracted date value or null if value is blank
 	 */
-	parseDate: function (format, value, settings) {
+	parseDate: function (format, value, grSettings) {
 		if (format == null || value == null) {
 			throw "Invalid arguments";
 		}
@@ -8679,13 +8679,13 @@ $.extend(Datepicker.prototype, {
 
 		var iFormat, dim, extra,
 			iValue = 0,
-			shortYearCutoffTemp = (settings ? settings.shortYearCutoff : null) || this._defaults.shortYearCutoff,
+			shortYearCutoffTemp = (grSettings ? grSettings.shortYearCutoff : null) || this._defaults.shortYearCutoff,
 			shortYearCutoff = (typeof shortYearCutoffTemp !== "string" ? shortYearCutoffTemp :
 				new Date().getFullYear() % 100 + parseInt(shortYearCutoffTemp, 10)),
-			dayNamesShort = (settings ? settings.dayNamesShort : null) || this._defaults.dayNamesShort,
-			dayNames = (settings ? settings.dayNames : null) || this._defaults.dayNames,
-			monthNamesShort = (settings ? settings.monthNamesShort : null) || this._defaults.monthNamesShort,
-			monthNames = (settings ? settings.monthNames : null) || this._defaults.monthNames,
+			dayNamesShort = (grSettings ? grSettings.dayNamesShort : null) || this._defaults.dayNamesShort,
+			dayNames = (grSettings ? grSettings.dayNames : null) || this._defaults.dayNames,
+			monthNamesShort = (grSettings ? grSettings.monthNamesShort : null) || this._defaults.monthNamesShort,
+			monthNames = (grSettings ? grSettings.monthNames : null) || this._defaults.monthNames,
 			year = -1,
 			month = -1,
 			day = -1,
@@ -8868,23 +8868,23 @@ $.extend(Datepicker.prototype, {
 	 *
 	 * @param  format string - the desired format of the date
 	 * @param  date Date - the date value to format
-	 * @param  settings Object - attributes include:
+	 * @param  grSettings Object - attributes include:
 	 *					dayNamesShort	string[7] - abbreviated names of the days from Sunday (optional)
 	 *					dayNames		string[7] - names of the days from Sunday (optional)
 	 *					monthNamesShort string[12] - abbreviated names of the months (optional)
 	 *					monthNames		string[12] - names of the months (optional)
 	 * @return  string - the date in the above format
 	 */
-	formatDate: function (format, date, settings) {
+	formatDate: function (format, date, grSettings) {
 		if (!date) {
 			return "";
 		}
 
 		var iFormat,
-			dayNamesShort = (settings ? settings.dayNamesShort : null) || this._defaults.dayNamesShort,
-			dayNames = (settings ? settings.dayNames : null) || this._defaults.dayNames,
-			monthNamesShort = (settings ? settings.monthNamesShort : null) || this._defaults.monthNamesShort,
-			monthNames = (settings ? settings.monthNames : null) || this._defaults.monthNames,
+			dayNamesShort = (grSettings ? grSettings.dayNamesShort : null) || this._defaults.dayNamesShort,
+			dayNames = (grSettings ? grSettings.dayNames : null) || this._defaults.dayNames,
+			monthNamesShort = (grSettings ? grSettings.monthNamesShort : null) || this._defaults.monthNamesShort,
+			monthNames = (grSettings ? grSettings.monthNames : null) || this._defaults.monthNames,
 			// Check whether a format character is doubled
 			lookAhead = function(match) {
 				var matches = (iFormat + 1 < format.length && format.charAt(iFormat + 1) === match);
@@ -9007,8 +9007,8 @@ $.extend(Datepicker.prototype, {
 
 	/* Get a setting value, defaulting if necessary. */
 	_get: function(inst, name) {
-		return inst.settings[name] !== undefined ?
-			inst.settings[name] : this._defaults[name];
+		return inst.grSettings[name] !== undefined ?
+			inst.grSettings[name] : this._defaults[name];
 	},
 
 	/* Parse existing date and initialise date picker. */
@@ -9021,10 +9021,10 @@ $.extend(Datepicker.prototype, {
 			dates = inst.lastVal = inst.input ? inst.input.val() : null,
 			defaultDate = this._getDefaultDate(inst),
 			date = defaultDate,
-			settings = this._getFormatConfig(inst);
+			grSettings = this._getFormatConfig(inst);
 
 		try {
-			date = this.parseDate(dateFormat, dates, settings) || defaultDate;
+			date = this.parseDate(dateFormat, dates, grSettings) || defaultDate;
 		} catch (event) {
 			dates = (noDefault ? "" : dates);
 		}
@@ -9185,7 +9185,7 @@ $.extend(Datepicker.prototype, {
 			monthNames, monthNamesShort, beforeShowDay, showOtherMonths,
 			selectOtherMonths, defaultDate, html, dow, row, group, col, selectedDate,
 			cornerClass, calender, thead, day, daysInMonth, leadDays, curRows, numRows,
-			printDate, dRow, tbody, daySettings, otherMonth, unselectable,
+			printDate, dRow, tbody, daygrSettings, otherMonth, unselectable,
 			tempDate = new Date(),
 			today = this._daylightSavingAdjust(
 				new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate())), // clear time
@@ -9317,10 +9317,10 @@ $.extend(Datepicker.prototype, {
 					tbody = (!showWeek ? "" : "<td class='ui-datepicker-week-col'>" +
 						this._get(inst, "calculateWeek")(printDate) + "</td>");
 					for (dow = 0; dow < 7; dow++) { // create date picker days
-						daySettings = (beforeShowDay ?
+						daygrSettings = (beforeShowDay ?
 							beforeShowDay.apply((inst.input ? inst.input[0] : null), [printDate]) : [true, ""]);
 						otherMonth = (printDate.getMonth() !== drawMonth);
-						unselectable = (otherMonth && !selectOtherMonths) || !daySettings[0] ||
+						unselectable = (otherMonth && !selectOtherMonths) || !daygrSettings[0] ||
 							(minDate && printDate < minDate) || (maxDate && printDate > maxDate);
 						tbody += "<td class='" +
 							((dow + firstDay + 6) % 7 >= 5 ? " ui-datepicker-week-end" : "") + // highlight weekends
@@ -9330,10 +9330,10 @@ $.extend(Datepicker.prototype, {
 							// or defaultDate is current printedDate and defaultDate is selectedDate
 							" " + this._dayOverClass : "") + // highlight selected day
 							(unselectable ? " " + this._unselectableClass + " ui-state-disabled": "") +  // highlight unselectable days
-							(otherMonth && !showOtherMonths ? "" : " " + daySettings[1] + // highlight custom dates
+							(otherMonth && !showOtherMonths ? "" : " " + daygrSettings[1] + // highlight custom dates
 							(printDate.getTime() === currentDate.getTime() ? " " + this._currentClass : "") + // highlight selected day
 							(printDate.getTime() === today.getTime() ? " ui-datepicker-today" : "")) + "'" + // highlight today (if different)
-							((!otherMonth || showOtherMonths) && daySettings[2] ? " title='" + daySettings[2].replace(/'/g, "&#39;") + "'" : "") + // cell title
+							((!otherMonth || showOtherMonths) && daygrSettings[2] ? " title='" + daygrSettings[2].replace(/'/g, "&#39;") + "'" : "") + // cell title
 							(unselectable ? "" : " data-handler='selectDay' data-event='click' data-month='" + printDate.getMonth() + "' data-year='" + printDate.getFullYear() + "'") + ">" + // actions
 							(otherMonth && !showOtherMonths ? "&#xa0;" : // display for other months
 							(unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default" +
@@ -9526,7 +9526,7 @@ $.extend(Datepicker.prototype, {
 			(!maxYear || date.getFullYear() <= maxYear));
 	},
 
-	/* Provide the configuration settings for formatting/parsing. */
+	/* Provide the configuration grSettings for formatting/parsing. */
 	_getFormatConfig: function(inst) {
 		var shortYearCutoff = this._get(inst, "shortYearCutoff");
 		shortYearCutoff = (typeof shortYearCutoff !== "string" ? shortYearCutoff :
@@ -9593,7 +9593,7 @@ function extendRemove(target, props) {
 
 /* Invoke the datepicker functionality.
    @param  options  string - a command, optionally followed by additional parameters or
-					Object - settings for attaching new datepicker functionality
+					Object - grSettings for attaching new datepicker functionality
    @return  jQuery object */
 $.fn.datepicker = function(options){
 
@@ -14558,7 +14558,7 @@ $.widget( "ui.tabs", {
 			return;
 		}
 
-		this.xhr = $.ajax( this._ajaxSettings( anchor, event, eventData ) );
+		this.xhr = $.ajax( this._ajaxgrSettings( anchor, event, eventData ) );
 
 		// support: jQuery <1.8
 		// jQuery <1.8 returns false if the request is canceled in beforeSend,
@@ -14595,13 +14595,13 @@ $.widget( "ui.tabs", {
 		}
 	},
 
-	_ajaxSettings: function( anchor, event, eventData ) {
+	_ajaxgrSettings: function( anchor, event, eventData ) {
 		var that = this;
 		return {
 			url: anchor.attr( "href" ),
-			beforeSend: function( jqXHR, settings ) {
+			beforeSend: function( jqXHR, grSettings ) {
 				return that._trigger( "beforeLoad", event,
-					$.extend( { jqXHR : jqXHR, ajaxSettings: settings }, eventData ) );
+					$.extend( { jqXHR : jqXHR, ajaxgrSettings: grSettings }, eventData ) );
 			}
 		};
 	},

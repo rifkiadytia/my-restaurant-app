@@ -88,11 +88,12 @@ namespace ERestaurant.DataRepositories
         {
             try
             {
-                FoodMaster fd = dataContext.FoodMasters.Where(x => x.FoodCatID == food.FoodCatID).FirstOrDefault();
+                FoodMaster fd = dataContext.FoodMasters.Where(x => x.FoodID == food.FoodID).FirstOrDefault();
                 fd.FoodDescription = food.FoodDescription;
                 fd.FoodName = food.FoodName;
                 fd.Price = food.Price;
                 fd.Image = food.Image;
+                fd.FoodCatID = food.FoodCatID;
                 fd.FinishingTime = fd.FinishingTime;
                 dataContext.SubmitChanges();
                 return true;
@@ -118,10 +119,10 @@ namespace ERestaurant.DataRepositories
             }
         }
        
-        public IEnumerable<SessionMaster> GetALlSession()
-        {
-            return dataContext.SessionMasters.ToList();
-        }
+        //public IEnumerable<SessionMaster> GetALlSession()
+        //{
+        //    return dataContext.SessionMasters.ToList();
+        //}
 
         public SessionMaster GetSessionById(long sessionId)
         {
@@ -135,7 +136,6 @@ namespace ERestaurant.DataRepositories
                 if (model.SessionBelongto.HasValue)
                 {
                     List<long> allParent = GetParent( model.SessionBelongto.Value);
-                    model.SessionBelongto = null;
                     dataContext.SessionMasters.InsertOnSubmit(model);
                     dataContext.SubmitChanges();
                     sesssionId = model.SessionID;
@@ -154,7 +154,7 @@ namespace ERestaurant.DataRepositories
                 }
                 else
                 {
-                    model.SessionBelongto =null;
+                    model.SessionBelongto = dataContext.SessionMasters.Where(x => x.SessionBelongto == -1).FirstOrDefault().SessionID; 
                     dataContext.SessionMasters.InsertOnSubmit(model);
                     dataContext.SubmitChanges();
                     //Insert into session structure
@@ -266,7 +266,7 @@ namespace ERestaurant.DataRepositories
                     List<long> allParents = GetParent(model.SessionBelongto.Value);
                     SessionMaster master = dataContext.SessionMasters.Where(x => x.SessionID == model.SessionID).FirstOrDefault();
                     master.SessionName = model.SessionName;
-                    master.SessionBelongto = null;
+                    master.SessionBelongto = model.SessionBelongto;
                     dataContext.SubmitChanges();
                     sesssionId = model.SessionID;
                     SessionStructure structure = new SessionStructure();
@@ -295,7 +295,7 @@ namespace ERestaurant.DataRepositories
                     //Update session master
                     SessionMaster master = dataContext.SessionMasters.Where(x => x.SessionID == model.SessionID).FirstOrDefault();
                     master.SessionName = model.SessionName;
-                    master.SessionBelongto = null;
+                    master.SessionBelongto = dataContext.SessionMasters.Where(x => x.SessionBelongto == -1).FirstOrDefault().SessionID; 
                     dataContext.SubmitChanges();
 
                 }
@@ -374,5 +374,48 @@ namespace ERestaurant.DataRepositories
                 return false;
             }
         }
+
+        
+        public List<TreeViewNode> GetTreeViewList()
+        {
+            List<TreeViewNode> listRootNode = (from src in dataContext.SessionMasters
+                                       where src.SessionBelongto == -1
+                                       select new TreeViewNode()
+                                       {
+                                           SessionID = src.SessionID,
+                                           SessioName = src.SessionName,
+                                           SessionBelongTo = src.SessionBelongto.Value
+                                       }).ToList<TreeViewNode>();
+            List<TreeViewNode> finalTree = new List<TreeViewNode>();
+            foreach (var item in listRootNode)
+            {
+                finalTree.Add(item);
+                BuildChildNode(item, ref finalTree);
+            }
+            return finalTree;
+        }
+        //Build session master treeview
+        private void BuildChildNode(TreeViewNode rootNode, ref List<TreeViewNode> listRootNode)
+        {
+            if (rootNode != null)
+            {
+                List<TreeViewNode> chidNode = (from src in dataContext.SessionMasters
+                                                 where src.SessionBelongto.Value == rootNode.SessionID
+                                                 select new TreeViewNode()
+                                                 {
+                                                     SessionID = src.SessionID,
+                                                     SessioName = src.SessionName,
+                                                     SessionBelongTo =src.SessionBelongto.Value
+                                                 }).ToList<TreeViewNode>();
+                if (chidNode.Count > 0)
+                {
+                    foreach (var childRootNode in chidNode)
+                    {
+                        BuildChildNode(childRootNode, ref listRootNode);
+                        listRootNode.Add(childRootNode);
+                    }
+                }
+            }
+        } 
     }
 }

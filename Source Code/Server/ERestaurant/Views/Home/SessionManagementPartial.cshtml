@@ -1,0 +1,9 @@
+﻿@using DevExpress.Web.Mvc.UI
+@{ Layout = null; }
+@using ERestaurant.Dataservice;
+@model List<ERestaurant.Models.TreeViewNode>
+
+@Html.DevExpress().TreeView(grSettings => {
+    grSettings.Name = "treeView";
+    DataProvider.CreateTreeViewNodesRecursive(Model, grSettings.Nodes, null);
+}).GetHtml()

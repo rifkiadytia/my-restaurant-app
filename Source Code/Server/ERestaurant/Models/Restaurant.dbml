@@ -19,13 +19,13 @@
     <Type Name="FoodMaster">
       <Column Name="FoodID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="FoodName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FoodDescription" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="FoodDescription" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Image" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="FoodCatID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="FinishingTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="FoodMaster_OrderDetail" Member="OrderDetails" ThisKey="FoodID" OtherKey="FoodID" Type="OrderDetail" />
-      <Association Name="FoodCategoryMaster_FoodMaster" Member="FoodCategoryMaster" ThisKey="FoodCatID" OtherKey="FoodCatID" Type="FoodCategoryMaster" IsForeignKey="true" />
+      <Association Name="FoodCategoryMaster_FoodMaster" Member="FoodCategoryMaster" ThisKey="FoodCatID" OtherKey="FoodCatID" Type="FoodCategoryMaster" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.OrderDetails" Member="OrderDetails">

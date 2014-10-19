@@ -1,0 +1,95 @@
+﻿@using ERestaurant.Dataservice;
+
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    var customEditFoodButton = new GridViewCommandColumnCustomButton()
+    {
+        ID = "btnEditFood",
+        Text = "Edit Food"
+
+    };
+    var grid = Html.DevExpress().GridView(
+        grSettings =>
+        {
+            grSettings.Name = "gridView";
+            grSettings.SettingsPager.Position = PagerPosition.TopAndBottom;
+            grSettings.SettingsPager.FirstPageButton.Visible = true;
+            grSettings.SettingsPager.LastPageButton.Visible = true;
+            grSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+            grSettings.CallbackRouteValues = new { Controller = "Home", Action = "FoodPartial" };
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Paging,
+                new { Controller = "Home", Action = "AdvancedCustomBindingPagingFoodAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Filtering,
+                new { Controller = "Home", Action = "AdvancedCustomBindingFilteringFoodAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Sorting,
+                new { Controller = "Home", Action = "AdvancedCustomBindingSortingFoodAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Grouping,
+                new { Controller = "Home", Action = "AdvancedCustomBindingGroupingFoodAction" }
+            );
+
+            grSettings.KeyFieldName = "FoodID";
+            grSettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "FoodDeletePartial" };
+            grSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "FoodUpdatePartial" };
+            grSettings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            grSettings.SettingsBehavior.ConfirmDelete = true;
+            grSettings.CommandColumn.Visible = true;
+            grSettings.CommandColumn.Width = Unit.Percentage(10);
+            grSettings.CommandColumn.ShowDeleteButton = true;
+            grSettings.CommandColumn.ShowEditButton = true;
+            grSettings.Settings.ShowFilterRow = true;
+            grSettings.Settings.ShowGroupPanel = true;
+            grSettings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            grSettings.Settings.ShowFooter = true;
+            grSettings.SettingsBehavior.AllowFocusedRow = true;
+            grSettings.Width = Unit.Percentage(100);
+            grSettings.Columns.Add("FoodName").Width = Unit.Percentage(15);
+           
+            grSettings.Columns.Add(column =>
+            {
+                column.FieldName = "FoodCatID";
+                column.Caption = "Food category";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = DataProvider.GetInstance.GetFoodCategory();
+                comboBoxProperties.TextField = "FoodCatName";
+                comboBoxProperties.ValueField = "FoodCatID";
+                comboBoxProperties.ValueType = typeof(int);
+                comboBoxProperties.Width = Unit.Percentage(100);
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            });
+            grSettings.CommandColumn.CustomButtons.Add(customEditFoodButton);
+            grSettings.ClientSideEvents.CustomButtonClick = string.Format("function(s, e) {{ CustomButtonClick(s, e); }}");
+
+            grSettings.Columns.Add("Price").Width = Unit.Percentage(15);
+            grSettings.Columns.Add("FinishingTime").Width = Unit.Percentage(20);
+            grSettings.Columns.Add("FoodDescription").Width = Unit.Percentage(20);
+            
+        });
+    if (ViewBag.ErrMessage != null)
+    {
+        grid.SetEditErrorText((string)ViewBag.ErrMessage);
+    }
+   
+}
+@grid.BindToCustomData(Model).GetHtml()
+
+<script type="text/javascript">
+    
+    function CustomButtonClick(s, e) {
+        var key = s.GetRowKey(e.visibleIndex);
+        if (e.buttonID ==="btnEditFood") {
+            var destUrl = "/Home/EditFood/" + key;
+            window.location.href = destUrl;
+        }
+    }
+    
+</script>

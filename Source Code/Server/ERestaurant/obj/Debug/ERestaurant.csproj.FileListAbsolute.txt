@@ -94,6 +94,7 @@ D:\PROJECT\DXWebApplication\DXWebApplication2\ERestaurant\obj\Debug\DXWebApplica
 D:\PROJECT\DXWebApplication\DXWebApplication2\ERestaurant\obj\Debug\DXWebApplication2.pdb
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DXWebApplication2.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DXWebApplication2.pdb
+D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DevOne.Security.Cryptography.BCrypt.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DotNetOpenAuth.AspNet.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DotNetOpenAuth.Core.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DotNetOpenAuth.OAuth.Consumer.dll
@@ -139,5 +140,3 @@ D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\WebMatrix.Data.xml
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\WebMatrix.WebData.xml
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\DXWebApplication2.dll
 D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\DXWebApplication2.pdb
-D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\bin\DevOne.Security.Cryptography.BCrypt.dll
-D:\PROJECT\Restaurant_Svn\Source Code\Server\ERestaurant\obj\Debug\ERestaurant.csprojResolveAssemblyReference.cache
