@@ -15,44 +15,44 @@
         @Html.ValidationSummary(true)
 
         <div class="line">
-        @Html.DevExpress().LabelFor(model => model.TableName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.TableName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.TableName, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.TableName, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
 
         <div class="line">
-        @Html.DevExpress().LabelFor(model => model.SessionID, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.SessionID, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.SessionID,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "SessionID";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "SessionName";
-            settings.Properties.ValueField = "SessionID";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "SessionID";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "SessionName";
+            grSettings.Properties.ValueField = "SessionID";
+            grSettings.Properties.ValidationgrSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.Session).GetHtml()
     </div>
 
        <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Type, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.Type, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.Type,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "Type";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "TableDisplay";
-            settings.Properties.ValueField = "TableValue";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "Type";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "TableDisplay";
+            grSettings.Properties.ValueField = "TableValue";
+            grSettings.Properties.ValidationgrSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.Type).GetHtml()
     </div>

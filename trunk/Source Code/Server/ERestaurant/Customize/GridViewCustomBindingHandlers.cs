@@ -15,7 +15,8 @@ namespace ERestaurant.Customize
     public static class GridViewCustomBindingHandlers
     {
         static IQueryable Model { get { return m_Datasource; } }
-        public static IQueryable m_Datasource; 
+        public static IQueryable m_Datasource;
+        public static string NodeId { get; set; }
         public static void SetModel(string dataSource)
         {
             if(dataSource.Equals("SearchUser")){
@@ -24,6 +25,27 @@ namespace ERestaurant.Customize
             else if (dataSource.Equals("Role"))
             {
                 m_Datasource = DataProvider.GetInstance.Roles;
+            }
+            else if (dataSource.Equals("FoodCategory"))
+            {
+                m_Datasource = DataProvider.GetInstance.FoodCategory;
+            }
+            else if (dataSource.Equals("Table"))
+            {
+                m_Datasource = DataProvider.GetInstance.Table;
+            }
+            else if (dataSource.Equals("TableTree"))
+            {
+                long nodeId = Convert.ToInt64(NodeId);
+                m_Datasource = DataProvider.GetInstance.TableTree(nodeId);
+            }
+            else if (dataSource.Equals("Session"))
+            {
+                m_Datasource = DataProvider.GetInstance.Session;
+            }
+            else if (dataSource.Equals("Food"))
+            {
+                m_Datasource = DataProvider.GetInstance.Food;
             }
         }
        

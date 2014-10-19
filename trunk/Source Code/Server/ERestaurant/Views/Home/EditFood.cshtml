@@ -4,78 +4,185 @@
     ViewBag.Title = "EDitFood";
 }
 
-<h2>CreateFood</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--basic styles-->
 
-@using (Html.BeginForm("EditFood", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/css/bootstrap-responsive.min.css")" rel="stylesheet" />
+<link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome.min.css")" />
+
+<!--[if IE 7]>
+		  <link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome-ie7.min.css")" />
+		<![endif]-->
+
+<!--page specific plugin styles-->
+
+<!--fonts-->
+
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+<!--ace styles-->
+
+<link rel="stylesheet" href="@Url.Content("~/Content/css/ace.min.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Content/css/ace-responsive.min.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Content/css/ace-skins.min.css")" />
+
+<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-ie.min.css")" />
+		<![endif]-->
+
+<!--basic scripts-->
+
+<!--[if !IE]>-->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<!--<![endif]-->
+
+<!--[if IE]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]>-->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='@Url.Content("~/Scripts/js/jquery-2.0.3.min.js")'>" + "<" + "/script>");
+</script>
+
+<!--<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='@Url.Content("~/Scripts/js/jquery-1.10.2.min.js")'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if ("ontouchend" in document) document.write("<script src='@Url.Content("~/Scripts//js/jquery.mobile.custom.min.js")'>" + "<" + "/script>");
+</script>
+<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>
+
+<!--page specific plugin scripts-->
+
+<script src="@Url.Content("~/Scripts/js/jquery.dataTables.min.js")"></script>
+<script src="@Url.Content("~/Scripts/js/jquery.dataTables.bootstrap.js")"></script>
+
+<!--ace scripts-->
+
+<script src="@Url.Content("~/Scripts/js/ace-elements.min.js")"></script>
+<script src="@Url.Content("~/Scripts/js/ace.min.js")"></script>
+<div class="hide" style="display: block;">
+<div id="user-profile-3" class="user-profile row-fluid">
+@using (Html.BeginForm("EditFood", "Home", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
 {
+    <label><span style="color:blue;" >@ViewBag.Message</span></label>
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.FoodID);
     @Html.HiddenFor(model => model.Image);
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true)
+    <div id="edit-basic" class="tab-pane active">
+            <h4 class="header blue bolder smaller">General</h4>
 
-         <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.FoodName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
-    </div>
-
-       <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodDescription, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.FoodDescription, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
-    </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Price)
-                @Html.ValidationMessageFor(model => model.Price)
-            </div>
-        </div>
-
-        <div class="form-group">
+            <div class="row-fluid">
+                <div class="span4">
+                    <div class="ace-file-input ace-file-multiple">
+                        <img src="@Url.Content("~/Upload/images/" + @Model.Image)" />
+                       
+                    </div>
+                    @Html.TextBoxFor(model => model.Image, new { @type = "file" })
+                   @*<div class="form-group">
             @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Image, new { @type="file"})
+                @Html.TextBoxFor(model => model.Image, new { @type = "file" })
                 @Html.ValidationMessageFor(model => model.Image)
             </div>
-            <div><img src="@Url.Content("~/Upload/images/"+Model.Image)" /></div>
-        </div>
-         <div class="line">
-        @Html.DevExpress().LabelFor(model => model.FoodCatID, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().ComboBoxFor(
+            <div><img src="@Url.Content("~/Upload/images/" + Model.Image)" /></div>
+        </div>*@
+                </div>
+
+              
+            </div>
+
+            <hr>
+        <div class="control-group">
+                        <label class="control-label" for="FoodName">Food Name</label>
+
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.FoodName)
+                        </div>
+                    </div>
+            <div class="control-group">
+                <label class="control-label" for="DOB">Price</label>
+
+                <div class="controls">
+                    <div class="input-append">
+                        @Html.TextBoxFor(model => model.Price)
+                    </div>
+                </div>
+            </div>
+
+           
+
+            <div class="control-group">
+                <label class="control-label" for="Address">FoodDescription</label>
+
+                <div class="controls">
+                    @Html.TextAreaFor(model => model.FoodDescription)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="FinishingTime">FinishingTime</label>
+
+                <div class="controls">
+                        @Html.TextBoxFor(model => model.FinishingTime)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Position">FoodCatID</label>
+
+                <div class="controls">
+                  
+            @Html.DevExpress().ComboBoxFor(
         model => model.FoodCatID,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "FoodCatID";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "FoodCatName";
-            settings.Properties.ValueField = "FoodCatID";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "FoodCatID";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "FoodCatName";
+            grSettings.Properties.ValueField = "FoodCatID";
+            grSettings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.FoodCategory).GetHtml()
-    </div>
-      
-        <div class="form-group">
-            @Html.LabelFor(model => model.FinishingTime, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FinishingTime)
-                @Html.ValidationMessageFor(model => model.FinishingTime)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Update" class="btn btn-default" />
-            </div>
+
+            <div class="space"></div>
+           
+            
+            
         </div>
-    </div>
+    
+       <div class="form-actions">
+
+				 @Html.DevExpress().Button(settings =>
+                {
+                   settings.Name = "Button";
+                    settings.Text = "Update";
+                    settings.UseSubmitBehavior = true;
+                }).GetHtml()
+     @*   <button class="btn btn-info" type="button">
+													<i class="icon-ok bigger-110"></i>
+													Update
+												</button>	*@
+    							
+     
+	</div>
+
+       
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Food")
 </div>

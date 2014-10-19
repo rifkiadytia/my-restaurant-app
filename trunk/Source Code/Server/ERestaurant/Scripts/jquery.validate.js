@@ -49,10 +49,10 @@ $.extend($.fn, {
 		validator = new $.validator( options, this[0] );
 		$.data( this[0], "validator", validator );
 
-		if ( validator.settings.onsubmit ) {
+		if ( validator.grSettings.onsubmit ) {
 
 			this.validateDelegate( ":submit", "click", function( event ) {
-				if ( validator.settings.submitHandler ) {
+				if ( validator.grSettings.submitHandler ) {
 					validator.submitButton = event.target;
 				}
 				// allow suppressing validation by adding a cancel class to the submit button
@@ -68,18 +68,18 @@ $.extend($.fn, {
 
 			// validate the form on submit
 			this.submit( function( event ) {
-				if ( validator.settings.debug ) {
+				if ( validator.grSettings.debug ) {
 					// prevent form submit to be able to see console output
 					event.preventDefault();
 				}
 				function handle() {
 					var hidden;
-					if ( validator.settings.submitHandler ) {
+					if ( validator.grSettings.submitHandler ) {
 						if ( validator.submitButton ) {
 							// insert a hidden input as a replacement for the missing submit button
 							hidden = $("<input type='hidden'/>").attr("name", validator.submitButton.name).val( $(validator.submitButton).val() ).appendTo(validator.currentForm);
 						}
-						validator.settings.submitHandler.call( validator, validator.currentForm, event );
+						validator.grSettings.submitHandler.call( validator, validator.currentForm, event );
 						if ( validator.submitButton ) {
 							// and clean up afterwards; thanks to no-block-scope, hidden can be referenced
 							hidden.remove();
@@ -137,8 +137,8 @@ $.extend($.fn, {
 		var element = this[0];
 
 		if ( command ) {
-			var settings = $.data(element.form, "validator").settings;
-			var staticRules = settings.rules;
+			var grSettings = $.data(element.form, "validator").grSettings;
+			var staticRules = grSettings.rules;
 			var existingRules = $.validator.staticRules(element);
 			switch(command) {
 			case "add":
@@ -147,7 +147,7 @@ $.extend($.fn, {
 				delete existingRules.messages;
 				staticRules[element.name] = existingRules;
 				if ( argument.messages ) {
-					settings.messages[element.name] = $.extend( settings.messages[element.name], argument.messages );
+					grSettings.messages[element.name] = $.extend( grSettings.messages[element.name], argument.messages );
 				}
 				break;
 			case "remove":
@@ -196,7 +196,7 @@ $.extend($.expr[":"], {
 
 // constructor for validator
 $.validator = function( options, form ) {
-	this.settings = $.extend( true, {}, $.validator.defaults, options );
+	this.grSettings = $.extend( true, {}, $.validator.defaults, options );
 	this.currentForm = form;
 	this.init();
 };
@@ -242,9 +242,9 @@ $.extend($.validator, {
 			this.lastActive = element;
 
 			// hide error label and remove error class on focus if enabled
-			if ( this.settings.focusCleanup && !this.blockFocusCleanup ) {
-				if ( this.settings.unhighlight ) {
-					this.settings.unhighlight.call( this, element, this.settings.errorClass, this.settings.validClass );
+			if ( this.grSettings.focusCleanup && !this.blockFocusCleanup ) {
+				if ( this.grSettings.unhighlight ) {
+					this.grSettings.unhighlight.call( this, element, this.grSettings.errorClass, this.grSettings.validClass );
 				}
 				this.addWrapper(this.errorsFor(element)).hide();
 			}
@@ -288,8 +288,8 @@ $.extend($.validator, {
 	},
 
 	// http://docs.jquery.com/Plugins/Validation/Validator/setDefaults
-	setDefaults: function( settings ) {
-		$.extend( $.validator.defaults, settings );
+	setDefaults: function( grSettings ) {
+		$.extend( $.validator.defaults, grSettings );
 	},
 
 	messages: {
@@ -316,9 +316,9 @@ $.extend($.validator, {
 	prototype: {
 
 		init: function() {
-			this.labelContainer = $(this.settings.errorLabelContainer);
+			this.labelContainer = $(this.grSettings.errorLabelContainer);
 			this.errorContext = this.labelContainer.length && this.labelContainer || $(this.currentForm);
-			this.containers = $(this.settings.errorContainer).add( this.settings.errorLabelContainer );
+			this.containers = $(this.grSettings.errorContainer).add( this.grSettings.errorLabelContainer );
 			this.submitted = {};
 			this.valueCache = {};
 			this.pendingRequest = 0;
@@ -327,7 +327,7 @@ $.extend($.validator, {
 			this.reset();
 
 			var groups = (this.groups = {});
-			$.each(this.settings.groups, function( key, value ) {
+			$.each(this.grSettings.groups, function( key, value ) {
 				if ( typeof value === "string" ) {
 					value = value.split(/\s/);
 				}
@@ -335,7 +335,7 @@ $.extend($.validator, {
 					groups[name] = key;
 				});
 			});
-			var rules = this.settings.rules;
+			var rules = this.grSettings.rules;
 			$.each(rules, function( key, value ) {
 				rules[key] = $.validator.normalizeRule(value);
 			});
@@ -343,8 +343,8 @@ $.extend($.validator, {
 			function delegate(event) {
 				var validator = $.data(this[0].form, "validator"),
 					eventType = "on" + event.type.replace(/^validate/, "");
-				if ( validator.settings[eventType] ) {
-					validator.settings[eventType].call(validator, this[0], event);
+				if ( validator.grSettings[eventType] ) {
+					validator.grSettings[eventType].call(validator, this[0], event);
 				}
 			}
 			$(this.currentForm)
@@ -356,8 +356,8 @@ $.extend($.validator, {
 					"focusin focusout keyup", delegate)
 				.validateDelegate("[type='radio'], [type='checkbox'], select, option", "click", delegate);
 
-			if ( this.settings.invalidHandler ) {
-				$(this.currentForm).bind("invalid-form.validate", this.settings.invalidHandler);
+			if ( this.grSettings.invalidHandler ) {
+				$(this.currentForm).bind("invalid-form.validate", this.grSettings.invalidHandler);
 			}
 		},
 
@@ -418,8 +418,8 @@ $.extend($.validator, {
 					return !(element.name in errors);
 				});
 			}
-			if ( this.settings.showErrors ) {
-				this.settings.showErrors.call( this, this.errorMap, this.errorList );
+			if ( this.grSettings.showErrors ) {
+				this.grSettings.showErrors.call( this, this.errorMap, this.errorList );
 			} else {
 				this.defaultShowErrors();
 			}
@@ -434,7 +434,7 @@ $.extend($.validator, {
 			this.lastElement = null;
 			this.prepareForm();
 			this.hideErrors();
-			this.elements().removeClass( this.settings.errorClass ).removeData( "previousValue" );
+			this.elements().removeClass( this.grSettings.errorClass ).removeData( "previousValue" );
 		},
 
 		numberOfInvalids: function() {
@@ -462,7 +462,7 @@ $.extend($.validator, {
 		},
 
 		focusInvalid: function() {
-			if ( this.settings.focusInvalid ) {
+			if ( this.grSettings.focusInvalid ) {
 				try {
 					$(this.findLastActive() || this.errorList.length && this.errorList[0].element || [])
 					.filter(":visible")
@@ -490,9 +490,9 @@ $.extend($.validator, {
 			return $(this.currentForm)
 			.find("input, select, textarea")
 			.not(":submit, :reset, :image, [disabled]")
-			.not( this.settings.ignore )
+			.not( this.grSettings.ignore )
 			.filter(function() {
-				if ( !this.name && validator.settings.debug && window.console ) {
+				if ( !this.name && validator.grSettings.debug && window.console ) {
 					console.error( "%o has no name assigned", this);
 				}
 
@@ -511,8 +511,8 @@ $.extend($.validator, {
 		},
 
 		errors: function() {
-			var errorClass = this.settings.errorClass.replace(" ", ".");
-			return $(this.settings.errorElement + "." + errorClass, this.errorContext);
+			var errorClass = this.grSettings.errorClass.replace(" ", ".");
+			return $(this.grSettings.errorElement + "." + errorClass, this.errorContext);
 		},
 
 		reset: function() {
@@ -580,7 +580,7 @@ $.extend($.validator, {
 						return false;
 					}
 				} catch(e) {
-					if ( this.settings.debug && window.console ) {
+					if ( this.grSettings.debug && window.console ) {
 						console.log( "Exception occurred when checking element " + element.id + ", check the '" + rule.method + "' method.", e );
 					}
 					throw e;
@@ -603,7 +603,7 @@ $.extend($.validator, {
 
 		// return the custom message for the given element name and validation method
 		customMessage: function( name, method ) {
-			var m = this.settings.messages[name];
+			var m = this.grSettings.messages[name];
 			return m && (m.constructor === String ? m : m[method]);
 		},
 
@@ -622,7 +622,7 @@ $.extend($.validator, {
 				this.customMessage( element.name, method ),
 				this.customDataMessage( element, method ),
 				// title is never undefined, so handle empty string as undefined
-				!this.settings.ignoreTitle && element.title || undefined,
+				!this.grSettings.ignoreTitle && element.title || undefined,
 				$.validator.messages[method],
 				"<strong>Warning: No message defined for " + element.name + "</strong>"
 			);
@@ -646,8 +646,8 @@ $.extend($.validator, {
 		},
 
 		addWrapper: function( toToggle ) {
-			if ( this.settings.wrapper ) {
-				toToggle = toToggle.add( toToggle.parent( this.settings.wrapper ) );
+			if ( this.grSettings.wrapper ) {
+				toToggle = toToggle.add( toToggle.parent( this.grSettings.wrapper ) );
 			}
 			return toToggle;
 		},
@@ -656,22 +656,22 @@ $.extend($.validator, {
 			var i, elements;
 			for ( i = 0; this.errorList[i]; i++ ) {
 				var error = this.errorList[i];
-				if ( this.settings.highlight ) {
-					this.settings.highlight.call( this, error.element, this.settings.errorClass, this.settings.validClass );
+				if ( this.grSettings.highlight ) {
+					this.grSettings.highlight.call( this, error.element, this.grSettings.errorClass, this.grSettings.validClass );
 				}
 				this.showLabel( error.element, error.message );
 			}
 			if ( this.errorList.length ) {
 				this.toShow = this.toShow.add( this.containers );
 			}
-			if ( this.settings.success ) {
+			if ( this.grSettings.success ) {
 				for ( i = 0; this.successList[i]; i++ ) {
 					this.showLabel( this.successList[i] );
 				}
 			}
-			if ( this.settings.unhighlight ) {
+			if ( this.grSettings.unhighlight ) {
 				for ( i = 0, elements = this.validElements(); elements[i]; i++ ) {
-					this.settings.unhighlight.call( this, elements[i], this.settings.errorClass, this.settings.validClass );
+					this.grSettings.unhighlight.call( this, elements[i], this.grSettings.errorClass, this.grSettings.validClass );
 				}
 			}
 			this.toHide = this.toHide.not( this.toShow );
@@ -693,34 +693,34 @@ $.extend($.validator, {
 			var label = this.errorsFor( element );
 			if ( label.length ) {
 				// refresh error/success class
-				label.removeClass( this.settings.validClass ).addClass( this.settings.errorClass );
+				label.removeClass( this.grSettings.validClass ).addClass( this.grSettings.errorClass );
 				// replace message on existing label
 				label.html(message);
 			} else {
 				// create label
-				label = $("<" + this.settings.errorElement + ">")
+				label = $("<" + this.grSettings.errorElement + ">")
 					.attr("for", this.idOrName(element))
-					.addClass(this.settings.errorClass)
+					.addClass(this.grSettings.errorClass)
 					.html(message || "");
-				if ( this.settings.wrapper ) {
+				if ( this.grSettings.wrapper ) {
 					// make sure the element is visible, even in IE
 					// actually showing the wrapped element is handled elsewhere
-					label = label.hide().show().wrap("<" + this.settings.wrapper + "/>").parent();
+					label = label.hide().show().wrap("<" + this.grSettings.wrapper + "/>").parent();
 				}
 				if ( !this.labelContainer.append(label).length ) {
-					if ( this.settings.errorPlacement ) {
-						this.settings.errorPlacement(label, $(element) );
+					if ( this.grSettings.errorPlacement ) {
+						this.grSettings.errorPlacement(label, $(element) );
 					} else {
 						label.insertAfter(element);
 					}
 				}
 			}
-			if ( !message && this.settings.success ) {
+			if ( !message && this.grSettings.success ) {
 				label.text("");
-				if ( typeof this.settings.success === "string" ) {
-					label.addClass( this.settings.success );
+				if ( typeof this.grSettings.success === "string" ) {
+					label.addClass( this.grSettings.success );
 				} else {
-					this.settings.success( label, element );
+					this.grSettings.success( label, element );
 				}
 			}
 			this.toShow = this.toShow.add(label);
@@ -740,7 +740,7 @@ $.extend($.validator, {
 		validationTargetFor: function( element ) {
 			// if radio/checkbox, validate first element in group instead
 			if ( this.checkable(element) ) {
-				element = this.findByName( element.name ).not(this.settings.ignore)[0];
+				element = this.findByName( element.name ).not(this.grSettings.ignore)[0];
 			}
 			return element;
 		},
@@ -819,7 +819,7 @@ $.extend($.validator, {
 
 	},
 
-	classRuleSettings: {
+	classRulegrSettings: {
 		required: {required: true},
 		email: {email: true},
 		url: {url: true},
@@ -832,9 +832,9 @@ $.extend($.validator, {
 
 	addClassRules: function( className, rules ) {
 		if ( className.constructor === String ) {
-			this.classRuleSettings[className] = rules;
+			this.classRulegrSettings[className] = rules;
 		} else {
-			$.extend(this.classRuleSettings, className);
+			$.extend(this.classRulegrSettings, className);
 		}
 	},
 
@@ -843,8 +843,8 @@ $.extend($.validator, {
 		var classes = $(element).attr("class");
 		if ( classes ) {
 			$.each(classes.split(" "), function() {
-				if ( this in $.validator.classRuleSettings ) {
-					$.extend(rules, $.validator.classRuleSettings[this]);
+				if ( this in $.validator.classRulegrSettings ) {
+					$.extend(rules, $.validator.classRulegrSettings[this]);
 				}
 			});
 		}
@@ -911,8 +911,8 @@ $.extend($.validator, {
 	staticRules: function( element ) {
 		var rules = {};
 		var validator = $.data(element.form, "validator");
-		if ( validator.settings.rules ) {
-			rules = $.validator.normalizeRule(validator.settings.rules[element.name]) || {};
+		if ( validator.grSettings.rules ) {
+			rules = $.validator.normalizeRule(validator.grSettings.rules[element.name]) || {};
 		}
 		return rules;
 	},
@@ -1124,7 +1124,7 @@ $.extend($.validator, {
 			// bind to the blur event of the target in order to revalidate whenever the target field is updated
 			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
 			var target = $(param);
-			if ( this.settings.onfocusout ) {
+			if ( this.grSettings.onfocusout ) {
 				target.unbind(".validate-equalTo").bind("blur.validate-equalTo", function() {
 					$(element).valid();
 				});
@@ -1139,11 +1139,11 @@ $.extend($.validator, {
 			}
 
 			var previous = this.previousValue(element);
-			if (!this.settings.messages[element.name] ) {
-				this.settings.messages[element.name] = {};
+			if (!this.grSettings.messages[element.name] ) {
+				this.grSettings.messages[element.name] = {};
 			}
-			previous.originalMessage = this.settings.messages[element.name].remote;
-			this.settings.messages[element.name].remote = previous.message;
+			previous.originalMessage = this.grSettings.messages[element.name].remote;
+			this.grSettings.messages[element.name].remote = previous.message;
 
 			param = typeof param === "string" && {url:param} || param;
 
@@ -1163,7 +1163,7 @@ $.extend($.validator, {
 				dataType: "json",
 				data: data,
 				success: function( response ) {
-					validator.settings.messages[element.name].remote = previous.originalMessage;
+					validator.grSettings.messages[element.name].remote = previous.originalMessage;
 					var valid = response === true || response === "true";
 					if ( valid ) {
 						var submitted = validator.formSubmitted;
@@ -1202,9 +1202,9 @@ $.format = $.validator.format;
 	var pendingRequests = {};
 	// Use a prefilter if available (1.5+)
 	if ( $.ajaxPrefilter ) {
-		$.ajaxPrefilter(function( settings, _, xhr ) {
-			var port = settings.port;
-			if ( settings.mode === "abort" ) {
+		$.ajaxPrefilter(function( grSettings, _, xhr ) {
+			var port = grSettings.port;
+			if ( grSettings.mode === "abort" ) {
 				if ( pendingRequests[port] ) {
 					pendingRequests[port].abort();
 				}
@@ -1214,9 +1214,9 @@ $.format = $.validator.format;
 	} else {
 		// Proxy ajax
 		var ajax = $.ajax;
-		$.ajax = function( settings ) {
-			var mode = ( "mode" in settings ? settings : $.ajaxSettings ).mode,
-				port = ( "port" in settings ? settings : $.ajaxSettings ).port;
+		$.ajax = function( grSettings ) {
+			var mode = ( "mode" in grSettings ? grSettings : $.ajaxgrSettings ).mode,
+				port = ( "port" in grSettings ? grSettings : $.ajaxgrSettings ).port;
 			if ( mode === "abort" ) {
 				if ( pendingRequests[port] ) {
 					pendingRequests[port].abort();

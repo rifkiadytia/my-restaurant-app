@@ -1,0 +1,89 @@
+﻿@using ERestaurant.Dataservice;
+@{
+    
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    
+    var grid = Html.DevExpress().GridView(
+        grSettings =>
+        {
+            grSettings.Name = "gridView";
+            grSettings.SettingsPager.Position = PagerPosition.TopAndBottom;
+            grSettings.SettingsPager.FirstPageButton.Visible = true;
+            grSettings.SettingsPager.LastPageButton.Visible = true;
+            grSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+            grSettings.CallbackRouteValues = new { Controller = "Home", Action = "TablePartial" };
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Paging,
+                new { Controller = "Home", Action = "AdvancedCustomBindingPagingTableAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Filtering,
+                new { Controller = "Home", Action = "AdvancedCustomBindingFilteringTableAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Sorting,
+                new { Controller = "Home", Action = "AdvancedCustomBindingSortingTableAction" }
+            );
+            grSettings.CustomBindingRouteValuesCollection.Add(
+                GridViewOperationType.Grouping,
+                new { Controller = "Home", Action = "AdvancedCustomBindingGroupingTableAction" }
+            );
+
+            grSettings.KeyFieldName = "TableID";
+            grSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "TableAddNewPartial" };
+            grSettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "TableDeletePartial" };
+            grSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "TableUpdatePartial" };
+            grSettings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            grSettings.SettingsBehavior.ConfirmDelete = true;
+            grSettings.CommandColumn.Visible = true;
+            grSettings.CommandColumn.Width = Unit.Percentage(10);
+            grSettings.CommandColumn.ShowNewButtonInHeader = true;
+            grSettings.CommandColumn.ShowDeleteButton = true;
+            grSettings.CommandColumn.ShowEditButton = true;
+            grSettings.Settings.ShowFilterRow = true;
+            grSettings.Settings.ShowGroupPanel = true;
+            grSettings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            grSettings.Settings.ShowFooter = true;
+            grSettings.SettingsBehavior.AllowFocusedRow = true;
+            grSettings.Width = Unit.Percentage(100);
+            grSettings.Columns.Add("TableName").Width = Unit.Percentage(30);
+            grSettings.Columns.Add(column =>
+            {
+                column.FieldName = "SessionID";
+                column.Caption = "Session";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                column.Width = Unit.Percentage(20);
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = DataProvider.GetInstance.GetAllSessionForTable();
+                comboBoxProperties.TextField = "SessionName";
+                comboBoxProperties.ValueField = "SessionID";
+                comboBoxProperties.ValueType = typeof(int);
+                comboBoxProperties.Width = Unit.Percentage(100);
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            });
+           
+            grSettings.Columns.Add(column =>
+            {
+                column.FieldName = "Type";
+                column.Caption = "Type";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                column.Width = Unit.Percentage(20);
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = DataProvider.GetInstance.GetType();
+                comboBoxProperties.TextField = "TableValue";
+                comboBoxProperties.ValueField = "TableDisplay";
+                comboBoxProperties.ValueType = typeof(int);
+                comboBoxProperties.Width = Unit.Percentage(100);
+                comboBoxProperties.DropDownStyle = DropDownStyle.DropDown;
+            });
+            grSettings.ClientSideEvents.BeginCallback = "function(s,e){e.customArgs['nodeName'] = nodeName;}";
+        });
+    if (ViewBag.ErrMessage != null)
+    {
+        grid.SetEditErrorText((string)ViewBag.ErrMessage);
+    }
+   
+}
+@grid.BindToCustomData(Model).GetHtml()

@@ -1,11 +1,39 @@
 <div class="leftPanel">
-        @* DXCOMMENT: Configure the left panel's menu *@
-    @Html.DevExpress().NavBar(settings => {
-        settings.Name = "LeftNavBar";
-        settings.AutoCollapse = true;
-        settings.EnableAnimation = true;
-        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
-        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
-    }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/SideMenu.xml"), "/menu/*").GetHtml()
+    
+
+    @Html.DevExpress().NavBar(
+                    NavBarSettings => {
+                    NavBarSettings.AutoCollapse = true;
+                    NavBarSettings.EnableAnimation = true;
+                    NavBarSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    NavBarSettings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+                    NavBarSettings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+                    NavBarSettings.Name = "LeftNavBar";
+                    NavBarSettings.Target = "TargetIFrame";
+
+                    NavBarSettings.Groups.Add(groupUser =>
+                    {
+                        groupUser.Text = "Security";
+
+                        var itemSearchUser = groupUser.Items.Add("User Mamangement");
+                        itemSearchUser.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "SearchUser" });
+                        var itemManageRole = groupUser.Items.Add("Role Management ");
+                        itemManageRole.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "ManageRole" });
+                    });
+                    NavBarSettings.Groups.Add(groupMasterData =>
+                    {
+                        groupMasterData.Text = "Master Data";
+
+                        var itemFoodCategory = groupMasterData.Items.Add("Food Category");
+                        itemFoodCategory.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home", Action = "FoodCategory" });
+                        var itemFood = groupMasterData.Items.Add("Food ");
+                        itemFood.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home", Action = "Food" });
+                        var itemTable = groupMasterData.Items.Add("Table ");
+                        itemTable.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home", Action = "Table" });
+                        var itemSession = groupMasterData.Items.Add("Session ");
+                        itemSession.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home", Action = "Session" });
+                        var itemSessionManagement = groupMasterData.Items.Add("Session Management ");
+                        itemSessionManagement.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home", Action = "SessionManagement" });
+                    });
+            }).GetHtml()
 </div>

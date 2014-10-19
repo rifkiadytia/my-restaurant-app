@@ -11,55 +11,55 @@
     @Html.AntiForgeryToken()
     <label>@ViewBag.Message</label>
     <div class="line">
-        @Html.DevExpress().LabelFor(model => model.UserName, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.UserName, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.UserName, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.UserName, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
     <div class="line">
-        @Html.DevExpress().LabelFor(model => model.DOB, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().DateEditFor(model => model.DOB, CommonDemoHelper.DateEditSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.DOB, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().DateEditFor(model => model.DOB, CommonDemoHelper.DateEditgrSettingsMethod).GetHtml()
     </div>
     <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Gender, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.Gender, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().RadioButtonListFor(
         model => model.Gender,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "radioButtonList1";
-            settings.Properties.ValueField = "GenderValue";
-            settings.Properties.TextField = "GenderName";
+            grSettings.Name = "radioButtonList1";
+            grSettings.Properties.ValueField = "GenderValue";
+            grSettings.Properties.TextField = "GenderName";
         }).BindList(ViewBag.AllGender).GetHtml()
     </div>
     <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Mobile, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.Mobile, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.Mobile, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.Mobile, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
     <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Position, CommonDemoHelper.LabelSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.Position, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
         @Html.DevExpress().ComboBoxFor(
         model => model.Position,
-        settings =>
+        grSettings =>
         {
-            settings.Name = "Position";
-            settings.Width = Unit.Pixel(250);
-            settings.ShowModelErrors = true;
-            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
-            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
-            settings.ControlStyle.CssClass = "editor";
-            settings.Properties.TextField = "PositionName";
-            settings.Properties.ValueField = "PositionID";
-            settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+            grSettings.Name = "Position";
+            grSettings.Width = Unit.Pixel(250);
+            grSettings.ShowModelErrors = true;
+            grSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            grSettings.Properties.DropDownStyle = DropDownStyle.DropDown;
+            grSettings.ControlStyle.CssClass = "editor";
+            grSettings.Properties.TextField = "PositionName";
+            grSettings.Properties.ValueField = "PositionID";
+            grSettings.Properties.ValidationgrSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
         }
     ).BindList(ViewBag.AllPosition).GetHtml()
     </div>
      <div class="line">
-        @Html.DevExpress().LabelFor(model => model.Address, CommonDemoHelper.LabelSettingsMethod).GetHtml()
-        @Html.DevExpress().TextBoxFor(model => model.Address, CommonDemoHelper.TextBoxSettingsMethod).GetHtml()
+        @Html.DevExpress().LabelFor(model => model.Address, CommonDemoHelper.LabelgrSettingsMethod).GetHtml()
+        @Html.DevExpress().TextBoxFor(model => model.Address, CommonDemoHelper.TextBoxgrSettingsMethod).GetHtml()
     </div>
   
-    @Html.DevExpress().Button(settings =>
+    @Html.DevExpress().Button(grSettings =>
 {
-    settings.Name = "Button";
-    settings.Text = "Create";
-    settings.UseSubmitBehavior = true;
+    grSettings.Name = "Button";
+    grSettings.Text = "Create";
+    grSettings.UseSubmitBehavior = true;
 }).GetHtml()
 }

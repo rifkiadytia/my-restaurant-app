@@ -578,7 +578,7 @@ namespace ERestaurant.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FoodDescription", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FoodDescription", DbType="NVarChar(200)")]
 		public string FoodDescription
 		{
 			get
@@ -618,7 +618,7 @@ namespace ERestaurant.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(100)")]
 		public string Image
 		{
 			get
@@ -682,7 +682,7 @@ namespace ERestaurant.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FoodCategoryMaster_FoodMaster", Storage="_FoodCategoryMaster", ThisKey="FoodCatID", OtherKey="FoodCatID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FoodCategoryMaster_FoodMaster", Storage="_FoodCategoryMaster", ThisKey="FoodCatID", OtherKey="FoodCatID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public FoodCategoryMaster FoodCategoryMaster
 		{
 			get

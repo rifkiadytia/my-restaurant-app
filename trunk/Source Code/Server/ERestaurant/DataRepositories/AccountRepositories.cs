@@ -149,12 +149,12 @@ namespace ERestaurant.DataRepositories
         {
             try
             {
-                UserInfo userInfo = dataContext.UserInfos.Where(x => x.Username == model.Username).SingleOrDefault();
+                UserInfo userInfo = dataContext.UserInfos.Where(x => x.ID == model.ID).SingleOrDefault();
                 userInfo.DOB = model.DOB;
                 userInfo.Mobile = model.Mobile;
-                //harcode
                 userInfo.PositionID = model.PositionID.Value;
-                userInfo.Image = model.Image;
+                if(model.Image !=null)
+                    userInfo.Image = model.Image;
                 userInfo.Gender = model.Gender;
                 userInfo.Address = model.Address;
                 userInfo.ReportingTo = 0;
@@ -174,6 +174,8 @@ namespace ERestaurant.DataRepositories
                 UserName = x.Username,
                 Gender = x.Gender,
                 Position = x.PositionID.Value,
+                Address = x.Address,
+                Mobile = x.Mobile,
                 Image = x.Image
 
             }).FirstOrDefault();

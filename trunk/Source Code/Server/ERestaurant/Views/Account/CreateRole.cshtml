@@ -11,29 +11,29 @@
         @Html.AntiForgeryToken()
     <label>@ViewBag.Message</label>
     
-     @Html.DevExpress().Label(settings => {
-        settings.Name = "RoleNameLabel";
-        settings.Text = "Role Name";
-        settings.AssociatedControlName = "RoleName";
+     @Html.DevExpress().Label(grSettings => {
+        grSettings.Name = "RoleNameLabel";
+        grSettings.Text = "Role Name";
+        grSettings.AssociatedControlName = "RoleName";
     }).GetHtml()
     <div class="form-field">
         @Html.EditorFor(m => m.RoleName)
         @Html.ValidationMessageFor(m => m.RoleName)
     </div>
 
-   @Html.DevExpress().Label(settings => {
-        settings.Name = "RoleDescriptionLabel";
-        settings.Text = "Role Description";
-        settings.AssociatedControlName = "RoleDescription";
+   @Html.DevExpress().Label(grSettings => {
+        grSettings.Name = "RoleDescriptionLabel";
+        grSettings.Text = "Role Description";
+        grSettings.AssociatedControlName = "RoleDescription";
     }).GetHtml()
     <div class="form-field">
         @Html.TextAreaFor(m => m.RoleDescription)
         @Html.ValidationMessageFor(m => m.RoleDescription)
     </div>
 
-    @Html.DevExpress().Button(settings => {
-        settings.Name = "CreateRoleButton";
-        settings.Text = "CreateRole";
-        settings.UseSubmitBehavior = true;
+    @Html.DevExpress().Button(grSettings => {
+        grSettings.Name = "CreateRoleButton";
+        grSettings.Text = "CreateRole";
+        grSettings.UseSubmitBehavior = true;
      }).GetHtml()
 }

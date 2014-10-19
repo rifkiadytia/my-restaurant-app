@@ -1,0 +1,63 @@
+﻿@using ERestaurant.Dataservice;
+@model List<ERestaurant.Models.TreeViewNode>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function () {
+
+    });
+    function OnTreeViewNodeClick(s, e) {
+        //alert(e.node.name);
+        //gridView.BeginCallback();
+        //nodeName = e.node.name;
+        gridView.Refresh();
+    }
+    function OnGridBeginCallback(s, e) {
+        
+    }
+    // ]]>
+</script>
+@Html.DevExpress().Splitter(
+        settings =>
+        {
+            settings.Name = "splResizing";
+            settings.Width = Unit.Percentage(100);
+            settings.Styles.Pane.Paddings.Padding = 0;
+            settings.Height = Unit.Percentage(100);
+            settings.Panes.Add(listBoxPane => {
+                listBoxPane.Name = "listBoxContainer";
+                listBoxPane.AutoWidth = true;
+                listBoxPane.Size = Unit.Percentage(30);
+                listBoxPane.SetContent(() => {
+                    @Html.DevExpress().TreeView(setting =>
+                    {
+                        setting.Name = "treeView";
+                        setting.Width = Unit.Percentage(30);
+                        setting.AllowSelectNode = true;
+                        setting.PreRender = (source, e) =>
+                        {
+                            ASPxTreeView treeView = (ASPxTreeView)source;
+                            treeView.ExpandAll();
+                        };
+                        setting.ClientSideEvents.NodeClick = "function(s,e){nodeName = e.node.name; gridView.PerformCallback();}";
+                        DataProvider.GetInstance.CreateTreeViewNodesRecursive(Model, setting.Nodes, -1);
+                    }).GetHtml();
+                });
+            });
+            settings.Panes.Add(contentPane => {
+                contentPane.MinSize = 350;
+                contentPane.AutoWidth = true;
+                contentPane.Panes.Add(gridPane => {
+                    gridPane.Name = "gridContainer";
+                    gridPane.Size = Unit.Percentage(70);
+                    gridPane.MinSize = 100;
+                    gridPane.SetContent(() =>
+                    {
+                        Html.RenderAction("TablePartial");
+                    });
+                });
+            });
+        }).GetHtml()
+
+

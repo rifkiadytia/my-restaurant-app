@@ -1,24 +1,24 @@
     @* DXCOMMENT: Configure GridView *@
     @Html.DevExpress().GridView(
-    settings =>
+    grSettings =>
     {
-        settings.Name = "GridView";
-        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartialView" };
+        grSettings.Name = "GridView";
+        grSettings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartialView" };
 
-        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-        settings.SettingsPager.Visible = false;
-        settings.SettingsPager.PageSize = 30;
-        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
-        settings.Settings.VerticalScrollableHeight = 350;
-        settings.Settings.VerticalScrollBarStyle = GridViewVerticalScrollBarStyle.Virtual;
-        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
-        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
-        settings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        grSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        grSettings.grSettingsPager.Visible = false;
+        grSettings.grSettingsPager.PageSize = 30;
+        grSettings.grSettings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        grSettings.grSettings.VerticalScrollableHeight = 350;
+        grSettings.grSettings.VerticalScrollBarStyle = GridViewVerticalScrollBarStyle.Virtual;
+        grSettings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        grSettings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        grSettings.ControlStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
         
         // DXCOMMENT: Configure grid's columns in accordance with data model fields
-        settings.Columns.Add("ContactName");
-        settings.Columns.Add("CompanyName");
-        settings.Columns.Add("ContactTitle");
-        settings.Columns.Add("City");
-        settings.Columns.Add("Phone");
+        grSettings.Columns.Add("ContactName");
+        grSettings.Columns.Add("CompanyName");
+        grSettings.Columns.Add("ContactTitle");
+        grSettings.Columns.Add("City");
+        grSettings.Columns.Add("Phone");
     }).Bind(Model).GetHtml()

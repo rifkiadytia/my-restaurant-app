@@ -16,11 +16,11 @@ namespace ERestaurant {
                 url: "{controller}/{action}/{id}", // URL with parameters
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-            routes.MapRoute(
-                 "Home", // Route name
-                 "Home/{action}/{id}", // URL with parameters
-                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-             );
+            //routes.MapRoute(
+            //     "Home", // Route name
+            //     "Home/{action}/{id}", // URL with parameters
+            //     new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+            // );
         }
     }
 }

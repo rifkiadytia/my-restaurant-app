@@ -10,10 +10,10 @@
 @using(Html.BeginForm()) {
         @Html.AntiForgeryToken()
     
-    @Html.DevExpress().Label(settings => {
-        settings.Name = "UserNameLabel";
-        settings.Text = "User Name";
-        settings.AssociatedControlName = "UserName";
+    @Html.DevExpress().Label(grSettings => {
+        grSettings.Name = "UserNameLabel";
+        grSettings.Text = "User Name";
+        grSettings.AssociatedControlName = "UserName";
     }).GetHtml()
 
     <div class="form-field">
@@ -21,10 +21,10 @@
         @Html.ValidationMessageFor(m => m.UserName)
     </div>
 
-    @Html.DevExpress().Label(settings => {
-        settings.Name = "PasswordLabel";
-        settings.Text = "Password";
-        settings.AssociatedControlName = "Password";
+    @Html.DevExpress().Label(grSettings => {
+        grSettings.Name = "PasswordLabel";
+        grSettings.Text = "Password";
+        grSettings.AssociatedControlName = "Password";
     }).GetHtml()
     <div class="form-field">
         @Html.EditorFor(m => m.Password)
@@ -32,15 +32,15 @@
     </div>
 
     <div class="form-field">
-        @Html.DevExpress().CheckBox(settings => {
-            settings.Name = "RememberMe";
-            settings.Text = "Remember me?";
+        @Html.DevExpress().CheckBox(grSettings => {
+            grSettings.Name = "RememberMe";
+            grSettings.Text = "Remember me?";
         }).GetHtml()
     </div>
 
-    @Html.DevExpress().Button(settings => {
-        settings.Name = "Button";
-        settings.Text = "Log On";
-        settings.UseSubmitBehavior = true;
+    @Html.DevExpress().Button(grSettings => {
+        grSettings.Name = "Button";
+        grSettings.Text = "Log On";
+        grSettings.UseSubmitBehavior = true;
     }).GetHtml()
 }
