@@ -9,10 +9,10 @@
         grSettings =>
         {
             grSettings.Name = "gridView";
-            grSettings.grSettingsPager.Position = PagerPosition.TopAndBottom;
-            grSettings.grSettingsPager.FirstPageButton.Visible = true;
-            grSettings.grSettingsPager.LastPageButton.Visible = true;
-            grSettings.grSettingsPager.PageSizeItemgrSettings.Visible = true;
+            grSettings.SettingsPager.Position = PagerPosition.TopAndBottom;
+            grSettings.SettingsPager.FirstPageButton.Visible = true;
+            grSettings.SettingsPager.LastPageButton.Visible = true;
+            grSettings.SettingsPager.PageSizeItemgrSettings.Visible = true;
             grSettings.CallbackRouteValues = new { Controller = "Account", Action = "ManageRolePartial" };
             grSettings.CustomBindingRouteValuesCollection.Add(
                 GridViewOperationType.Paging,
@@ -32,21 +32,21 @@
             );
 
             grSettings.KeyFieldName = "RoleID";
-            grSettings.grSettingsEditing.AddNewRowRouteValues = new { Controller = "Account", Action = "RoleAddNewPartial" };
-            grSettings.grSettingsEditing.DeleteRowRouteValues = new { Controller = "Account", Action = "RoleDeletePartial" };
-            grSettings.grSettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "RoleUpdatePartial" };
-            grSettings.grSettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
-            grSettings.grSettingsBehavior.ConfirmDelete = true;
+            grSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Account", Action = "RoleAddNewPartial" };
+            grSettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Account", Action = "RoleDeletePartial" };
+            grSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "RoleUpdatePartial" };
+            grSettings.SettingsEditing.Mode = ERestaurant.Controllers.GridViewEditingDemosHelper.EditMode;
+            grSettings.SettingsBehavior.ConfirmDelete = true;
             grSettings.CommandColumn.Visible = true;
             grSettings.CommandColumn.Width = Unit.Percentage(10);
             grSettings.CommandColumn.ShowNewButtonInHeader = true;
             grSettings.CommandColumn.ShowDeleteButton = true;
             grSettings.CommandColumn.ShowEditButton = true;
-            grSettings.grSettings.ShowFilterRow = true;
-            grSettings.grSettings.ShowGroupPanel = true;
-            grSettings.grSettings.ShowFilterBar = GridViewStatusBarMode.Visible;
-            grSettings.grSettings.ShowFooter = true;
-            grSettings.grSettingsBehavior.AllowFocusedRow = true;
+            grSettings.Settings.ShowFilterRow = true;
+            grSettings.Settings.ShowGroupPanel = true;
+            grSettings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+            grSettings.Settings.ShowFooter = true;
+            grSettings.SettingsBehavior.AllowFocusedRow = true;
             grSettings.Width = Unit.Percentage(100);
             grSettings.Columns.Add("RoleName").Width = Unit.Percentage(40);
             grSettings.Columns.Add("RoleDescription").Width = Unit.Percentage(60);
