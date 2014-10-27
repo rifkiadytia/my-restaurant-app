@@ -1,0 +1,21 @@
+<div data-options="dxView : { name: 'Table', title: 'Table' } ">
+    
+   <div data-options="dxContent : { targetPlaceholder: 'content' } " style="background: #562051">
+
+        <div data-bind="dxScrollView: {}">
+            <div data-bind="dxTileView: { dataSource: dSource, showScrollbar: scrollBarVisible, baseItemHeight: 80, baseItemWidth: 80, itemClickAction: onItemClick }">
+                <div data-options="dxTemplate : { name: 'item' } ">
+                    <div data-bind="style: {
+width: '100%', height: '100%', background: $root.GetBackground($data.tableStatus)
+    , 'background-repeat': 'no-repeat', 'background-size': 'cover',
+    'background-position': 'center center'
+}">
+                    </div>
+                    <!--$root.GetBackground($data.tableStatus)-->
+                </div>
+            </div>
+            <div data-bind="dxButton: { text: 'Button1' }"></div>
+        </div>
+
+    </div>
+</div>
