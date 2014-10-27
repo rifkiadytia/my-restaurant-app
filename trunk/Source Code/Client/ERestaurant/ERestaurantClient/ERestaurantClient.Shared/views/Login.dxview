@@ -1,19 +1,32 @@
-<div data-options="dxView : { name: 'Login', title: 'Login' } ">
+<div data-options="dxView : { name: 'Login', title: 'Login', layout: 'empty' } ">
     <div data-options="dxContent : { targetPlaceholder: 'content' } ">
-        <div class="dx-fieldset">
-            <div class="dx-field">
-                <div class="dx-field-label">User name</div>
-                <div class="dx-field-value">
-                    <div data-bind="dxTextBox: { placeholder: 'Login' }"></div>
+        <div class="loginbox radius">
+            <h2 style="color:#FFF; text-align:center">Login</h2>
+            <div class="loginboxinner radius">
+                <div class="loginheader">
+                    <div class="logo">
+                        <img src="/images/restaurant_logo.png" />
+                    </div>
                 </div>
-            </div>
-            <div class="dx-field">
-                <div class="dx-field-label">Password</div>
-                <div class="dx-field-value">
-                    <div data-bind="dxTextBox: { mode: 'password', placeholder: 'Password' }"></div>
+                <!--loginheader-->
+                <div class="loginform">
+                    <p>
+                        <label for="username" class="bebas">User name</label>
+                        <div data-bind="dxTextBox: {}" class="radius2"></div>
+                    </p>
+                    <p>
+                        <label for="password" class="bebas">Password</label>
+                        <div data-bind="dxTextBox: { mode: 'password' }" class="radius2"></div>
+                    </p>
+                    
+                        <button onclick="loginBtnClicked" class="radius title" name="client_login" >Login</button>
+                       <div data-bind="dxButton: { text: 'Login', clickAction: loginBtnClicked }" class="radius title"></div>
+                    
                 </div>
+                <!--loginform-->
             </div>
+            <!--loginboxinner-->
         </div>
-
+        <!--loginbox-->
     </div>
 </div>
